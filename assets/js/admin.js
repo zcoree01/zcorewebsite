@@ -53,7 +53,10 @@
     }
     $('#userEmail').textContent = session.user.email;
     show('app');
-    openTab(location.hash === '#klijenti' ? 'clients' : 'posts');
+    openTab({ '#klijenti': 'clients', '#objave': 'posts' }[location.hash] || 'inquiries');
+    refreshInqBadge();
+    // novi upiti se provjeravaju svake minute dok je panel otvoren
+    setInterval(() => { if (!document.hidden) refreshInqBadge(); }, 60000);
   }
 
   $('#loginForm').addEventListener('submit', async (e) => {
@@ -89,10 +92,139 @@
     $('#tabPosts').hidden = name !== 'posts';
     $('#tabEditor').hidden = true;
     $('#tabClients').hidden = name !== 'clients';
-    history.replaceState(null, '', name === 'clients' ? '#klijenti' : '#objave');
+    $('#tabInquiries').hidden = name !== 'inquiries';
+    history.replaceState(null, '', { clients: '#klijenti', posts: '#objave', inquiries: '#upiti' }[name]);
     if (name === 'posts') loadPosts();
     if (name === 'clients') loadClients();
+    if (name === 'inquiries') loadInquiries();
   }
+
+  /* ======================================================================
+     Upiti s kontakt obrasca
+     ====================================================================== */
+  const INQ_STATUS = { novo: 'Novo', procitano: 'Pročitano', odgovoreno: 'Odgovoreno', arhiva: 'Arhiva' };
+  let inquiries = [];
+  let inqFilter = 'open';
+  let inqSelected = null;
+
+  function inqDate(iso) {
+    const d = new Date(iso);
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}. ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  async function refreshInqBadge() {
+    const { count } = await sb.from('inquiries').select('id', { count: 'exact', head: true }).eq('status', 'novo');
+    const badge = $('#inqBadge');
+    badge.textContent = count || 0;
+    badge.hidden = !count;
+  }
+
+  async function loadInquiries() {
+    const list = $('#inqList');
+    let q = sb.from('inquiries').select('*').order('created_at', { ascending: false }).limit(500);
+    if (inqFilter === 'open') q = q.neq('status', 'arhiva');
+    else if (inqFilter !== 'all') q = q.eq('status', inqFilter);
+    const { data, error } = await q;
+    if (error) { list.innerHTML = `<div class="adm-empty">Greška: ${esc(error.message)}</div>`; return; }
+    inquiries = data || [];
+    refreshInqBadge();
+    if (!inquiries.length) {
+      list.innerHTML = `<div class="adm-empty">${inqFilter === 'arhiva' ? 'Arhiva je prazna.' : 'Još nema upita. Stižu ovdje čim neko pošalje obrazac na stranici.'}</div>`;
+      $('#inqDetail').innerHTML = '';
+      return;
+    }
+    list.innerHTML = inquiries.map((r) => `
+      <button type="button" class="adm-inq-item" data-id="${r.id}" aria-current="${r.id === inqSelected}">
+        <span class="adm-inq-item__top"><span class="adm-inq-item__company${r.status === 'novo' ? ' is-new' : ''}">${esc(r.company)}</span><span class="adm-inq-item__date">${esc(inqDate(r.created_at))}</span></span>
+        <span class="adm-inq-item__snip">${esc(r.name)} · ${esc(r.message || r.email)}</span>
+      </button>`).join('');
+    const sel = inquiries.find((r) => r.id === inqSelected) || (window.innerWidth > 900 ? inquiries[0] : null);
+    if (sel) showInquiry(sel, false, false); else $('#inqDetail').innerHTML = '';
+  }
+
+  async function setInqStatus(r, status) {
+    const { error } = await sb.from('inquiries').update({ status }).eq('id', r.id);
+    if (error) { toast('Greška: ' + error.message, true); return false; }
+    r.status = status;
+    return true;
+  }
+
+  async function showInquiry(r, scroll = true, markRead = true) {
+    inqSelected = r.id;
+    $$('.adm-inq-item').forEach((b) => b.setAttribute('aria-current', String(b.dataset.id === r.id)));
+    // klikom na novi upit on postaje "pročitan"
+    if (markRead && r.status === 'novo' && await setInqStatus(r, 'procitano')) {
+      const item = $(`.adm-inq-item[data-id="${r.id}"] .adm-inq-item__company`);
+      if (item) item.classList.remove('is-new');
+      refreshInqBadge();
+    }
+    const subject = encodeURIComponent('Zcore Production – testiranje');
+    const body = encodeURIComponent(`Poštovani/a ${r.name},\n\nhvala na interesu za Zcore Production.\n\n`);
+    $('#inqDetail').innerHTML = `
+      <div class="adm-inq-card">
+        <div><span class="label">${esc(inqDate(r.created_at))}</span><h2>${esc(r.company)}</h2></div>
+        <dl class="adm-inq-dl">
+          <dt>Ime i prezime</dt><dd>${esc(r.name)}</dd>
+          <dt>E-pošta</dt><dd><a href="mailto:${esc(r.email)}">${esc(r.email)}</a></dd>
+          <dt>Zaposlenih</dt><dd>${esc(r.employees || '–')}</dd>
+        </dl>
+        <div><span class="label">Kako danas prate proizvodnju</span><div class="adm-inq-msg" style="margin-top:8px">${esc(r.message || '—')}</div></div>
+        <div class="adm-row">
+          <a class="btn btn--primary btn--sm" href="mailto:${esc(r.email)}?subject=${subject}&body=${body}" data-reply>Odgovori e-poštom</a>
+          <button type="button" class="btn btn--outline btn--sm" data-copy="${esc(r.email)}">Kopiraj e-poštu</button>
+        </div>
+        <div><span class="label">Status</span>
+          <div class="adm-inq-status" style="margin-top:8px">
+            ${Object.entries(INQ_STATUS).map(([k, v]) => `<button type="button" data-status="${k}" aria-pressed="${r.status === k}">${v}</button>`).join('')}
+          </div>
+        </div>
+        <button type="button" class="adm-danger" data-inq-del>Obriši upit</button>
+      </div>`;
+    if (scroll && window.innerWidth <= 900) $('#inqDetail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  $('#inqList').addEventListener('click', (e) => {
+    const b = e.target.closest('.adm-inq-item');
+    if (b) showInquiry(inquiries.find((r) => r.id === b.dataset.id));
+  });
+
+  $('#inqFilter').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-f]');
+    if (!b) return;
+    inqFilter = b.dataset.f;
+    $$('#inqFilter [data-f]').forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+    inqSelected = null;
+    loadInquiries();
+  });
+
+  $('#inqDetail').addEventListener('click', async (e) => {
+    const r = inquiries.find((x) => x.id === inqSelected);
+    if (!r) return;
+    const st = e.target.closest('[data-status]');
+    if (st) {
+      if (await setInqStatus(r, st.dataset.status)) {
+        toast(`Status: ${INQ_STATUS[r.status]}`);
+        loadInquiries();
+      }
+    }
+    if (e.target.closest('[data-reply]') && r.status !== 'odgovoreno' && r.status !== 'arhiva') {
+      setTimeout(async () => { if (await setInqStatus(r, 'odgovoreno')) loadInquiries(); }, 400);
+    }
+    const cp = e.target.closest('[data-copy]');
+    if (cp) {
+      try { await navigator.clipboard.writeText(cp.dataset.copy); toast('E-pošta je kopirana.'); }
+      catch (err) { toast(cp.dataset.copy); }
+    }
+    if (e.target.closest('[data-inq-del]')) {
+      if (!confirm(`Trajno obrisati upit od „${r.company}”?`)) return;
+      const { error } = await sb.from('inquiries').delete().eq('id', r.id);
+      if (error) { toast('Brisanje nije uspjelo: ' + error.message, true); return; }
+      toast('Upit je obrisan.');
+      inqSelected = null;
+      loadInquiries();
+    }
+  });
   $$('.adm-tab').forEach((t) => t.addEventListener('click', () => {
     if (dirty && !confirm('Imate nesačuvane izmjene. Napustiti uređivanje?')) return;
     dirty = false;

@@ -584,6 +584,34 @@ const CONFIG = {
       const data = new FormData(form);
       data.delete('_gotcha');
 
+      // 1) Upit ide u bazu; vidi se u admin panelu (Upiti)
+      const sb = window.ZcoreCMS && window.ZcoreCMS.db();
+      if (sb) {
+        btn.classList.add('is-loading');
+        status.textContent = 'Šaljem…';
+        const row = {
+          company: String(data.get('firma') || '').trim(),
+          name: String(data.get('ime') || '').trim(),
+          email: String(data.get('email') || '').trim(),
+          employees: String(data.get('zaposleni') || '').trim() || null,
+          message: String(data.get('poruka') || '').trim() || null,
+          consent: true,
+        };
+        const { error } = await sb.from('inquiries').insert(row);
+        btn.classList.remove('is-loading');
+        if (!error) {
+          form.reset();
+          $$('.field', form).forEach((f) => f.classList.remove('has-error'));
+          status.textContent = 'Hvala. Upit je poslan, javit ćemo vam se e-poštom.';
+          status.classList.add('is-ok');
+          return;
+        }
+        status.textContent = /Previše/.test(error.message)
+          ? 'Previše upita u kratkom vremenu. Pokušajte za nekoliko minuta.'
+          : `Slanje nije uspjelo. Pišite nam na ${CONFIG.contactEmail || 'Instagramu @zcore.ba'}.`;
+        return;
+      }
+
       if (CONFIG.formEndpoint) {
         btn.classList.add('is-loading');
         status.textContent = 'Šaljem…';

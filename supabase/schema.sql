@@ -119,3 +119,48 @@ create policy "media: admin mijenja" on storage.objects
 drop policy if exists "media: admin briše" on storage.objects;
 create policy "media: admin briše" on storage.objects
   for delete to authenticated using (bucket_id = 'media' and (select public.is_admin()));
+
+-- Upiti s kontakt obrasca (vidljivi samo u admin panelu)
+create table if not exists public.inquiries (
+  id uuid primary key default gen_random_uuid(),
+  company text not null check (char_length(company) between 1 and 200),
+  name text not null check (char_length(name) between 1 and 200),
+  email text not null check (char_length(email) between 3 and 254 and email ~ '^[^@\s]+@[^@\s]+\.[^@\s]+$'),
+  employees text check (employees is null or char_length(employees) <= 40),
+  message text check (message is null or char_length(message) <= 5000),
+  consent boolean not null check (consent),
+  status text not null default 'novo' check (status in ('novo', 'procitano', 'odgovoreno', 'arhiva')),
+  note text check (note is null or char_length(note) <= 5000),
+  created_at timestamptz not null default now()
+);
+create index if not exists inquiries_created_idx on public.inquiries (status, created_at desc);
+alter table public.inquiries enable row level security;
+
+drop policy if exists "inquiries: javno slanje" on public.inquiries;
+create policy "inquiries: javno slanje" on public.inquiries
+  for insert to anon, authenticated with check (status = 'novo' and note is null);
+drop policy if exists "inquiries: admin čita" on public.inquiries;
+create policy "inquiries: admin čita" on public.inquiries
+  for select to authenticated using ((select public.is_admin()));
+drop policy if exists "inquiries: admin mijenja" on public.inquiries;
+create policy "inquiries: admin mijenja" on public.inquiries
+  for update to authenticated using ((select public.is_admin())) with check ((select public.is_admin()));
+drop policy if exists "inquiries: admin briše" on public.inquiries;
+create policy "inquiries: admin briše" on public.inquiries
+  for delete to authenticated using ((select public.is_admin()));
+
+-- Zaštita od poplave spama: najviše 30 upita u 10 minuta za cijelu stranicu
+create or replace function public.inquiries_rate_limit()
+returns trigger language plpgsql security definer set search_path = '' as $$
+begin
+  if (select count(*) from public.inquiries where created_at > now() - interval '10 minutes') >= 30 then
+    raise exception 'Previše upita u kratkom vremenu. Pokušajte malo kasnije.';
+  end if;
+  new.created_at := now();
+  return new;
+end;
+$$;
+revoke all on function public.inquiries_rate_limit() from public, anon, authenticated;
+drop trigger if exists inquiries_rate_limit on public.inquiries;
+create trigger inquiries_rate_limit before insert on public.inquiries
+  for each row execute function public.inquiries_rate_limit();

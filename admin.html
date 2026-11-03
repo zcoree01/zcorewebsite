@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css?v=20261103b">
-<link rel="stylesheet" href="/assets/css/blog.css?v=20261103b">
-<link rel="stylesheet" href="/assets/css/admin.css?v=20261103b">
+<link rel="stylesheet" href="/assets/css/style.css?v=20261103d">
+<link rel="stylesheet" href="/assets/css/blog.css?v=20261103d">
+<link rel="stylesheet" href="/assets/css/admin.css?v=20261103d">
 </head>
 <body class="adm">
 
@@ -47,7 +47,8 @@
     <div class="adm-bar__in">
       <a href="/" class="adm-brand" target="_blank" rel="noopener"><img src="/assets/img/zcore-logo-bijeli.svg" alt="Zcore" width="94" height="22"><span class="label">Admin</span></a>
       <nav class="adm-tabs" role="tablist" aria-label="Sekcije">
-        <button type="button" role="tab" class="adm-tab" data-tab="posts" aria-selected="true">Objave</button>
+        <button type="button" role="tab" class="adm-tab" data-tab="inquiries" aria-selected="true">Upiti <span class="adm-badge" id="inqBadge" hidden>0</span></button>
+        <button type="button" role="tab" class="adm-tab" data-tab="posts" aria-selected="false">Objave</button>
         <button type="button" role="tab" class="adm-tab" data-tab="clients" aria-selected="false">Klijenti</button>
       </nav>
       <div class="adm-bar__right">
@@ -141,6 +142,25 @@
       </form>
     </section>
 
+    <!-- UPITI -->
+    <section id="tabInquiries" class="adm-panel" hidden>
+      <div class="adm-head">
+        <div><span class="label">Kontakt obrazac</span><h1>Upiti</h1></div>
+        <div class="adm-seg" role="tablist" aria-label="Filter upita" id="inqFilter">
+          <button type="button" data-f="open" aria-selected="true">Aktivni</button>
+          <button type="button" data-f="novo" aria-selected="false">Novi</button>
+          <button type="button" data-f="arhiva" aria-selected="false">Arhiva</button>
+          <button type="button" data-f="all" aria-selected="false">Svi</button>
+        </div>
+      </div>
+      <div class="adm-inq">
+        <div class="adm-inq__list" id="inqList"><div class="skeleton" style="height:80px"></div></div>
+        <div class="adm-inq__detail" id="inqDetail">
+          <div class="adm-empty">Izaberite upit s liste.</div>
+        </div>
+      </div>
+    </section>
+
     <!-- KLIJENTI -->
     <section id="tabClients" class="adm-panel" hidden>
       <div class="adm-head">
@@ -177,11 +197,11 @@
 
 <div class="adm-toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="/assets/js/config.js?v=20261103b" defer></script>
+<script src="/assets/js/config.js?v=20261103d" defer></script>
 <script src="/assets/vendor/supabase.js?v=2.45.4" defer></script>
 <script src="/assets/vendor/marked.min.js?v=12.0.2" defer></script>
 <script src="/assets/vendor/purify.min.js?v=3.1.6" defer></script>
-<script src="/assets/js/cms.js?v=20261103b" defer></script>
-<script src="/assets/js/admin.js?v=20261103b" defer></script>
+<script src="/assets/js/cms.js?v=20261103d" defer></script>
+<script src="/assets/js/admin.js?v=20261103d" defer></script>
 </body>
 </html>

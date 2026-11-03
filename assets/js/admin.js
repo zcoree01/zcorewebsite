@@ -26,8 +26,13 @@
 
   const sb = C.db();
   if (!sb) {
-    $('#noticeTitle').textContent = 'Baza još nije povezana';
-    $('#noticeText').textContent = 'U fajl assets/js/config.js treba upisati adresu i javni ključ Supabase projekta.';
+    const cfg = window.ZCORE_CONFIG || {};
+    $('#noticeTitle').textContent = 'Baza nije dostupna';
+    $('#noticeText').textContent = !window.supabase
+      ? 'Biblioteka za bazu se nije učitala. Osvježite stranicu s Ctrl+F5; ako se ponovi, isključite blokator (npr. Brave Shields) za ovu stranicu.'
+      : (!cfg.supabaseUrl || !cfg.supabaseKey)
+        ? 'Podaci za povezivanje nisu učitani (stara verzija u pregledniku). Osvježite stranicu s Ctrl+F5.'
+        : 'Nepoznata greška pri povezivanju.';
     $$('[data-logout]').forEach((b) => { b.hidden = true; });
     show('notice');
     return;

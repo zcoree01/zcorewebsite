@@ -102,31 +102,75 @@
   /* ---------- Čitanje ---------- */
   const POST_FIELDS = 'id, slug, title, excerpt, category, author, cover_url, published_at';
 
+  /* Javne stranice NE učitavaju biblioteku za bazu (110 KB): podatke dobiju
+     ugrađene u stranicu (blog, objava) ili iz brzog keširanog /api/public.
+     Biblioteka se učita samo kad zatreba (lokalno testiranje, admin pregled nacrta). */
+  let libPromise = null;
+  function loadLib() {
+    if (window.supabase) return Promise.resolve();
+    if (!libPromise) {
+      libPromise = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = '/assets/vendor/supabase.js?v=2.45.4';
+        s.onload = resolve; s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+    return libPromise;
+  }
+  async function dbAsync() {
+    if (!cfg.supabaseUrl || !cfg.supabaseKey) return null;
+    try { await loadLib(); } catch (e) { return null; }
+    return db();
+  }
+
+  let publicPromise = null;
+  function embedded(id) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    try { return JSON.parse(el.textContent); } catch (e) { return null; }
+  }
+  function getPublic() {
+    if (publicPromise) return publicPromise;
+    publicPromise = (async () => {
+      const pre = embedded('public-data');
+      if (pre) return pre;
+      if (!isLocal) {
+        try {
+          const r = await fetch('/api/public', { headers: { Accept: 'application/json' } });
+          if (r.ok) return await r.json();
+        } catch (e) { /* pada na direktan upit ispod */ }
+      }
+      const c = await dbAsync();
+      if (!c) return { posts: [], clients: [] };
+      const [p, k] = await Promise.all([
+        c.from('posts').select(POST_FIELDS).eq('published', true).lte('published_at', new Date().toISOString())
+          .order('published_at', { ascending: false }).limit(100),
+        c.from('clients').select('id, name, logo_url, website').eq('visible', true)
+          .order('sort', { ascending: true }).order('created_at', { ascending: true }),
+      ]);
+      return { posts: p.data || [], clients: k.data || [] };
+    })();
+    return publicPromise;
+  }
+
   async function getPosts({ limit = 50, category = null, excludeSlug = null } = {}) {
-    const c = db(); if (!c) return [];
-    let q = c.from('posts').select(POST_FIELDS).eq('published', true)
-      .lte('published_at', new Date().toISOString())
-      .order('published_at', { ascending: false }).limit(limit);
-    if (category) q = q.eq('category', category);
-    if (excludeSlug) q = q.neq('slug', excludeSlug);
-    const { data, error } = await q;
-    if (error) { console.warn('Blog:', error.message); return []; }
-    return data || [];
+    const { posts } = await getPublic();
+    return (posts || [])
+      .filter((p) => (!category || p.category === category) && (!excludeSlug || p.slug !== excludeSlug))
+      .slice(0, limit);
   }
 
   async function getPost(slug) {
-    const c = db(); if (!c) return null;
+    const c = await dbAsync(); if (!c) return null;
     const { data, error } = await c.from('posts').select('*').eq('slug', slug).maybeSingle();
     if (error) { console.warn('Objava:', error.message); return null; }
     return data;
   }
 
   async function getClients() {
-    const c = db(); if (!c) return [];
-    const { data, error } = await c.from('clients').select('id, name, logo_url, website')
-      .eq('visible', true).order('sort', { ascending: true }).order('created_at', { ascending: true });
-    if (error) { console.warn('Klijenti:', error.message); return []; }
-    return data || [];
+    const { clients } = await getPublic();
+    return clients || [];
   }
 
   /* ---------- Kartice ---------- */
@@ -191,6 +235,6 @@
 
   window.ZcoreCMS = {
     db, postUrl, esc, formatDate, readingTime, slugify, renderMarkdown, coverSVG, coverSrc,
-    getPosts, getPost, getClients, postCard, logoItem, initHomeSections, isLocal,
+    getPosts, getPost, getClients, postCard, logoItem, initHomeSections, isLocal, dbAsync, hasConfig: () => !!(cfg.supabaseUrl && cfg.supabaseKey),
   };
 })();

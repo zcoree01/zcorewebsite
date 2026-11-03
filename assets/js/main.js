@@ -677,7 +677,11 @@ const CONFIG = {
       data.delete('_gotcha');
 
       // 1) Upit ide u bazu; vidi se u admin panelu (Upiti)
-      const sb = window.ZcoreCMS && window.ZcoreCMS.db();
+      // biblioteka za bazu se učita tek pri slanju (početna ostaje lagana)
+      btn.classList.add('is-loading');
+      status.textContent = 'Šaljem…';
+      const sb = window.ZcoreCMS ? await window.ZcoreCMS.dbAsync() : null;
+      btn.classList.remove('is-loading');
       if (sb) {
         btn.classList.add('is-loading');
         status.textContent = 'Šaljem…';

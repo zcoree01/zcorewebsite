@@ -13,7 +13,7 @@
   async function initList() {
     const grid = document.getElementById('posts');
     const catsEl = document.getElementById('cats');
-    if (!C.db()) { grid.innerHTML = emptyState('Prve objave stižu uskoro.', 'Pratite nas i na Instagramu @zcore.ba.'); return; }
+    if (!C.hasConfig()) { grid.innerHTML = emptyState('Prve objave stižu uskoro.', 'Pratite nas i na Instagramu @zcore.ba.'); return; }
 
     const all = await C.getPosts({ limit: 100 });
     if (!all.length) { grid.innerHTML = emptyState('Prve objave stižu uskoro.', 'Pratite nas i na Instagramu @zcore.ba.'); return; }
@@ -85,7 +85,7 @@
     const pre = document.getElementById('post-data');
     if (pre) { try { p = JSON.parse(pre.textContent); } catch (e) { p = null; } }
     if (!p) {
-      if (!slug || !C.db()) { notFound(); return; }
+      if (!slug || !C.hasConfig()) { notFound(); return; }
       p = await C.getPost(slug);
     }
     if (!p) { notFound(); return; }

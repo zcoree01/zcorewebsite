@@ -9,7 +9,7 @@ Objavljeno na Vercelu: **https://zcoreba.vercel.app** (svaki push na granu se sa
 | Adresa | Fajl | Sadržaj |
 | --- | --- | --- |
 | `/` | `index.html` | Početna: loader, animirani hero, „Vjeruju nam”, moduli, uloge, sigurnost, najnovije vijesti, kontakt |
-| `/blog` | `blog.html` | Sve objave, najnovija istaknuta, filter po kategoriji |
+| `/blog` | `blog-sablon.html` + `api/blog.js` | Sve objave, najnovija istaknuta, filter po kategoriji |
 | `/blog/<slug>` | `objava.html` | Jedinstveni šablon za svaku objavu (rewrite u `vercel.json`) |
 | `/admin` | `admin.html` | Admin panel: objave i klijenti |
 | `/privatnost`, `/uslovi`, `/kolacici` | | Pravne stranice |
@@ -22,6 +22,14 @@ Objavljeno na Vercelu: **https://zcoreba.vercel.app** (svaki push na granu se sa
 - **Objave**: pišu se u Markdownu (alatna traka u adminu). Bez naslovne slike stranica sama napravi jedinstvenu crno-bijelu grafiku iz naslova. Nacrti i zakazane objave se ne vide javno.
 - **Klijenti**: logo (PNG/SVG), naziv, web, redoslijed, prikaži/sakrij. Sekcija na početnoj se sama sakrije dok nema vidljivih klijenata; od 5 logotipa naviše postaje pokretna traka.
 - Bez povezane baze stranica normalno radi: blog prikaže „Prve objave stižu uskoro”, a sekcije na početnoj su skrivene.
+
+## Brzina
+
+- Funkcije rade u Frankfurtu (`regions: fra1`), pored baze.
+- `/blog` i `/blog/<slug>` dolaze s podacima već ugrađenim u HTML; odgovori se keširaju na Vercelovoj mreži (60 s, pa se osvježavaju u pozadini).
+- Početna čita objave i klijente iz keširanog `/api/public`.
+- Biblioteka za bazu (`assets/vendor/supabase.js`) učitava se samo u adminu i pri slanju obrasca.
+- Fontovi su na našem serveru (`assets/fonts`), bez Google Fonts.
 
 ## SEO
 

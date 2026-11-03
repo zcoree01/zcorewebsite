@@ -1,9 +1,12 @@
 {
   "cleanUrls": true,
+  "regions": ["fra1"],
   "functions": {
-    "api/post.js": { "includeFiles": "objava.html" }
+    "api/post.js": { "includeFiles": "objava.html" },
+    "api/blog.js": { "includeFiles": "blog-sablon.html" }
   },
   "rewrites": [
+    { "source": "/blog", "destination": "/api/blog" },
     { "source": "/blog/:slug", "destination": "/api/post?slug=:slug" },
     { "source": "/sitemap-blog.xml", "destination": "/api/sitemap" }
   ],
@@ -16,7 +19,7 @@
       ]
     },
     {
-      "source": "/objava",
+      "source": "/(objava|blog-sablon)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     },
     {
@@ -26,6 +29,10 @@
     {
       "source": "/assets/js/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    },
+    {
+      "source": "/assets/(vendor|img)/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
     }
   ]
 }

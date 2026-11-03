@@ -1,18 +1,9 @@
 // /blog/<slug> – šablon objave s naslovom, opisom, slikom i podacima za Google
 // već upisanim na serveru (Google, Facebook, LinkedIn i WhatsApp ih vide odmah).
-const fs = require('fs');
-const path = require('path');
-const { rest, SITE_URL } = require('./_supabase');
-
-let TEMPLATE = null;
-function template() {
-  if (!TEMPLATE) TEMPLATE = fs.readFileSync(path.join(process.cwd(), 'objava.html'), 'utf8');
-  return TEMPLATE;
-}
+// U stranicu se ugrađuje i sama objava i lista ostalih, pa preglednik ne čeka bazu.
+const { rest, getPublicData, readFile, safeJson, SITE_URL } = require('./_supabase');
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-// JSON unutar <script> ne smije sadržavati "</script"
-const safeJson = (o) => JSON.stringify(o).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
 
 function setTag(html, re, tag) {
   return re.test(html) ? html.replace(re, tag) : html.replace('</head>', `${tag}\n</head>`);
@@ -20,15 +11,18 @@ function setTag(html, re, tag) {
 
 module.exports = async (req, res) => {
   const slug = String((req.query && req.query.slug) || '').toLowerCase();
-  let html = template();
+  let html = readFile('objava.html');
   let post = null;
+  let pub = null;
 
   if (/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) {
-    try {
-      const now = new Date().toISOString();
-      const rows = await rest(`posts?select=id,slug,title,excerpt,content,category,author,cover_url,published,published_at,updated_at&slug=eq.${slug}&published=eq.true&published_at=lte.${encodeURIComponent(now)}&limit=1`);
-      post = rows[0] || null;
-    } catch (e) { post = null; }
+    const now = encodeURIComponent(new Date().toISOString());
+    const [rows, data] = await Promise.all([
+      rest(`posts?select=id,slug,title,excerpt,content,category,author,cover_url,published,published_at,updated_at&slug=eq.${slug}&published=eq.true&published_at=lte.${now}&limit=1`).catch(() => []),
+      getPublicData().catch(() => null),
+    ]);
+    post = rows[0] || null;
+    pub = data;
   }
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -89,9 +83,12 @@ module.exports = async (req, res) => {
   html = html.replace('</head>',
     `<script type="application/ld+json">${safeJson(ld)}</script>\n` +
     `<script type="application/ld+json">${safeJson(crumbs)}</script>\n</head>`);
-  // Podaci za preglednik, da ne čeka drugi upit prema bazi
-  html = html.replace('</body>', `<script type="application/json" id="post-data">${safeJson(post)}</script>\n</body>`);
+  // Podaci za preglednik: objava + lista ostalih (za „Još iz pogona”)
+  html = html.replace('</body>',
+    `<script type="application/json" id="post-data">${safeJson(post)}</script>\n` +
+    (pub ? `<script type="application/json" id="public-data">${safeJson(pub)}</script>\n` : '') +
+    '</body>');
 
-  res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=86400');
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
   res.status(200).send(html);
 };

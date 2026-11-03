@@ -68,8 +68,7 @@
         <span class="stage" id="heroStage" aria-hidden="true">
           <span class="stage__type" id="heroType"></span>
           <span class="stage__reel" id="heroReel">
-            <span class="reel-line"><span class="reel-word is-in">Zcore.</span></span>
-            <span class="reel-line reel-line--sub"><span class="reel-word is-in">Proizvodnja</span> <span class="reel-word is-in">na</span> <span class="reel-word is-in">jednom</span> <span class="reel-word is-in">mjestu.</span></span>
+            <span class="reel-final"><span class="reel-big">Zcore</span><span class="fit-line">Proizvodnja na</span><span class="fit-line">jednom mjestu</span></span>
           </span>
         </span>
       </h1>
@@ -95,7 +94,7 @@
         <div class="order">
           <div class="order__top">
             <div class="order__id"><span class="label">Nalog #1042 · CNC 03</span><span class="order__name">Osovina Ø40</span></div>
-            <span class="order__qty"><span id="dashQty">52</span> / 100</span>
+            <span class="order__qty"><span id="dashQty" data-count="52">52</span> / 100</span>
           </div>
           <div class="bar" id="dashBar" style="--p:52%"><span></span></div>
           <div class="status"><span class="dot dot--full" aria-hidden="true"></span>U toku</div>
@@ -104,7 +103,7 @@
         <div class="order">
           <div class="order__top">
             <div class="order__id"><span class="label">Nalog #1043 · CNC 01</span><span class="order__name">Čahura Ø25</span></div>
-            <span class="order__qty">140 / 200</span>
+            <span class="order__qty"><span data-count="140">140</span> / 200</span>
           </div>
           <div class="bar" style="--p:70%"><span></span></div>
           <div class="status"><span class="dot dot--ring dot--blink" aria-hidden="true"></span>Zastoj · <span class="mono" data-stop-timer>00:42</span></div>
@@ -113,7 +112,7 @@
         <div class="order">
           <div class="order__top">
             <div class="order__id"><span class="label">Nalog #1044 · CNC 05</span><span class="order__name">Prirubnica</span></div>
-            <span class="order__qty">0 / 60</span>
+            <span class="order__qty"><span data-count="0">0</span> / 60</span>
           </div>
           <div class="bar" style="--p:0%"><span></span></div>
           <div class="status"><span class="dot dot--ring" aria-hidden="true"></span>Čeka materijal</div>
@@ -190,8 +189,8 @@
             <span class="label">CNC 03 · Nalog #1042</span>
             <span style="font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.02em">Osovina Ø40</span>
           </div>
-          <div class="phone__count"><span class="phone__big" id="phoneGood">52</span><span class="muted" style="font-size:16px">/ 100 kom</span></div>
-          <div class="bar is-in" id="phoneBar" style="--p:52%"><span></span></div>
+          <div class="phone__count"><span class="phone__big" id="phoneGood" data-count="52">52</span><span class="muted" style="font-size:16px">/ 100 kom</span></div>
+          <div class="bar" id="phoneBar" style="--p:52%"><span></span></div>
           <div class="phone__meta"><span>Škart: <b id="phoneScrap">0</b></span><span id="phoneState">U toku</span></div>
           <button type="button" class="pbtn pbtn--dark" id="btnGood">+ Dobar komad</button>
           <button type="button" class="pbtn pbtn--light" id="btnScrap">+ Škart</button>
@@ -352,7 +351,7 @@
         <p class="lead reveal">Vodite CNC ili metaloprerađivačku firmu i proizvodnju još pratite u Excelu ili na papiru? Javite se. Odgovaramo e-poštom.</p>
       </div>
       <div class="contact__list reveal">
-        <div class="contact__row"><span class="label">E-pošta</span><a href="mailto:" data-contact-email>[E-MAIL ZA KONTAKT]</a></div>
+        <div class="contact__row"><span class="label">E-pošta</span><a href="mailto:kontakt@zcore.ba" data-contact-email>kontakt@zcore.ba</a></div>
         <div class="contact__row"><span class="label">Instagram</span><a href="https://www.instagram.com/zcore.ba" target="_blank" rel="noopener">@zcore.ba</a></div>
       </div>
     </div>
@@ -396,14 +395,14 @@
         </div>
         <div class="footer-col">
           <span class="label">Kontakt</span>
-          <a href="mailto:" data-contact-email>[E-MAIL ZA KONTAKT]</a>
+          <a href="mailto:kontakt@zcore.ba" data-contact-email>kontakt@zcore.ba</a>
           <a href="https://www.instagram.com/zcore.ba" target="_blank" rel="noopener">@zcore.ba</a>
         </div>
       </div>
     </div>
     <div class="footer-big" aria-hidden="true">ZCORE</div>
     <div class="footer-bottom">
-      <span>© <span data-year>2026</span> [PUNI NAZIV FIRME] · [ADRESA] · [ID / PIB BROJ]</span>
+      <span>© <span data-year>2026</span> Zcore. Sva prava zadržana.</span>
       <span class="label" style="color:inherit">ZCORE.BA</span>
     </div>
   </div>

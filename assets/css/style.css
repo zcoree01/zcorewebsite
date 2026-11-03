@@ -237,7 +237,20 @@ body.is-loading { overflow: hidden; }
 .hero__title { font-size: clamp(44px, 7vw, 96px); line-height: 1; font-weight: 700; letter-spacing: -.045em; }
 
 /* Stage drži stalnu visinu da se stranica ne pomjera dok tekst mijenja */
-.stage { position: relative; display: block; height: 1.95em; }
+.stage { position: relative; display: block; height: 1.95em; transition: height .7s var(--ease-out); }
+
+/* Završno: veliko "Zcore", ispod dva reda iste širine (JS ih poravna od ivice do ivice) */
+.reel-final { display: block; }
+.reel-big {
+  display: block; white-space: nowrap; font-size: 1.75em; line-height: .84; font-weight: 700; letter-spacing: -.055em;
+  padding-bottom: .04em;
+}
+.fit-line {
+  display: block; white-space: nowrap; font-size: .5em; line-height: 1.02; font-weight: 600; letter-spacing: -.035em;
+  color: var(--gray-700);
+}
+.reel-big + .fit-line { margin-top: .06em; }
+.fit-line .reel-word { margin: 0; }
 .stage__type, .stage__reel { position: absolute; left: 0; right: 0; top: 0; }
 .stage__type { white-space: pre-wrap; }
 .caret {
@@ -319,6 +332,15 @@ body.is-loading { overflow: hidden; }
 }
 .is-in .bar > span, .bar.is-in > span { transform: scaleX(1); }
 .status { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 20px; color: var(--gray-500); }
+/* Pregled se "učitava": statusi se pojave tek kad se brojevi napune */
+.js .dash .status { opacity: 0; transform: translateY(6px); transition: opacity .5s var(--ease-out), transform .6s var(--ease-out); }
+.js .dash.is-loaded .status { opacity: 1; transform: none; }
+.js .dash.is-loaded .order:nth-of-type(3) .status { transition-delay: .12s; }
+.js .dash.is-loaded .order:nth-of-type(4) .status { transition-delay: .24s; }
+.js .dash .order { opacity: 0; transform: translateY(14px); transition: opacity .6s var(--ease-out), transform .7s var(--ease-out), box-shadow .4s; }
+.js .dash.is-in .order { opacity: 1; transform: none; }
+.js .dash.is-in .order:nth-of-type(3) { transition-delay: .1s; }
+.js .dash.is-in .order:nth-of-type(4) { transition-delay: .2s; }
 .dot { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 10px; }
 .dot--full { background: var(--ink); }
 .dot--ring { border: 2px solid var(--ink); }
@@ -629,6 +651,7 @@ body.is-loading { overflow: hidden; }
   .hero__in { padding-top: 40px; padding-bottom: 72px; gap: 48px; }
   .hero__copy { gap: 24px; }
   .stage { height: 2.1em; }
+  .reel-big { font-size: 2.25em; }
   .hero__lead { font-size: 18px; line-height: 28px; }
   .hero__ctas .btn { flex: 1 1 100%; }
   .dash { padding: 16px; border-radius: 20px; }

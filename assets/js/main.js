@@ -481,7 +481,18 @@ const CONFIG = {
     btns.forEach((b) => b.addEventListener('click', () => {
       btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
       const f = b.dataset.filter;
-      mods.forEach((m) => m.classList.toggle('is-dim', f !== 'all' && m.dataset.phase !== f));
+      let i = 0;
+      mods.forEach((m) => {
+        const show = f === 'all' || m.dataset.phase === f;
+        m.classList.toggle('is-hidden', !show);
+        m.classList.remove('is-pop');
+        if (show) {
+          m.classList.add('is-in');
+          void m.offsetWidth;
+          m.style.setProperty('--pd', `${i++ * 60}ms`);
+          m.classList.add('is-pop');
+        }
+      });
     }));
   }
 

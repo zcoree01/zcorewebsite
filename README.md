@@ -23,6 +23,15 @@ Objavljeno na Vercelu: **https://zcoreba.vercel.app** (svaki push na granu se sa
 - **Klijenti**: logo (PNG/SVG), naziv, web, redoslijed, prikaži/sakrij. Sekcija na početnoj se sama sakrije dok nema vidljivih klijenata; od 5 logotipa naviše postaje pokretna traka.
 - Bez povezane baze stranica normalno radi: blog prikaže „Prve objave stižu uskoro”, a sekcije na početnoj su skrivene.
 
+## SEO
+
+- Naslov, opis, canonical, Open Graph slika (`assets/img/og-image.png`) i Twitter kartica na svim stranicama.
+- Strukturirani podaci (JSON-LD): Organization, WebSite, SoftwareApplication, FAQPage (sekcija „Česta pitanja”), a za objave BlogPosting i BreadcrumbList.
+- `/sitemap.xml` pravi Vercel funkcija `api/sitemap.js` (sve stranice + objavljene objave, automatski).
+- `/blog/<slug>` služi funkcija `api/post.js`: naslov, opis, sliku i podatke za Google upisuje na serveru.
+- `robots.txt`: indeksira sve osim `/admin` i `/api/`.
+- Pri prelasku na zcore.ba: u Vercelu postaviti `SITE_URL=https://zcore.ba` i zamijeniti `zcoreba.vercel.app` u HTML fajlovima i `robots.txt`.
+
 ## Animacije
 
 - **Loader**: Zcore znak se sklapa, traka napretka, izlaz dijagonalnim brisanjem (samo `transform`, glatko i na starijim računarima).

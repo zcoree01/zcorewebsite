@@ -1,7 +1,11 @@
 {
   "cleanUrls": true,
+  "functions": {
+    "api/post.js": { "includeFiles": "objava.html" }
+  },
   "rewrites": [
-    { "source": "/blog/:slug", "destination": "/objava" }
+    { "source": "/blog/:slug", "destination": "/api/post?slug=:slug" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" }
   ],
   "headers": [
     {
@@ -10,6 +14,10 @@
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
         { "key": "Cache-Control", "value": "no-store" }
       ]
+    },
+    {
+      "source": "/objava",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     },
     {
       "source": "/assets/js/(.*)",

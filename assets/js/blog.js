@@ -80,8 +80,14 @@
   async function initPost() {
     const slug = currentSlug();
     const art = document.getElementById('post');
-    if (!slug || !C.db()) { notFound(); return; }
-    const p = await C.getPost(slug);
+    // Server (Vercel funkcija) je možda već ubacio objavu u stranicu
+    let p = null;
+    const pre = document.getElementById('post-data');
+    if (pre) { try { p = JSON.parse(pre.textContent); } catch (e) { p = null; } }
+    if (!p) {
+      if (!slug || !C.db()) { notFound(); return; }
+      p = await C.getPost(slug);
+    }
     if (!p) { notFound(); return; }
 
     const f = (k) => art.querySelector(`[data-f="${k}"]`);

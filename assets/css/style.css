@@ -234,7 +234,7 @@ body.is-loading { overflow: hidden; }
   gap: 64px; align-items: center; padding-top: 88px; padding-bottom: 112px;
 }
 .hero__copy { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
-.hero__title { font-size: clamp(44px, 7vw, 96px); line-height: 1; font-weight: 700; letter-spacing: -.045em; }
+.hero__title { font-size: clamp(44px, 7vw, 88px); line-height: 1; font-weight: 700; letter-spacing: -.045em; }
 
 /* Stage drži stalnu visinu da se stranica ne pomjera dok tekst mijenja */
 .stage { position: relative; display: block; height: 1.95em; transition: height .7s var(--ease-out); }
@@ -254,7 +254,8 @@ body.is-loading { overflow: hidden; }
 .stage__type, .stage__reel { position: absolute; left: 0; right: 0; top: 0; }
 .stage__type { white-space: pre-wrap; }
 .caret {
-  display: inline-block; width: .07em; height: .86em; margin-left: .05em; vertical-align: -.06em;
+  /* negativna desna margina = kursor ne zauzima širinu, pa nikad sam ne prelazi u novi red */
+  display: inline-block; width: .07em; height: .86em; margin-left: .05em; margin-right: -.12em; vertical-align: -.06em;
   background: currentColor; animation: caret 1s steps(1) infinite;
 }
 .caret.is-typing { animation: none; }
@@ -553,10 +554,6 @@ body.is-loading { overflow: hidden; }
 .footer-bottom {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px;
   padding-top: 24px; border-top: 1px solid var(--gray-700); font-size: 14px; line-height: 20px; color: var(--gray-400);
-}
-.footer-big {
-  font-size: clamp(64px, 18vw, 260px); line-height: .8; font-weight: 700; letter-spacing: -.06em; color: transparent;
-  -webkit-text-stroke: 1px var(--gray-700); user-select: none; margin-top: 8px; white-space: nowrap; overflow: hidden;
 }
 
 /* ==========================================================================

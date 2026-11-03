@@ -17,8 +17,18 @@ const CONFIG = {
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Animacije su iste za sve. Windows s opcijom "Adjust for best performance" javlja
+  // prefers-reduced-motion, pa bi se inače na starijim računarima sve ugasilo.
+  const reduceMotion = false;
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  // Slabiji uređaj: malo jezgri/memorije ili sistem traži manje efekata → gasimo samo skupe ukrase
+  const lite = (navigator.hardwareConcurrency || 8) <= 4 ||
+    (navigator.deviceMemory || 8) <= 4 ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (lite) document.documentElement.classList.add('lite');
+  // Osvježavanje stranice uvijek kreće od vrha (bez skoka ispod loadera)
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (!location.hash) window.scrollTo(0, 0);
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* privatni prozor */ } },
@@ -39,19 +49,27 @@ const CONFIG = {
       const bar = $('#loaderBar');
       const count = $('#loaderCount');
       const seen = session.get('zcore-loader') === '1';
-      const minTime = reduceMotion ? 200 : (seen ? 900 : 2000);
+      // Dovoljno dugo da se znak sklopi do kraja i pri osvježavanju (inače izgleda isječeno)
+      const minTime = seen ? 1600 : 2100;
       const start = performance.now();
-      let loaded = document.readyState === 'complete';
-      window.addEventListener('load', () => { loaded = true; }, { once: true });
+      // Čekamo i fontove, da se tekst ne "preskoči" u drugi font nakon loadera
+      let pageLoaded = document.readyState === 'complete';
+      let fontsLoaded = !(document.fonts && document.fonts.ready);
+      window.addEventListener('load', () => { pageLoaded = true; }, { once: true });
+      if (!fontsLoaded) document.fonts.ready.then(() => { fontsLoaded = true; });
       // Sigurnosni izlaz ako se neki resurs ne učita
-      setTimeout(() => { loaded = true; }, 6000);
+      setTimeout(() => { pageLoaded = true; fontsLoaded = true; }, 6000);
 
       let shown = 0;
+      let last = start;
       function frame(now) {
+        const loaded = pageLoaded && fontsLoaded;
         const t = Math.min(1, (now - start) / minTime);
         const eased = 1 - Math.pow(1 - t, 3);
         const target = loaded ? eased : Math.min(eased, .9);
-        shown += (target - shown) * .18;
+        // vremenski, ne po broju sličica: isto brzo i na sporom računaru
+        const dt = Math.min(100, now - last); last = now;
+        shown += (target - shown) * Math.min(1, dt / 80);
         if (loaded && t >= 1 && shown > .995) shown = 1;
         bar.style.transform = `scaleX(${shown})`;
         count.textContent = String(Math.round(shown * 100)).padStart(3, '0');
@@ -59,9 +77,10 @@ const CONFIG = {
         session.set('zcore-loader', '1');
         setTimeout(() => {
           loader.classList.add('is-done');
-          setTimeout(resolve, reduceMotion ? 0 : 350);
-          setTimeout(() => loader.remove(), 1100);
-        }, reduceMotion ? 0 : 180);
+          setTimeout(resolve, 300);
+          loader.addEventListener('animationend', (e) => { if (e.target === loader) loader.remove(); });
+          setTimeout(() => { if (loader.isConnected) loader.remove(); }, 1600);
+        }, 150);
       }
       requestAnimationFrame(frame);
     });
@@ -322,7 +341,7 @@ const CONFIG = {
     }, 4200);
 
     // Tilt na mišu
-    if (finePointer && !reduceMotion) {
+    if (finePointer && !lite) {
       const wrap = dash.parentElement;
       wrap.addEventListener('mousemove', (e) => {
         const r = wrap.getBoundingClientRect();
@@ -336,7 +355,7 @@ const CONFIG = {
 
   function initSpotlight() {
     const hero = $('.hero');
-    if (!hero || !finePointer || reduceMotion) return;
+    if (!hero || !finePointer || lite) return;
     const spot = $('.hero__spot', hero);
     hero.addEventListener('mousemove', (e) => {
       const r = hero.getBoundingClientRect();
@@ -648,7 +667,6 @@ const CONFIG = {
   initPhone();
   initFilters();
   initContact();
-  initCookies();
   initToc();
   initSpotlight();
 
@@ -660,5 +678,6 @@ const CONFIG = {
     document.body.classList.add('is-ready');
     initDash();
     runHero();
+    initCookies(); // baner tek nakon loadera
   });
 })();

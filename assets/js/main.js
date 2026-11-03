@@ -154,6 +154,24 @@ const CONFIG = {
     });
   }
 
+  // "za jednu informaciju." tačno u širini crnog okvira "15 minuta"
+  function fitSubToHighlight() {
+    const hl = $('.reel-hl', reelEl);
+    const sub = $('.reel-line--sub', reelEl);
+    if (!hl || !sub) return;
+    const hr = hl.getBoundingClientRect();
+    const W = hr.width;
+    sub.style.whiteSpace = 'nowrap';
+    sub.style.fontSize = '100px';
+    sub.style.display = 'inline-block';
+    const w = sub.getBoundingClientRect().width;
+    sub.style.display = '';
+    sub.style.width = W + 'px';
+    sub.style.fontSize = (100 * W / w) + 'px';
+    sub.style.marginLeft = (hr.left - reelEl.getBoundingClientRect().left) + 'px';
+    sub.style.marginTop = '.12em';
+  }
+
   function sizeStage() {
     if (!stage) return;
     const h = Math.max(typeEl.offsetHeight, reelEl.offsetHeight);
@@ -208,6 +226,7 @@ const CONFIG = {
       { text: '15 minuta', hl: true },
       { text: 'za jednu informaciju.', sub: true },
     ]);
+    fitSubToHighlight();
     sizeStage();
     await popIn(140);
     await sleep(1900);

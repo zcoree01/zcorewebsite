@@ -89,6 +89,6 @@ module.exports = async (req, res) => {
     (pub ? `<script type="application/json" id="public-data">${safeJson(pub)}</script>\n` : '') +
     '</body>');
 
-  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=10');
   res.status(200).send(html);
 };

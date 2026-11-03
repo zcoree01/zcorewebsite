@@ -26,7 +26,7 @@ Objavljeno na Vercelu: **https://zcoreba.vercel.app** (svaki push na granu se sa
 ## Brzina
 
 - Funkcije rade u Frankfurtu (`regions: fra1`), pored baze.
-- `/blog` i `/blog/<slug>` dolaze s podacima već ugrađenim u HTML; odgovori se keširaju na Vercelovoj mreži (60 s, pa se osvježavaju u pozadini).
+- `/blog` i `/blog/<slug>` dolaze s podacima već ugrađenim u HTML; odgovori se keširaju na Vercelovoj mreži najviše 10 s, pa izmjene iz admina brzo stignu na stranicu.
 - Početna čita objave i klijente iz keširanog `/api/public`.
 - Biblioteka za bazu (`assets/vendor/supabase.js`) učitava se samo u adminu i pri slanju obrasca.
 - Fontovi su na našem serveru (`assets/fonts`), bez Google Fonts.

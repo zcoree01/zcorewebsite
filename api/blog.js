@@ -7,6 +7,6 @@ module.exports = async (req, res) => {
   try { data = await getPublicData(); } catch (e) { data = null; }
   if (data) html = html.replace('</body>', `<script type="application/json" id="public-data">${safeJson(data)}</script>\n</body>`);
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.setHeader('Cache-Control', data ? 'public, s-maxage=60, stale-while-revalidate=86400' : 'no-store');
+  res.setHeader('Cache-Control', data ? 'public, max-age=0, s-maxage=10' : 'no-store');
   res.status(200).send(html);
 };

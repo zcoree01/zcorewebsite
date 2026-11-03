@@ -641,6 +641,7 @@ body.is-loading { overflow: hidden; }
   .menu-open .nav__link:nth-child(2) { transition-delay: .2s; }
   .menu-open .nav__link:nth-child(3) { transition-delay: .25s; }
   .menu-open .nav__link:nth-child(4) { transition-delay: .3s; }
+  .menu-open .nav__link:nth-child(5) { transition-delay: .35s; }
   .nav .btn { margin-top: 24px; min-height: 56px; font-size: 16px; letter-spacing: 0; }
   body.menu-open { overflow: hidden; }
   .site-header, .site-header.is-scrolled { background: var(--paper); }

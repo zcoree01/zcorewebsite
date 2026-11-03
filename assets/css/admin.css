@@ -1,0 +1,141 @@
+/* ==========================================================================
+   Zcore — admin panel
+   ========================================================================== */
+.adm { background: var(--gray-50); min-height: 100vh; }
+.adm [hidden] { display: none !important; }
+
+/* Prijava */
+.adm-login { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px;
+  background-image: linear-gradient(rgba(10,10,10,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,.05) 1px, transparent 1px);
+  background-size: 120px 120px; }
+.adm-login__card { width: 100%; max-width: 400px; background: var(--paper); border: 1px solid var(--gray-100); border-radius: var(--radius-lg);
+  padding: 32px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 30px 80px -40px rgba(10,10,10,.35); }
+.adm-login__card img { height: 24px; width: auto; align-self: flex-start; }
+.adm-login__card h1 { font-size: 28px; line-height: 34px; font-weight: 600; letter-spacing: -.02em; }
+
+/* Polja */
+.adm-field { display: flex; flex-direction: column; gap: 6px; }
+.adm-field label, .adm-label { font-size: 14px; line-height: 20px; font-weight: 500; display: flex; justify-content: space-between; gap: 8px; }
+.adm input[type="text"], .adm input[type="email"], .adm input[type="password"], .adm input[type="url"], .adm input[type="datetime-local"], .adm textarea {
+  width: 100%; min-height: 44px; padding: 10px 14px; border: 1px solid var(--gray-100); border-radius: 12px; background: var(--paper);
+  font-size: 15px; line-height: 22px; transition: border-color .2s, box-shadow .2s;
+}
+.adm textarea { resize: vertical; }
+.adm input:hover, .adm textarea:hover { border-color: var(--gray-400); }
+.adm input:focus, .adm textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(10,10,10,.08); }
+.adm-input--title { font-size: 22px !important; font-weight: 600; letter-spacing: -.02em; min-height: 56px !important; }
+.adm-hint { font-size: 13px; line-height: 18px; color: var(--gray-500); }
+.adm-msg { font-size: 14px; line-height: 20px; min-height: 20px; color: var(--gray-700); }
+.adm-msg.is-err { color: #B00020; }
+.adm-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.adm-link { background: none; border: 0; padding: 0; cursor: pointer; font-size: 14px; color: inherit; text-decoration: underline; text-underline-offset: 3px; min-height: 32px; }
+.adm-file { cursor: pointer; }
+
+/* Prekidač */
+.adm-switch { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; cursor: pointer; user-select: none; min-height: 32px; }
+.adm-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.adm-switch span { width: 40px; height: 24px; border-radius: 999px; background: var(--gray-100); position: relative; transition: background .25s; flex: 0 0 40px; }
+.adm-switch span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--paper); box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .25s var(--ease-out); }
+.adm-switch input:checked + span { background: var(--ink); }
+.adm-switch input:checked + span::after { transform: translateX(16px); }
+.adm-switch input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Gornja traka */
+.adm-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: var(--paper); }
+.adm-bar__in { max-width: 1280px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; gap: 24px; }
+.adm-brand { display: flex; align-items: center; gap: 12px; }
+.adm-brand img { height: 20px; width: auto; }
+.adm-brand .label { color: var(--gray-400); }
+.adm-tabs { display: flex; gap: 4px; }
+.adm-tab { background: none; border: 0; color: var(--gray-300); font-size: 15px; font-weight: 500; padding: 8px 14px; border-radius: 999px; cursor: pointer; min-height: 40px; }
+.adm-tab:hover { color: var(--paper); }
+.adm-tab[aria-selected="true"] { background: var(--paper); color: var(--ink); }
+.adm-bar__right { margin-left: auto; display: flex; align-items: center; gap: 20px; font-size: 14px; }
+.adm-user { color: var(--gray-400); }
+.adm-bar .adm-link { color: var(--gray-300); text-decoration: none; }
+.adm-bar .adm-link:hover { color: var(--paper); }
+
+/* Glavni dio */
+.adm-main { max-width: 1280px; margin: 0 auto; padding: 32px 24px 96px; }
+.adm-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.adm-head h1 { font-size: 36px; line-height: 40px; font-weight: 700; letter-spacing: -.035em; margin-top: 6px; }
+.adm-head--sticky { position: sticky; top: 60px; z-index: 20; background: var(--gray-50); padding: 16px 0; margin: -16px 0 8px; border-bottom: 1px solid var(--gray-100); }
+.adm-actions { display: flex; gap: 8px; }
+.adm-back { background: none; border: 0; padding: 0; cursor: pointer; font-size: 14px; color: var(--gray-500); }
+.adm-back:hover { color: var(--ink); }
+
+/* Lista objava */
+.adm-list { display: flex; flex-direction: column; gap: 8px; }
+.adm-item { display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; gap: 20px; align-items: center; background: var(--paper);
+  border: 1px solid var(--gray-100); border-radius: 16px; padding: 12px; transition: border-color .2s; }
+.adm-item:hover { border-color: var(--gray-400); }
+.adm-item__img { width: 112px; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: var(--gray-50); }
+.adm-item__img img { width: 100%; height: 100%; object-fit: cover; }
+.adm-item__title { font-size: 17px; line-height: 24px; font-weight: 600; letter-spacing: -.01em; }
+.adm-item__meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 4px; font-size: 13px; color: var(--gray-500); }
+.adm-item__actions { display: flex; align-items: center; gap: 14px; padding-right: 8px; }
+.adm-status { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--gray-500); color: var(--gray-500); }
+.adm-status--live { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.adm-status--later { border-style: dashed; }
+.adm-empty { border: 1px dashed var(--gray-500); border-radius: 16px; padding: 48px 24px; text-align: center; color: var(--gray-500); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+/* Uređivač */
+.adm-editor { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
+.adm-editor__main { display: flex; flex-direction: column; gap: 20px; background: var(--paper); border: 1px solid var(--gray-100); border-radius: var(--radius-lg); padding: 24px; }
+.adm-editor__side { display: flex; flex-direction: column; gap: 12px; position: sticky; top: 140px; }
+.adm-box { background: var(--paper); border: 1px solid var(--gray-100); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+.adm-md-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.adm-seg { display: inline-flex; background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: 999px; padding: 3px; }
+.adm-seg button { background: none; border: 0; padding: 4px 14px; border-radius: 999px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--gray-500); min-height: 30px; }
+.adm-seg button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+.adm-toolbar { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; border: 1px solid var(--gray-100); border-bottom: 0; border-radius: 12px 12px 0 0; background: var(--gray-50); }
+.adm-toolbar button, .adm-toolbar__file { background: var(--paper); border: 1px solid var(--gray-100); border-radius: 8px; padding: 0 10px; min-height: 32px; font-size: 13px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; }
+.adm-toolbar button:hover, .adm-toolbar__file:hover { border-color: var(--ink); }
+.adm-md { font-family: var(--mono) !important; font-size: 14px !important; line-height: 24px !important; border-radius: 0 0 12px 12px !important; min-height: 420px; }
+.adm-preview { border: 1px solid var(--gray-100); border-radius: 12px; padding: 24px; min-height: 420px; background: var(--paper); }
+.adm-cover { aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: var(--gray-50); border: 1px solid var(--gray-100); }
+.adm-cover img { width: 100%; height: 100%; object-fit: cover; }
+.adm-danger { background: none; border: 1px solid var(--gray-100); color: #B00020; border-radius: 12px; min-height: 44px; font-size: 14px; font-weight: 500; cursor: pointer; }
+.adm-danger:hover { border-color: #B00020; }
+
+/* Klijenti */
+.adm-client-form { margin-bottom: 24px; }
+.adm-client-form__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.adm-logo-prev { height: 44px; min-width: 120px; max-width: 200px; padding: 6px 10px; border: 1px dashed var(--gray-400); border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; color: var(--gray-500); background: var(--paper); }
+.adm-logo-prev img { max-height: 30px; max-width: 180px; object-fit: contain; }
+.adm-clients { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.adm-client { background: var(--paper); border: 1px solid var(--gray-100); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.adm-client.is-hidden-client { opacity: .55; }
+.adm-client__logo { height: 72px; border-radius: 10px; background: var(--gray-50); display: grid; place-items: center; padding: 10px; }
+.adm-client__logo img { max-height: 48px; max-width: 80%; object-fit: contain; }
+.adm-client__logo span { font-weight: 700; font-size: 18px; letter-spacing: -.02em; color: var(--gray-500); }
+.adm-client__name { font-weight: 600; }
+.adm-client__web { font-size: 13px; color: var(--gray-500); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-client__actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.adm-icon { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--gray-100); background: var(--paper); cursor: pointer; display: grid; place-items: center; font-size: 14px; }
+.adm-icon:hover:not(:disabled) { border-color: var(--ink); }
+.adm-icon:disabled { opacity: .35; cursor: default; }
+
+/* Obavijest */
+.adm-toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 100;
+  background: var(--ink); color: var(--paper); padding: 12px 18px; border-radius: 999px; font-size: 14px; transition: opacity .25s, transform .35s var(--ease-out); }
+.adm-toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+.adm-toast.is-err { background: #B00020; }
+
+@media (max-width: 1024px) {
+  .adm-editor { grid-template-columns: 1fr; }
+  .adm-editor__side { position: static; }
+  .adm-client-form__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .adm-bar__in { padding: 0 16px; gap: 12px; height: auto; min-height: 60px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
+  .adm-user { display: none; }
+  .adm-bar__right { gap: 14px; }
+  .adm-main { padding: 20px 16px 80px; }
+  .adm-head h1 { font-size: 28px; line-height: 32px; }
+  .adm-head--sticky { top: 0; position: static; }
+  .adm-item { grid-template-columns: 80px minmax(0, 1fr); }
+  .adm-item__img { width: 80px; }
+  .adm-item__actions { grid-column: 1 / -1; padding: 0 0 4px; }
+  .adm-editor__main { padding: 16px; }
+}

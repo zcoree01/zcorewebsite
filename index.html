@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/blog.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="is-loading" data-page="home">
@@ -48,6 +49,7 @@
       <a class="nav__link" href="#moduli">Moduli</a>
       <a class="nav__link" href="#uloge">Za koga</a>
       <a class="nav__link" href="#sigurnost">Sigurnost</a>
+      <a class="nav__link" href="/blog">Blog</a>
       <a class="btn btn--primary btn--sm" href="#kontakt">Prijavi se za testiranje</a>
     </nav>
   </div>
@@ -140,6 +142,14 @@
     </div>
   </div>
 </div>
+
+<!-- VJERUJU NAM (logotipi se učitavaju iz admin panela; sekcija je skrivena dok nema klijenata) -->
+<section class="clients-sec" id="klijenti" hidden>
+  <div class="container clients-sec__in">
+    <div class="clients-sec__head"><span class="label">Vjeruju nam</span></div>
+    <div data-clients></div>
+  </div>
+</section>
 
 <!-- PROBLEM -->
 <section class="section alt">
@@ -341,6 +351,17 @@
   </div>
 </section>
 
+<!-- NAJNOVIJE VIJESTI (iz bloga; skriveno dok nema objava) -->
+<section class="section alt" id="vijesti" hidden>
+  <div class="container">
+    <div class="news-head">
+      <div class="section-head"><div class="label">Blog</div><h2 class="h2">Najnovije vijesti.</h2></div>
+      <a class="btn btn--outline btn--sm" href="/blog">Sve vijesti <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <div class="posts-grid" data-news></div>
+  </div>
+</section>
+
 <!-- KONTAKT -->
 <section class="section dark" id="kontakt" style="border-top:1px solid var(--gray-700)">
   <div class="container contact">
@@ -386,7 +407,7 @@
       <div class="footer-cols">
         <div class="footer-col">
           <span class="label">Stranica</span>
-          <a href="#kako">Kako radi</a><a href="#moduli">Moduli</a><a href="#sigurnost">Sigurnost</a><a href="#kontakt">Kontakt</a>
+          <a href="#kako">Kako radi</a><a href="#moduli">Moduli</a><a href="#sigurnost">Sigurnost</a><a href="/blog">Blog</a><a href="#kontakt">Kontakt</a>
         </div>
         <div class="footer-col">
           <span class="label">Pravno</span>
@@ -419,6 +440,10 @@
   </div>
 </div>
 
+<script src="assets/js/config.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+<script src="assets/js/cms.js" defer></script>
 <script src="assets/js/main.js" defer></script>
+<script>window.addEventListener('DOMContentLoaded', () => { if (window.ZcoreCMS) window.ZcoreCMS.initHomeSections(); });</script>
 </body>
 </html>

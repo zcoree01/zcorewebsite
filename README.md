@@ -1,46 +1,42 @@
 # Zcore Production – web stranica
 
-Statična web stranica (HTML, CSS, JS bez build koraka) za Zcore Production, prema dizajnu iz Zcore brend priručnika.
+Statična web stranica (HTML, CSS, JS bez build koraka) za Zcore Production, prema dizajnu iz Zcore brend priručnika. Blog i logotipi klijenata čitaju se iz Supabase baze, a uređuju u admin panelu.
+
+Objavljeno na Vercelu: **https://zcoreba.vercel.app** (svaki push na granu se sam objavi).
 
 ## Stranice
 
-| Fajl | Sadržaj |
-| --- | --- |
-| `index.html` | Početna: loader, animirani hero, moduli, uloge, sigurnost, kontakt obrazac |
-| `privatnost.html` | Politika privatnosti |
-| `uslovi.html` | Uslovi korištenja |
-| `kolacici.html` | Politika kolačića |
-| `404.html` | Stranica za grešku |
+| Adresa | Fajl | Sadržaj |
+| --- | --- | --- |
+| `/` | `index.html` | Početna: loader, animirani hero, „Vjeruju nam”, moduli, uloge, sigurnost, najnovije vijesti, kontakt |
+| `/blog` | `blog.html` | Sve objave, najnovija istaknuta, filter po kategoriji |
+| `/blog/<slug>` | `objava.html` | Jedinstveni šablon za svaku objavu (rewrite u `vercel.json`) |
+| `/admin` | `admin.html` | Admin panel: objave i klijenti |
+| `/privatnost`, `/uslovi`, `/kolacici` | | Pravne stranice |
+
+## Blog i „Vjeruju nam”
+
+- **Baza**: Supabase. Šema (tabele, pravila pristupa, bucket za slike) je u `supabase/schema.sql`.
+- **Povezivanje**: u `assets/js/config.js` upisati `supabaseUrl` i javni (publishable) ključ. To smije biti u kodu: čitati se može samo objavljeno, a pisati samo admin.
+- **Admini**: e-pošte u tabeli `admin_emails`. Nalog se pravi u Supabaseu: *Authentication → Users → Add user* (e-pošta + lozinka, „Auto Confirm User”).
+- **Objave**: pišu se u Markdownu (alatna traka u adminu). Bez naslovne slike stranica sama napravi jedinstvenu crno-bijelu grafiku iz naslova. Nacrti i zakazane objave se ne vide javno.
+- **Klijenti**: logo (PNG/SVG), naziv, web, redoslijed, prikaži/sakrij. Sekcija na početnoj se sama sakrije dok nema vidljivih klijenata; od 5 logotipa naviše postaje pokretna traka.
+- Bez povezane baze stranica normalno radi: blog prikaže „Prve objave stižu uskoro”, a sekcije na početnoj su skrivene.
 
 ## Animacije
 
-- **Loader**: Zcore znak se sklapa (dva ugla + dijagonala), traka napretka, izlaz dijagonalnim brisanjem. Pri ponovnom otvaranju u istoj sesiji kraći je.
-- **Hero** (pokreće se jednom, ne ponavlja se):
-  1. kuca se *Gdje je nalog?*
-  2. tekst se briše
-  3. "reels" tekst: *Šef zove.* → *15 minuta* / *za jednu informaciju.*
-  4. kraj: *Zcore.* / *Proizvodnja na jednom mjestu.* i stop
-- Živi pregled proizvodnje (tajmer zastoja, nalog napreduje), probni telefon s tasterima, otkrivanje sekcija pri skrolanju, filter modula, traka napretka skrolanja.
-- Poštuje postavku *smanji kretanje* (prefers-reduced-motion): odmah prikazuje završno stanje.
+- **Loader**: Zcore znak se sklapa, traka napretka, izlaz dijagonalnim brisanjem (samo `transform`, glatko i na starijim računarima).
+- **Hero** (jednom, ne ponavlja se): kuca se *Gdje je nalog?*, briše se, „reels” tekst *Šef zove.* → *15 minuta* / *za jednu informaciju.*, kraj *Zcore* / *Proizvodnja na jednom mjestu*.
+- Pregled proizvodnje i telefon se „učitavaju” kad dođu na ekran; otkrivanje sekcija pri skrolanju.
+- Animacije su iste za sve uređaje. Na slabijim (klasa `.lite`) gase se samo efekti koji prate miš.
 
-## Prije objave
+## Kontakt obrazac
 
-1. U `assets/js/main.js`, na vrhu, popunite `CONFIG`:
-   - `contactEmail` – e-pošta za kontakt (prikazuje se na stranici).
-   - `formEndpoint` – adresa servisa za obrasce, npr. besplatni [Formspree](https://formspree.io) (`https://formspree.io/f/xxxx`). Bez njega obrazac otvara e-poštu posjetioca s popunjenom porukom (ako je `contactEmail` upisan).
-2. Zamijenite oznake u uglastim zagradama: `[PUNI NAZIV FIRME]`, `[ADRESA]`, `[ID / PIB BROJ]`, `[DATUM]`, `[E-MAIL ZA PRIVATNOST]` i ostale u pravnim stranicama (`grep -n "\[" *.html`).
-3. Pravne tekstove provjerite s pravnikom (označeno s `[POTVRDITI S PRAVNIKOM]`).
+U `assets/js/main.js` (`CONFIG`): `contactEmail` je postavljen na `kontakt@zcore.ba`; `formEndpoint` je prazan, pa obrazac otvara e-poštu posjetioca s popunjenom porukom. Planirano: slanje preko vlastitog mail servera (Vercel funkcija + SMTP) kad domena bude kupljena.
 
 ## Lokalno pokretanje
 
 ```bash
 python3 -m http.server 8000
-# otvorite http://localhost:8000
+# http://localhost:8000  (objave lokalno: /objava.html?slug=<slug>)
 ```
-
-## Objava
-
-Stranica nema build korak, pa radi na bilo kojem statičnom hostingu:
-
-- **GitHub Pages**: Settings → Pages → Deploy from a branch → `main` / root.
-- **Vercel / Netlify**: uvezite repozitorij, bez build komande, izlazni folder je root.

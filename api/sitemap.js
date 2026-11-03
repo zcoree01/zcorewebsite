@@ -1,13 +1,8 @@
-// /sitemap.xml – sve stranice + sve objavljene objave (automatski)
+// /sitemap-blog.xml – sve objavljene objave na blogu (automatski).
+// Glavne stranice su u statičnom /sitemap.xml.
 const { rest, SITE_URL } = require('./_supabase');
 
-const STATIC = [
-  { loc: '/', priority: '1.0', changefreq: 'weekly' },
-  { loc: '/blog', priority: '0.8', changefreq: 'daily' },
-  { loc: '/privatnost', priority: '0.2', changefreq: 'yearly' },
-  { loc: '/uslovi', priority: '0.2', changefreq: 'yearly' },
-  { loc: '/kolacici', priority: '0.2', changefreq: 'yearly' },
-];
+const STATIC = [{ loc: '/blog', priority: '0.8', changefreq: 'daily' }];
 
 const xmlEsc = (s) => String(s).replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]));
 

@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="bs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zcore Production – proizvodnja na jednom mjestu</title>
+<meta name="description" content="Zcore Production povezuje radni nalog, mašinu, radnika i skladište na jednom mjestu. Sistem za praćenje proizvodnje za CNC i metaloprerađivačke firme.">
+<meta name="theme-color" content="#0A0A0A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Zcore Production – proizvodnja na jednom mjestu">
+<meta property="og:description" content="Nalog, mašina, radnik i skladište na jednom mjestu. Za CNC i metaloprerađivačke firme.">
+<meta property="og:locale" content="bs_BA">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-loading" data-page="home">
+
+<a class="skip-link" href="#main">Preskoči na sadržaj</a>
+
+<!-- LOADER -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__grid"></div>
+  <div class="loader__inner">
+    <svg class="loader__mark" viewBox="124 100 521 568" xmlns="http://www.w3.org/2000/svg">
+      <path class="m1" d="M132,100 L402,100 C290,106 186,186 137,322 Q135,329 130,327 Q128,326 128,320 L128,104 Q128,100 132,100 Z"/>
+      <path class="m2" d="M636,668 L366,668 C478,662 582,582 631,446 Q633,439 638,441 Q640,442 640,448 L640,664 Q640,668 636,668 Z"/>
+      <path class="m3" d="M601,100 L638,100 Q645,100 640,106 L170,668 L131,668 Q124,668 129,662 Z"/>
+    </svg>
+    <div class="loader__word">ZCORE PRODUCTION</div>
+    <div class="loader__bar"><span id="loaderBar"></span></div>
+    <div class="loader__meta"><span>UČITAVANJE</span><span id="loaderCount">000</span></div>
+  </div>
+</div>
+
+<div class="progress-line" id="progressLine" aria-hidden="true"></div>
+
+<!-- HEADER -->
+<header class="site-header" id="header">
+  <div class="container site-header__in">
+    <a class="brand" href="#top" aria-label="Zcore – početak"><img src="assets/img/zcore-logo-crni.svg" alt="Zcore" width="111" height="26"></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Otvori meni" aria-expanded="false" aria-controls="nav"><span></span><span></span></button>
+    <nav class="nav" id="nav" aria-label="Glavna navigacija">
+      <a class="nav__link" href="#kako">Kako radi</a>
+      <a class="nav__link" href="#moduli">Moduli</a>
+      <a class="nav__link" href="#uloge">Za koga</a>
+      <a class="nav__link" href="#sigurnost">Sigurnost</a>
+      <a class="btn btn--primary btn--sm" href="#kontakt">Prijavi se za testiranje</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__spot" aria-hidden="true"></div>
+  <div class="container hero__in">
+    <div class="hero__copy">
+      <div class="label intro" style="--d:.05s">Sistem za praćenje proizvodnje</div>
+
+      <h1 class="hero__title">
+        <span class="sr-only">Zcore – proizvodnja na jednom mjestu.</span>
+        <span class="stage" id="heroStage" aria-hidden="true">
+          <span class="stage__type" id="heroType"></span>
+          <span class="stage__reel" id="heroReel">
+            <span class="reel-line"><span class="reel-word is-in">Zcore.</span></span>
+            <span class="reel-line reel-line--sub"><span class="reel-word is-in">Proizvodnja</span> <span class="reel-word is-in">na</span> <span class="reel-word is-in">jednom</span> <span class="reel-word is-in">mjestu.</span></span>
+          </span>
+        </span>
+      </h1>
+
+      <p class="hero__lead intro" style="--d:.15s">Zcore Production povezuje nalog, mašinu, radnika i skladište na jednom mjestu. Radnik unese komad na telefonu, a uprava u pregledu vidi stanje naloga.</p>
+      <div class="hero__ctas intro" style="--d:.25s">
+        <a class="btn btn--primary" href="#kontakt">Prijavi se za testiranje <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn--outline" href="#kako">Kako radi</a>
+      </div>
+      <div class="hero__meta intro" style="--d:.35s">
+        <span class="label">Za CNC i metaloprerađivačke firme</span>
+        <span class="label">5–250 zaposlenih</span>
+      </div>
+    </div>
+
+    <div class="hero__visual intro" style="--d:.3s">
+      <div class="dash" id="dash">
+        <div class="dash__head">
+          <span class="label dash__live" style="color:var(--ink)"><i aria-hidden="true"></i>Pregled proizvodnje</span>
+          <span class="tag">Primjer</span>
+        </div>
+
+        <div class="order">
+          <div class="order__top">
+            <div class="order__id"><span class="label">Nalog #1042 · CNC 03</span><span class="order__name">Osovina Ø40</span></div>
+            <span class="order__qty"><span id="dashQty">52</span> / 100</span>
+          </div>
+          <div class="bar" id="dashBar" style="--p:52%"><span></span></div>
+          <div class="status"><span class="dot dot--full" aria-hidden="true"></span>U toku</div>
+        </div>
+
+        <div class="order">
+          <div class="order__top">
+            <div class="order__id"><span class="label">Nalog #1043 · CNC 01</span><span class="order__name">Čahura Ø25</span></div>
+            <span class="order__qty">140 / 200</span>
+          </div>
+          <div class="bar" style="--p:70%"><span></span></div>
+          <div class="status"><span class="dot dot--ring dot--blink" aria-hidden="true"></span>Zastoj · <span class="mono" data-stop-timer>00:42</span></div>
+        </div>
+
+        <div class="order">
+          <div class="order__top">
+            <div class="order__id"><span class="label">Nalog #1044 · CNC 05</span><span class="order__name">Prirubnica</span></div>
+            <span class="order__qty">0 / 60</span>
+          </div>
+          <div class="bar" style="--p:0%"><span></span></div>
+          <div class="status"><span class="dot dot--ring" aria-hidden="true"></span>Čeka materijal</div>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><span class="label">Dobrih</span><span class="kpi__val" data-count="214" id="kpiGood">214</span></div>
+          <div class="kpi"><span class="label">Škart</span><span class="kpi__val" data-count="6">6</span></div>
+          <div class="kpi"><span class="label">Zastoj</span><span class="kpi__val" data-stop-timer-short>0:42</span></div>
+        </div>
+      </div>
+      <p class="note" style="margin-top:12px">Primjer prikaza. Brojevi su izmišljeni.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <div class="ticker__group">
+      <span class="ticker__item">Radni nalozi</span><span class="ticker__item">Mašine</span><span class="ticker__item">Radnici</span><span class="ticker__item">Skladište</span><span class="ticker__item">Dobri komadi</span><span class="ticker__item">Škart</span><span class="ticker__item">Zastoji</span><span class="ticker__item">Smjene</span><span class="ticker__item">Izvještaji</span>
+    </div>
+    <div class="ticker__group">
+      <span class="ticker__item">Radni nalozi</span><span class="ticker__item">Mašine</span><span class="ticker__item">Radnici</span><span class="ticker__item">Skladište</span><span class="ticker__item">Dobri komadi</span><span class="ticker__item">Škart</span><span class="ticker__item">Zastoji</span><span class="ticker__item">Smjene</span><span class="ticker__item">Izvještaji</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="label reveal">Danas</div>
+      <h2 class="h2 reveal-mask">Excel, papir i telefonski pozivi.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="pain reveal" style="--d:0s">
+        <h3 class="h3">Status naloga saznajete telefonom.</h3>
+        <p>Podatak je u glavi radnika ili na papiru pored mašine, pa uprava čeka da se neko javi.</p>
+      </div>
+      <div class="pain reveal" style="--d:.1s">
+        <h3 class="h3">Dobar komad i škart se miješaju.</h3>
+        <p>Kad se škart upiše kao dobar komad, stanje gotove robe nije tačno, a nalog se zatvori prerano.</p>
+      </div>
+      <div class="pain reveal" style="--d:.2s">
+        <h3 class="h3">Sati i mašine se ne slažu.</h3>
+        <p>Radno vrijeme radnika i rad mašine su dva različita podatka, a u tabeli se često računaju kao jedan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RADNIK / TELEFON -->
+<section class="section">
+  <div class="container split">
+    <div style="display:flex;flex-direction:column;gap:32px;min-width:0">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="label reveal">Na mašini</div>
+        <h2 class="h2 reveal-mask">Radnik unosi. Bez kucanja.</h2>
+        <p class="lead reveal">Prijava proizvodnje je pravljena za telefon ili tablet pored mašine: veliki tasteri, kratki koraci i malo teksta.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal" style="--d:0s"><span class="num">01</span><span>Dobri komadi i škart idu odvojeno.</span></div>
+        <div class="step reveal" style="--d:.08s"><span class="num">02</span><span>Zastoj se prijavljuje s razlogom: kvar mašine, promjena alata, nedostatak materijala, podešavanje.</span></div>
+        <div class="step reveal" style="--d:.16s"><span class="num">03</span><span>Promjena alata i pločica upisuje se na nalog.</span></div>
+        <div class="step reveal" style="--d:.24s"><span class="num">04</span><span>Kad više radnika radi na istoj operaciji, količina se ne računa dvaput.</span></div>
+      </div>
+    </div>
+
+    <div class="reveal" style="min-width:0;display:flex;flex-direction:column;gap:12px">
+      <div class="phone-wrap">
+        <div class="phone" id="phone">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <span class="label">CNC 03 · Nalog #1042</span>
+            <span style="font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.02em">Osovina Ø40</span>
+          </div>
+          <div class="phone__count"><span class="phone__big" id="phoneGood">52</span><span class="muted" style="font-size:16px">/ 100 kom</span></div>
+          <div class="bar is-in" id="phoneBar" style="--p:52%"><span></span></div>
+          <div class="phone__meta"><span>Škart: <b id="phoneScrap">0</b></span><span id="phoneState">U toku</span></div>
+          <button type="button" class="pbtn pbtn--dark" id="btnGood">+ Dobar komad</button>
+          <button type="button" class="pbtn pbtn--light" id="btnScrap">+ Škart</button>
+          <div class="chips" role="group" aria-label="Brze prijave">
+            <button type="button" class="chip" aria-pressed="false" data-chip="Zastoj">Zastoj</button>
+            <button type="button" class="chip" aria-pressed="false" data-chip="Promjena alata">Promjena alata</button>
+            <button type="button" class="chip" aria-pressed="false" data-chip="Napomena">Napomena</button>
+          </div>
+        </div>
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      </div>
+      <p class="note">Probajte tastere. Primjer prikaza, brojevi su izmišljeni.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOK PROIZVODNJE -->
+<section class="section dark" id="kako">
+  <div class="container">
+    <div class="section-head">
+      <div class="label reveal">Tok proizvodnje</div>
+      <h2 class="h2 reveal-mask">Od narudžbe do isporuke.</h2>
+      <p class="lead reveal">Podatak se unosi jednom i vidi se u svim koracima. Nalog, materijal, mašina i gotova roba pričaju isti broj.</p>
+    </div>
+    <div class="flow">
+      <div class="flow__item reveal" style="--d:0s"><span class="flow__num">01</span><h3 class="h3">Narudžba kupca</h3><p>Šta je kupac naručio i do kada.</p></div>
+      <div class="flow__item reveal" style="--d:.06s"><span class="flow__num">02</span><h3 class="h3">Radni nalog</h3><p>Dio, količina, rok, crteži i uputstva.</p></div>
+      <div class="flow__item reveal" style="--d:.12s"><span class="flow__num">03</span><h3 class="h3">Planiranje</h3><p>Mašina, smjena i redoslijed rada.</p></div>
+      <div class="flow__item reveal" style="--d:0s"><span class="flow__num">04</span><h3 class="h3">Priprema materijala</h3><p>Rezervacija materijala i alata za nalog.</p></div>
+      <div class="flow__item reveal" style="--d:.06s"><span class="flow__num">05</span><h3 class="h3">Operacije na mašinama</h3><p>Operacije po mašinama i radnicima.</p></div>
+      <div class="flow__item reveal" style="--d:.12s"><span class="flow__num">06</span><h3 class="h3">Prijava proizvodnje</h3><p>Dobri komadi, škart i zastoji.</p></div>
+      <div class="flow__item reveal" style="--d:0s"><span class="flow__num">07</span><h3 class="h3">Kontrola kvaliteta</h3><p>Prihvaćene i odbijene količine.</p></div>
+      <div class="flow__item reveal" style="--d:.06s"><span class="flow__num">08</span><h3 class="h3">Gotova roba</h3><p>U skladište ulaze samo dobri komadi.</p></div>
+      <div class="flow__item reveal" style="--d:.12s"><span class="flow__num">09</span><h3 class="h3">Isporuka</h3><p>Evidencija isporuke kupcu.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULI -->
+<section class="section" id="moduli">
+  <div class="container">
+    <div class="section-head">
+      <div class="label reveal">Moduli</div>
+      <h2 class="h2 reveal-mask">Uključite samo što treba.</h2>
+      <p class="lead reveal">Svaka firma bira module koje koristi i plaća. Oznake PRVO, ZATIM i KASNIJE su plan redoslijeda razvoja, a ne obećanje roka.</p>
+    </div>
+    <div class="filters reveal" role="group" aria-label="Filtriraj module">
+      <button type="button" class="filter" aria-pressed="true" data-filter="all">Svi</button>
+      <button type="button" class="filter" aria-pressed="false" data-filter="first">Prvo</button>
+      <button type="button" class="filter" aria-pressed="false" data-filter="next">Zatim</button>
+      <button type="button" class="filter" aria-pressed="false" data-filter="later">Kasnije</button>
+    </div>
+    <div class="modules">
+      <div class="module reveal" data-phase="first" style="--d:0s"><div class="module__top"><span class="module__n">01</span><span class="badge badge--first">PRVO</span></div><h3>Zcore Core</h3><p>Firma, korisnici, uloge i dozvole.</p></div>
+      <div class="module reveal" data-phase="first" style="--d:.05s"><div class="module__top"><span class="module__n">02</span><span class="badge badge--first">PRVO</span></div><h3>Radni nalozi</h3><p>Od nacrta do isporuke, s historijom statusa.</p></div>
+      <div class="module reveal" data-phase="first" style="--d:.1s"><div class="module__top"><span class="module__n">03</span><span class="badge badge--first">PRVO</span></div><h3>Mašine i prijava proizvodnje</h3><p>Registar mašina, dobri komadi, škart i zastoji.</p></div>
+      <div class="module reveal" data-phase="first" style="--d:.15s"><div class="module__top"><span class="module__n">04</span><span class="badge badge--first">PRVO</span></div><h3>Radnici i radno vrijeme</h3><p>Dolasci, smjene, pauze i prekovremeni sati.</p></div>
+      <div class="module reveal" data-phase="next" style="--d:0s"><div class="module__top"><span class="module__n">05</span><span class="badge badge--next">ZATIM</span></div><h3>Skladište materijala</h3><p>Šipke, limovi, profili: stanje, rezervacije i kretanje.</p></div>
+      <div class="module reveal" data-phase="next" style="--d:.05s"><div class="module__top"><span class="module__n">06</span><span class="badge badge--next">ZATIM</span></div><h3>Skladište alata</h3><p>Alat, pločice i potrošni materijal.</p></div>
+      <div class="module reveal" data-phase="next" style="--d:.1s"><div class="module__top"><span class="module__n">07</span><span class="badge badge--next">ZATIM</span></div><h3>Skladište gotove robe</h3><p>Dobri komadi, lokacije i isporuke.</p></div>
+      <div class="module reveal" data-phase="next" style="--d:.15s"><div class="module__top"><span class="module__n">08</span><span class="badge badge--next">ZATIM</span></div><h3>Planiranje proizvodnje</h3><p>Raspored po mašinama i smjenama, procjena završetka.</p></div>
+      <div class="module reveal" data-phase="next" style="--d:0s"><div class="module__top"><span class="module__n">09</span><span class="badge badge--next">ZATIM</span></div><h3>Izvještaji i analitika</h3><p>Proizvodnja, zastoji, škart, kašnjenja i radni sati.</p></div>
+      <div class="module module--later reveal" data-phase="later" style="--d:.05s"><div class="module__top"><span class="module__n">10</span><span class="badge badge--later">KASNIJE</span></div><h3>Nabavka i dobavljači</h3><p>Zahtjevi, narudžbenice i očekivane isporuke.</p></div>
+      <div class="module module--later reveal" data-phase="later" style="--d:.1s"><div class="module__top"><span class="module__n">11</span><span class="badge badge--later">KASNIJE</span></div><h3>Kontrola kvaliteta</h3><p>Inspekcije, neusaglašenosti i korektivne mjere.</p></div>
+      <div class="module module--later reveal" data-phase="later" style="--d:.15s"><div class="module__top"><span class="module__n">12</span><span class="badge badge--later">KASNIJE</span></div><h3>Održavanje</h3><p>Preventivno i korektivno održavanje mašina.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ULOGE -->
+<section class="section alt" id="uloge">
+  <div class="container">
+    <div class="section-head">
+      <div class="label reveal">Za koga</div>
+      <h2 class="h2 reveal-mask">Svako vidi svoj posao.</h2>
+    </div>
+    <div class="roles">
+      <div class="role reveal" style="--d:0s">
+        <div class="role__head">
+          <span class="role__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+          <span class="label">Telefon / tablet</span>
+          <h3 class="h3">Radnik na mašini</h3>
+        </div>
+        <ul><li>Dodijeljene mašine i nalozi</li><li>Prijava komada, škarta i zastoja</li><li>Promjena alata i pločica</li><li>Vlastito radno vrijeme, gdje je dozvoljeno</li></ul>
+      </div>
+      <div class="role reveal" style="--d:.08s">
+        <div class="role__head">
+          <span class="role__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M8 20h8M12 16.5V20"/></svg></span>
+          <span class="label">Računar</span>
+          <h3 class="h3">Šef proizvodnje</h3>
+        </div>
+        <ul><li>Red proizvodnje i raspored mašina</li><li>Zastoji i uska grla</li><li>Procijenjen završetak naloga</li><li>Dostupnost materijala i alata</li></ul>
+      </div>
+      <div class="role reveal" style="--d:.16s">
+        <div class="role__head">
+          <span class="role__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 12 4l9 4.5v11H3z"/><path d="M7.5 19.5v-7h9v7M7.5 15.5h9"/></svg></span>
+          <span class="label">Skladište</span>
+          <h3 class="h3">Skladištar</h3>
+        </div>
+        <ul><li>Stanje i rezervacije</li><li>Prijem, izdavanje i prenos</li><li>Upozorenja o niskim zalihama</li><li>Stanje alata</li></ul>
+      </div>
+      <div class="role reveal" style="--d:.24s">
+        <div class="role__head">
+          <span class="role__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5h17"/><path d="M6 17V11M10.5 17V6.5M15 17v-4M19.5 17V8"/></svg></span>
+          <span class="label">Pregled firme</span>
+          <h3 class="h3">Uprava</h3>
+        </div>
+        <ul><li>Aktivni i kasneći nalozi</li><li>Iskorištenost mašina</li><li>Škart i zastoji kroz vrijeme</li><li>Radni sati i učinak smjena</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRAVILA -->
+<section class="section dark">
+  <div class="container">
+    <div class="section-head">
+      <div class="label reveal">Kako računamo</div>
+      <h2 class="h2 reveal-mask">Brojke kojima vjerujete.</h2>
+    </div>
+    <div class="rules">
+      <div class="rule reveal"><span class="num">01</span><div><h3>Dobar komad i škart su odvojeni.</h3><p>Škart se evidentira posebno i nikad ne ulazi u zalihu gotove robe.</p></div></div>
+      <div class="rule reveal" style="--d:.08s"><span class="num">02</span><div><h3>Materijal računa i škart.</h3><p>Potrošnja obuhvata sav utrošeni materijal, i onaj u odbačenim komadima.</p></div></div>
+      <div class="rule reveal"><span class="num">03</span><div><h3>Mašina nije radnik.</h3><p>Učinak mašine i sati radnika mjere se odvojeno, pa se ništa ne broji dvaput.</p></div></div>
+      <div class="rule reveal" style="--d:.08s"><span class="num">04</span><div><h3>Smjene su vaše.</h3><p>Smjene od 8 i 12 sati, noćne preko ponoći i pauze podešavate sami.</p></div></div>
+      <div class="rule reveal"><span class="num">05</span><div><h3>Procjena je procjena.</h3><p>Očekivani završetak se preračunava iz stvarnog učinka i jasno je označen kao procjena.</p></div></div>
+      <div class="rule reveal" style="--d:.08s"><span class="num">06</span><div><h3>Svaka promjena ostavlja trag.</h3><p>Stanje skladišta mijenjaju kretanja s razlogom i referencom, a ne prepisivanje brojeva.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGURNOST -->
+<section class="section" id="sigurnost">
+  <div class="container">
+    <div class="section-head">
+      <div class="label reveal">Sigurnost</div>
+      <h2 class="h2 reveal-mask">Vaši podaci ostaju vaši.</h2>
+      <p class="lead reveal">Ovo su pravila po kojima gradimo sistem. Nisu sertifikat.</p>
+    </div>
+    <div class="grid-3">
+      <div class="sec reveal"><svg class="sec__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></svg><h3>Firme su odvojene</h3><p>Svaka firma vidi samo svoje podatke. Razdvajanje se provodi u bazi podataka, a ne samo na ekranu.</p></div>
+      <div class="sec reveal" style="--d:.08s"><svg class="sec__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5"/><path d="m16 11 2 2 4-4"/></svg><h3>Uloge i dozvole</h3><p>Radnik vidi samo ono što mu treba za posao. Podaci o zaposlenima nisu dostupni svima.</p></div>
+      <div class="sec reveal" style="--d:.16s"><svg class="sec__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10.5" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><h3>Lozinke</h3><p>Lozinke se nikad ne čuvaju kao običan tekst.</p></div>
+      <div class="sec reveal"><svg class="sec__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><h3>Trag promjena</h3><p>Važne radnje, ispravke i kretanja zaliha bilježe se: ko, šta i kada.</p></div>
+      <div class="sec reveal" style="--d:.08s"><svg class="sec__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V9M10 13h4"/></svg><h3>Arhiva umjesto brisanja</h3><p>Poslovni zapisi se u pravilu arhiviraju, a ne trajno brišu.</p></div>
+      <div class="sec reveal" style="--d:.16s"><svg class="sec__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><h3>Privatni dokumenti</h3><p>Crteži i dokumenti nisu javni linkovi. Pristup prati dozvole korisnika.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section class="section dark" id="kontakt" style="border-top:1px solid var(--gray-700)">
+  <div class="container contact">
+    <div style="display:flex;flex-direction:column;gap:32px;min-width:0">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="label reveal">Testiranje</div>
+        <h2 class="h2 reveal-mask">Tražimo prve firme za testiranje.</h2>
+        <p class="lead reveal">Vodite CNC ili metaloprerađivačku firmu i proizvodnju još pratite u Excelu ili na papiru? Javite se. Odgovaramo e-poštom.</p>
+      </div>
+      <div class="contact__list reveal">
+        <div class="contact__row"><span class="label">E-pošta</span><a href="mailto:" data-contact-email>[E-MAIL ZA KONTAKT]</a></div>
+        <div class="contact__row"><span class="label">Instagram</span><a href="https://www.instagram.com/zcore.ba" target="_blank" rel="noopener">@zcore.ba</a></div>
+      </div>
+    </div>
+
+    <form class="form reveal" id="contactForm" novalidate>
+      <div class="field"><label for="f-firma">Naziv firme (obavezno)</label><input id="f-firma" name="firma" type="text" autocomplete="organization" required><span class="err">Upišite naziv firme.</span></div>
+      <div class="field"><label for="f-ime">Ime i prezime (obavezno)</label><input id="f-ime" name="ime" type="text" autocomplete="name" required><span class="err">Upišite ime i prezime.</span></div>
+      <div class="field"><label for="f-mail">E-pošta (obavezno)</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" required><span class="err">Upišite ispravnu e-poštu.</span></div>
+      <div class="field"><label for="f-broj">Broj zaposlenih</label><select id="f-broj" name="zaposleni"><option>5–20</option><option>21–50</option><option>51–100</option><option>101–250</option><option>Više od 250</option></select></div>
+      <div class="field"><label for="f-poruka">Kako danas pratite proizvodnju?</label><textarea id="f-poruka" name="poruka" rows="4"></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="f-web">Web stranica</label><input id="f-web" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="field">
+        <div class="consent"><input id="f-saglasnost" name="saglasnost" type="checkbox" required><label for="f-saglasnost">Saglasan/saglasna sam da Zcore obradi ove podatke kako bi odgovorio na moj upit, kako je opisano u <a href="privatnost.html">Politici privatnosti</a>.</label></div>
+        <span class="err">Potrebna je saglasnost da bismo odgovorili.</span>
+      </div>
+      <button type="submit" class="btn btn--light">Pošalji upit <span class="arrow" aria-hidden="true">→</span></button>
+      <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer dark">
+  <div class="container site-footer__in">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/img/zcore-logo-bijeli.svg" alt="Zcore" width="111" height="26">
+        <p>Sistem za praćenje proizvodnje za CNC i metaloprerađivačke firme.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <span class="label">Stranica</span>
+          <a href="#kako">Kako radi</a><a href="#moduli">Moduli</a><a href="#sigurnost">Sigurnost</a><a href="#kontakt">Kontakt</a>
+        </div>
+        <div class="footer-col">
+          <span class="label">Pravno</span>
+          <a href="privatnost.html">Politika privatnosti</a><a href="uslovi.html">Uslovi korištenja</a><a href="kolacici.html">Politika kolačića</a>
+          <button type="button" data-cookie-settings>Postavke kolačića</button>
+        </div>
+        <div class="footer-col">
+          <span class="label">Kontakt</span>
+          <a href="mailto:" data-contact-email>[E-MAIL ZA KONTAKT]</a>
+          <a href="https://www.instagram.com/zcore.ba" target="_blank" rel="noopener">@zcore.ba</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-big" aria-hidden="true">ZCORE</div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> [PUNI NAZIV FIRME] · [ADRESA] · [ID / PIB BROJ]</span>
+      <span class="label" style="color:inherit">ZCORE.BA</span>
+    </div>
+  </div>
+</footer>
+
+<!-- KOLAČIĆI -->
+<div class="cookie" id="cookie" role="dialog" aria-label="Kolačići" aria-hidden="true">
+  <div class="cookie__text">
+    <span class="label">Kolačići</span>
+    <p>Koristimo samo neophodne kolačiće. Za sve ostalo tražimo vašu saglasnost. Više u <a href="kolacici.html">Politici kolačića</a>.</p>
+  </div>
+  <div class="cookie__btns">
+    <button type="button" class="btn btn--ghost-dark" data-cookie="necessary">Samo neophodni</button>
+    <button type="button" class="btn btn--light" data-cookie="all">Prihvati sve</button>
+  </div>
+</div>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>

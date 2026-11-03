@@ -353,6 +353,98 @@ const CONFIG = {
     }
   }
 
+  /* ======================================================================
+     Beskonačne trake (riječi ispod heroja, logotipi klijenata)
+     Grupa se puni ponavljanjem dok ne bude šira od ekrana, pa se kopira
+     jednom: pomjeranje za -50% je tada uvijek bez praznog prostora.
+     ====================================================================== */
+  function loopTrack(track, pxPerSec = 60) {
+    if (!track) return;
+    const first = track.firstElementChild;
+    if (!first) return;
+    if (!track.__orig) track.__orig = first.innerHTML;
+    first.innerHTML = track.__orig;
+    while (track.children.length > 1) track.lastElementChild.remove();
+    const need = Math.max(window.innerWidth, document.documentElement.clientWidth) + 200;
+    let guard = 0;
+    while (first.scrollWidth < need && guard++ < 30) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = track.__orig;
+      Array.from(tmp.children).forEach((el) => { el.setAttribute('aria-hidden', 'true'); first.appendChild(el); });
+    }
+    const copy = first.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    track.appendChild(copy);
+    // ista brzina bez obzira na dužinu trake
+    track.style.animationDuration = `${Math.max(10, first.scrollWidth / pxPerSec)}s`;
+  }
+  const loops = [];
+  function registerLoop(track, speed) {
+    if (!track) return;
+    loops.push([track, speed]);
+    loopTrack(track, speed);
+  }
+  let loopResizeT, loopW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    clearTimeout(loopResizeT);
+    loopResizeT = setTimeout(() => {
+      if (Math.abs(window.innerWidth - loopW) < 40) return;
+      loopW = window.innerWidth;
+      loops.forEach(([t, s]) => loopTrack(t, s));
+    }, 200);
+  });
+  window.ZcoreLoop = registerLoop;
+
+  /* ======================================================================
+     Glatko skrolanje do sekcije (radi i kad je u sistemu isključeno)
+     ====================================================================== */
+  function initSmoothScroll() {
+    const root = document.documentElement;
+    let anim = null;
+    const easeInOut = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+    function stop() { if (anim) { cancelAnimationFrame(anim); anim = null; root.style.scrollBehavior = ''; } }
+    ['wheel', 'touchstart', 'keydown'].forEach((ev) => window.addEventListener(ev, stop, { passive: true }));
+
+    function scrollToY(y) {
+      stop();
+      const start = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const end = Math.max(0, Math.min(max, y));
+      const dist = end - start;
+      if (Math.abs(dist) < 2) return;
+      const dur = Math.min(1000, Math.max(450, 350 + Math.abs(dist) * 0.12));
+      const t0 = performance.now();
+      root.style.scrollBehavior = 'auto';
+      function step(now) {
+        const t = Math.min(1, (now - t0) / dur);
+        window.scrollTo(0, start + dist * easeInOut(t));
+        if (t < 1) anim = requestAnimationFrame(step);
+        else { anim = null; root.style.scrollBehavior = ''; }
+      }
+      anim = requestAnimationFrame(step);
+    }
+
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href]');
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const url = new URL(a.getAttribute('href'), location.href);
+      if (url.origin !== location.origin || !url.hash) return;
+      const samePage = url.pathname === location.pathname ||
+        ((url.pathname === '/' || url.pathname === '/index.html') && (location.pathname === '/' || location.pathname === '/index.html'));
+      if (!samePage) return;
+      const id = decodeURIComponent(url.hash.slice(1));
+      const target = id === 'top' ? document.body : document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const header = document.getElementById('header');
+      const offset = (header ? header.offsetHeight : 0) + 8;
+      const y = id === 'top' ? 0 : target.getBoundingClientRect().top + window.scrollY - offset;
+      scrollToY(y);
+      if (history.pushState) history.pushState(null, '', url.hash);
+    });
+  }
+
   function initSpotlight() {
     const hero = $('.hero');
     if (!hero || !finePointer || lite) return;
@@ -697,6 +789,8 @@ const CONFIG = {
   initContact();
   initToc();
   initSpotlight();
+  initSmoothScroll();
+  registerLoop(document.querySelector('.ticker__track'), 55);
 
   // Sakrij završni tekst heroja dok loader traje (bez JS ostaje vidljiv)
   if (stage && !reduceMotion) { reelEl.innerHTML = ''; }

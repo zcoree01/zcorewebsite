@@ -167,7 +167,11 @@
         // Više logotipa: beskonačna traka; malo logotipa: mirni red
         if (list.length >= 5) {
           track.classList.add('clients--marquee');
-          track.innerHTML = `<div class="clients__track"><div class="clients__group">${items}</div><div class="clients__group" aria-hidden="true">${items}</div></div>`;
+          track.innerHTML = `<div class="clients__track"><div class="clients__group">${items}</div></div>`;
+          clientsSec.hidden = false;
+          // popuni traku do širine ekrana i kopiraj je, da nema praznog prostora
+          if (window.ZcoreLoop) window.ZcoreLoop(track.querySelector('.clients__track'), 45);
+          else track.querySelector('.clients__track').insertAdjacentHTML('beforeend', `<div class="clients__group" aria-hidden="true">${items}</div>`);
         } else {
           track.innerHTML = `<div class="clients__row">${items}</div>`;
         }

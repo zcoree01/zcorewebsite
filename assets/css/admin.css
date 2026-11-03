@@ -52,7 +52,8 @@
 .adm-tab[aria-selected="true"] { background: var(--paper); color: var(--ink); }
 .adm-bar__right { margin-left: auto; display: flex; align-items: center; gap: 20px; font-size: 14px; }
 .adm-user { color: var(--gray-400); }
-.adm-bar .adm-link { color: var(--gray-300); text-decoration: none; }
+.adm-bar .adm-link { color: var(--gray-300); text-decoration: none; display: inline-flex; align-items: center; min-height: 40px; line-height: 20px; font-size: 14px; }
+.adm-bar__right > * { display: inline-flex; align-items: center; min-height: 40px; }
 .adm-bar .adm-link:hover { color: var(--paper); }
 
 /* Glavni dio */
@@ -164,6 +165,8 @@
 @media (max-width: 720px) {
   .adm-bar__in { padding: 0 16px; gap: 12px; height: auto; min-height: 60px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
   .adm-user { display: none; }
+  .adm-tabs { order: 3; width: 100%; }
+  .adm-bar__right { margin-left: auto; }
   .adm-bar__right { gap: 14px; }
   .adm-main { padding: 20px 16px 80px; }
   .adm-head h1 { font-size: 28px; line-height: 32px; }

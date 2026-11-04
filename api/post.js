@@ -38,7 +38,10 @@ module.exports = async (req, res) => {
   const url = `${SITE_URL}/blog/${post.slug}`;
   const title = `${post.title} – Zcore`;
   const desc = post.excerpt || `${post.title}. Blog Zcore Productiona o vođenju proizvodnje.`;
-  const image = post.cover_url || `${SITE_URL}/assets/img/og-image.png`;
+  // slike s naše stranice čuvaju se kao /assets/...; za Google i mreže treba puna adresa
+  const image = post.cover_url
+    ? (post.cover_url.startsWith("/") ? SITE_URL + post.cover_url : post.cover_url)
+    : `${SITE_URL}/assets/img/og-image.png`;
 
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
   html = setTag(html, /<meta name="description"[^>]*>/, `<meta name="description" content="${esc(desc)}">`);

@@ -3,5 +3,5 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://zcoreba.vercel.app/sitemap.xml
-Sitemap: https://zcoreba.vercel.app/sitemap-blog.xml
+Sitemap: https://www.zcore.ba/sitemap.xml
+Sitemap: https://www.zcore.ba/sitemap-blog.xml

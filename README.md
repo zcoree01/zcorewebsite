@@ -2,7 +2,7 @@
 
 Statična web stranica (HTML, CSS, JS bez build koraka) za Zcore Production, prema dizajnu iz Zcore brend priručnika. Blog i logotipi klijenata čitaju se iz Supabase baze, a uređuju u admin panelu.
 
-Objavljeno na Vercelu: **https://zcoreba.vercel.app** (svaki push na granu se sam objavi).
+Objavljeno na **https://www.zcore.ba** (Vercel; svaki push na granu se sam objavi). `zcore.ba` i `zcoreba.vercel.app` trajno preusmjeravaju na `www.zcore.ba`.
 
 ## Stranice
 
@@ -38,7 +38,7 @@ Objavljeno na Vercelu: **https://zcoreba.vercel.app** (svaki push na granu se sa
 - `/sitemap.xml` pravi Vercel funkcija `api/sitemap.js` (sve stranice + objavljene objave, automatski).
 - `/blog/<slug>` služi funkcija `api/post.js`: naslov, opis, sliku i podatke za Google upisuje na serveru.
 - `robots.txt`: indeksira sve osim `/admin` i `/api/`.
-- Pri prelasku na zcore.ba: u Vercelu postaviti `SITE_URL=https://zcore.ba` i zamijeniti `zcoreba.vercel.app` u HTML fajlovima i `robots.txt`.
+- Glavna adresa je `https://www.zcore.ba` (HTML, `robots.txt`, `sitemap.xml`, `api/_supabase.js`); može se promijeniti i varijablom `SITE_URL` u Vercelu.
 
 ## Animacije
 

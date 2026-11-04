@@ -7,9 +7,9 @@ const path = require('path');
 const SUPABASE_URL = 'https://dmmqqederqtcyfodjmpn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtbXFxZWRlcnF0Y3lmb2RqbXBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3MDMzNzMsImV4cCI6MjEwOTI3OTM3M30.W-JSqFKlPr1Y36V3-_6l1UpenlzV8x_LgWhn972MSuU';
 
-// Glavna adresa stranice (za canonical i sitemap). Kad pređete na zcore.ba,
-// postavite SITE_URL u Vercel → Settings → Environment Variables.
-const SITE_URL = (process.env.SITE_URL || 'https://zcoreba.vercel.app').replace(/\/$/, '');
+// Glavna adresa stranice (za canonical i sitemap). Može se promijeniti
+// varijablom SITE_URL u Vercel → Settings → Environment Variables.
+const SITE_URL = (process.env.SITE_URL || 'https://www.zcore.ba').replace(/\/$/, '');
 
 async function rest(p) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${p}`, {

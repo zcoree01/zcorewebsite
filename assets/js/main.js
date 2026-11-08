@@ -50,7 +50,7 @@ const CONFIG = {
       const count = $('#loaderCount');
       const seen = session.get('zcore-loader') === '1';
       // Dovoljno dugo da se znak sklopi do kraja i pri osvježavanju (inače izgleda isječeno)
-      const minTime = seen ? 1600 : 2100;
+      const minTime = seen ? 1100 : 1500;
       const start = performance.now();
       // Čekamo i fontove, da se tekst ne "preskoči" u drugi font nakon loadera
       let pageLoaded = document.readyState === 'complete';
@@ -661,8 +661,78 @@ const CONFIG = {
       i.addEventListener('change', () => { if (i.type === 'checkbox') check(i); });
     });
 
+    /* ---------- Animacija slanja u istom okviru ---------- */
+    const SA_ART = `
+      <svg class="sa-art" viewBox="0 0 200 150" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <g class="sa-speed" stroke="#8C8C8C" stroke-width="1.5"><path d="M40 100h-22"/><path d="M46 110h-30"/><path d="M40 120h-18"/></g>
+        <g class="sa-env">
+          <path class="sa-flap-back" d="M56 64 L100 34 L144 64" fill="#161616" stroke="#fff" stroke-width="1.5"/>
+          <g class="sa-letter">
+            <rect x="66" y="34" width="68" height="44" rx="3" fill="#161616" stroke="#fff" stroke-width="1.5"/>
+            <path d="M76 46h48M76 55h48M76 64h28" stroke="#8C8C8C" stroke-width="1.5"/>
+          </g>
+          <path d="M56 64 H144 V108 A4 4 0 0 1 140 112 H60 A4 4 0 0 1 56 108 Z" fill="#161616" stroke="#fff" stroke-width="1.5"/>
+          <path d="M57 111 L92 86 M143 111 L108 86" stroke="#3A3A3A" stroke-width="1.5"/>
+          <path class="sa-flap-front" d="M56 64 L100 94 L144 64 Z" fill="#161616" stroke="#fff" stroke-width="1.5"/>
+        </g>
+        <g class="sa-check" stroke="#fff"><circle cx="100" cy="76" r="32" stroke-width="2" transform="rotate(-90 100 76)"/><path d="M86 77 l10 10 l19 -21" stroke-width="3"/></g>
+        <g class="sa-err" stroke="#fff"><circle cx="100" cy="76" r="32" stroke-width="2" transform="rotate(-90 100 76)"/><path d="M89 65 l22 22" stroke-width="3"/><path d="M111 65 l-22 22" stroke-width="3"/></g>
+      </svg>
+      <p class="sa-label">Šaljem upit</p>
+      <div class="sa-bar"><i></i></div>
+      <div class="sa-result"><h3></h3><p></p><button type="button" class="btn btn--light btn--sm"></button></div>`;
+    const anim = document.createElement('div');
+    anim.className = 'send-anim';
+    anim.setAttribute('role', 'status');
+    anim.setAttribute('aria-live', 'polite');
+    form.appendChild(anim);
+    Array.from(form.children).forEach((el, i) => el.style.setProperty('--i', i));
+    let afterResult = null;
+
+    function animStart() {
+      anim.innerHTML = SA_ART;
+      anim.className = 'send-anim';
+      void anim.offsetWidth;
+      anim.classList.add('is-sending');
+      form.classList.add('is-busy');
+      form.setAttribute('aria-busy', 'true');
+    }
+    function animResult(ok, title, html, btnText, onBtn) {
+      const label = $('.sa-label', anim);
+      return new Promise((resolve) => {
+        const finish = () => {
+          anim.classList.remove('is-sending', 'is-flying');
+          anim.classList.add(ok ? 'is-done' : 'is-error');
+          label.textContent = ok ? 'Upit poslan' : 'Upit nije poslan';
+          $('.sa-result h3', anim).textContent = title;
+          $('.sa-result p', anim).innerHTML = html;
+          const b = $('.sa-result button', anim);
+          b.textContent = btnText;
+          afterResult = onBtn;
+          form.removeAttribute('aria-busy');
+          setTimeout(() => b.focus({ preventScroll: true }), 900);
+          resolve();
+        };
+        if (ok) {
+          anim.classList.add('is-flying');
+          label.textContent = 'Šaljem upit';
+          setTimeout(finish, 650);
+        } else finish();
+      });
+    }
+    function animClose() {
+      form.classList.remove('is-busy');
+      form.removeAttribute('aria-busy');
+      setTimeout(() => { anim.className = 'send-anim'; anim.innerHTML = ''; }, 500);
+    }
+    anim.addEventListener('click', (e) => {
+      if (e.target.closest('.sa-result button') && afterResult) afterResult();
+    });
+    const escHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (form.classList.contains('is-busy')) return;
       status.classList.remove('is-ok');
       const fields = $$('[required]', form);
       const results = fields.map(check);
@@ -677,14 +747,12 @@ const CONFIG = {
       data.delete('_gotcha');
 
       // 1) Upit ide u bazu; vidi se u admin panelu (Upiti)
-      // biblioteka za bazu se učita tek pri slanju (početna ostaje lagana)
-      btn.classList.add('is-loading');
-      status.textContent = 'Šaljem…';
+      // Animacija kreće odmah; biblioteka za bazu se učita tek sada (početna ostaje lagana)
+      status.textContent = '';
+      animStart();
+      const t0 = performance.now();
       const sb = window.ZcoreCMS ? await window.ZcoreCMS.dbAsync() : null;
-      btn.classList.remove('is-loading');
       if (sb) {
-        btn.classList.add('is-loading');
-        status.textContent = 'Šaljem…';
         const row = {
           company: String(data.get('firma') || '').trim(),
           name: String(data.get('ime') || '').trim(),
@@ -693,20 +761,32 @@ const CONFIG = {
           message: String(data.get('poruka') || '').trim() || null,
           consent: true,
         };
-        const { error } = await sb.from('inquiries').insert(row);
-        btn.classList.remove('is-loading');
+        let error = null;
+        try { ({ error } = await sb.from('inquiries').insert(row)); } catch (err) { error = err; }
+        // koverta se stigne zatvoriti prije nego odleti
+        const wait = 1500 - (performance.now() - t0);
+        if (wait > 0) await sleep(wait);
         if (!error) {
-          form.reset();
-          $$('.field', form).forEach((f) => f.classList.remove('has-error'));
-          status.textContent = 'Hvala. Upit je poslan, javit ćemo vam se e-poštom.';
-          status.classList.add('is-ok');
+          await animResult(true, 'Upit je poslan.',
+            `Hvala, <b>${escHtml(row.company)}</b>. Javit ćemo vam se na <b>${escHtml(row.email)}</b>.`,
+            'Pošalji novi upit', () => {
+              form.reset();
+              $$('.field', form).forEach((f) => f.classList.remove('has-error'));
+              $$('[aria-invalid]', form).forEach((i) => i.removeAttribute('aria-invalid'));
+              animClose();
+              setTimeout(() => $('#f-firma').focus({ preventScroll: true }), 450);
+            });
           return;
         }
-        status.textContent = /Previše/.test(error.message)
+        const msg = /Previše/.test(String(error.message || ''))
           ? 'Previše upita u kratkom vremenu. Pokušajte za nekoliko minuta.'
-          : `Slanje nije uspjelo. Pišite nam na ${CONFIG.contactEmail || 'Instagramu @zcore.ba'}.`;
+          : `Provjerite internet vezu i pokušajte ponovo, ili nam pišite na ${escHtml(CONFIG.contactEmail || 'Instagramu @zcore.ba')}.`;
+        await animResult(false, 'Slanje nije uspjelo.', msg, 'Nazad na obrazac', () => {
+          animClose(); // upisani podaci ostaju
+        });
         return;
       }
+      animClose();
 
       if (CONFIG.formEndpoint) {
         btn.classList.add('is-loading');

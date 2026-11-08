@@ -535,6 +535,9 @@ body.is-loading { overflow: hidden; }
   opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .4s var(--ease-out) .25s, visibility 0s .65s;
 }
 .form.is-busy .send-anim { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity .4s var(--ease-out) .25s, visibility 0s; }
+/* Zatvaranje: potvrda prvo nestane, a polja se vrate tek kad je okvir prazan */
+.form.is-busy.is-closing .send-anim { opacity: 0; transform: translate3d(0, -10px, 0); pointer-events: none; transition: opacity .28s var(--ease-in-out), transform .3s var(--ease-in-out); }
+.form > :not(.send-anim) { transition-delay: calc(var(--i, 0) * 30ms), calc(var(--i, 0) * 30ms), 0s; }
 .sa-art { width: 280px; height: 210px; overflow: visible; }
 .sa-label { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--gray-400); min-height: 16px; }
 .sa-bar { width: 180px; height: 3px; border-radius: 3px; background: var(--gray-700); overflow: hidden; }

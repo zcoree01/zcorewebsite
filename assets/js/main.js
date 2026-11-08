@@ -720,10 +720,16 @@ const CONFIG = {
         } else finish();
       });
     }
+    // Prvo nestane animacija (potvrda), tek onda se vrate polja obrasca.
     function animClose() {
-      form.classList.remove('is-busy');
       form.removeAttribute('aria-busy');
-      setTimeout(() => { anim.className = 'send-anim'; anim.innerHTML = ''; }, 500);
+      if (!form.classList.contains('is-busy')) return;
+      form.classList.add('is-closing');
+      setTimeout(() => {
+        anim.className = 'send-anim';
+        anim.innerHTML = '';
+        form.classList.remove('is-busy', 'is-closing');
+      }, 320);
     }
     anim.addEventListener('click', (e) => {
       if (e.target.closest('.sa-result button') && afterResult) afterResult();
@@ -774,7 +780,7 @@ const CONFIG = {
               $$('.field', form).forEach((f) => f.classList.remove('has-error'));
               $$('[aria-invalid]', form).forEach((i) => i.removeAttribute('aria-invalid'));
               animClose();
-              setTimeout(() => $('#f-firma').focus({ preventScroll: true }), 450);
+              setTimeout(() => $('#f-firma').focus({ preventScroll: true }), 800);
             });
           return;
         }

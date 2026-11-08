@@ -443,12 +443,12 @@ body.is-loading { overflow: hidden; }
 .flow__item.is-in::before { transform: scaleX(1); }
 .flow__num {
   font-size: 64px; line-height: 64px; font-weight: 700; letter-spacing: -.045em;
-  color: transparent; -webkit-text-stroke: 1px var(--gray-400);
-  background: linear-gradient(var(--paper), var(--paper)) left / 0% 100% no-repeat;
+  color: transparent; font-variant-numeric: tabular-nums;
+  background: linear-gradient(var(--paper), var(--paper)) left / 0% 100% no-repeat var(--gray-500);
   -webkit-background-clip: text; background-clip: text;
-  transition: background-size 1s var(--ease-out), -webkit-text-stroke-color .6s;
+  transition: background-size 1s var(--ease-out);
 }
-.flow__item:hover .flow__num { background-size: 100% 100%; -webkit-text-stroke-color: var(--paper); }
+.flow__item:hover .flow__num { background-size: 100% 100%; }
 .flow__item p { font-size: 16px; line-height: 24px; color: var(--gray-300); }
 
 /* Moduli */

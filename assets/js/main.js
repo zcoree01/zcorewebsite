@@ -664,19 +664,19 @@ const CONFIG = {
     /* ---------- Animacija slanja u istom okviru ---------- */
     const SA_ART = `
       <svg class="sa-art" viewBox="0 0 200 150" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <g class="sa-speed" stroke="#8C8C8C" stroke-width="1.5"><path d="M40 100h-22"/><path d="M46 110h-30"/><path d="M40 120h-18"/></g>
-        <g class="sa-env">
-          <path class="sa-flap-back" d="M56 64 L100 34 L144 64" fill="#161616" stroke="#fff" stroke-width="1.5"/>
+        <g class="sa-speed" stroke="#8C8C8C" stroke-width="2.5"><path d="M40 100h-22"/><path d="M46 110h-30"/><path d="M40 120h-18"/></g>
+        <g class="sa-env"><g class="sa-bob">
+          <path class="sa-flap-back" d="M56 64 L100 34 L144 64" fill="#161616" stroke="#fff" stroke-width="2.5"/>
           <g class="sa-letter">
-            <rect x="66" y="34" width="68" height="44" rx="3" fill="#161616" stroke="#fff" stroke-width="1.5"/>
-            <path d="M76 46h48M76 55h48M76 64h28" stroke="#8C8C8C" stroke-width="1.5"/>
+            <rect x="66" y="34" width="68" height="44" rx="3" fill="#161616" stroke="#fff" stroke-width="2.5"/>
+            <path d="M76 46h48M76 55h48M76 64h28" stroke="#8C8C8C" stroke-width="2.5"/>
           </g>
-          <path d="M56 64 H144 V108 A4 4 0 0 1 140 112 H60 A4 4 0 0 1 56 108 Z" fill="#161616" stroke="#fff" stroke-width="1.5"/>
-          <path d="M57 111 L92 86 M143 111 L108 86" stroke="#3A3A3A" stroke-width="1.5"/>
-          <path class="sa-flap-front" d="M56 64 L100 94 L144 64 Z" fill="#161616" stroke="#fff" stroke-width="1.5"/>
-        </g>
-        <g class="sa-check" stroke="#fff"><circle cx="100" cy="76" r="32" stroke-width="2" transform="rotate(-90 100 76)"/><path d="M86 77 l10 10 l19 -21" stroke-width="3"/></g>
-        <g class="sa-err" stroke="#fff"><circle cx="100" cy="76" r="32" stroke-width="2" transform="rotate(-90 100 76)"/><path d="M89 65 l22 22" stroke-width="3"/><path d="M111 65 l-22 22" stroke-width="3"/></g>
+          <path d="M56 64 H144 V108 A4 4 0 0 1 140 112 H60 A4 4 0 0 1 56 108 Z" fill="#161616" stroke="#fff" stroke-width="2.5"/>
+          <path d="M58 110 L92 86 M142 110 L108 86" stroke="#4A4A4A" stroke-width="2.5"/>
+          <path class="sa-flap-front" d="M56 64 L100 94 L144 64 Z" fill="#161616" stroke="#fff" stroke-width="2.5"/>
+        </g></g>
+        <g class="sa-check" stroke="#fff"><circle cx="100" cy="76" r="34" stroke-width="3.5" pathLength="1" transform="rotate(-90 100 76)"/><path d="M85 77 l11 11 l20 -23" stroke-width="5" pathLength="1"/></g>
+        <g class="sa-err" stroke="#fff"><circle cx="100" cy="76" r="34" stroke-width="3.5" pathLength="1" transform="rotate(-90 100 76)"/><path d="M88 64 l24 24" stroke-width="5" pathLength="1"/><path d="M112 64 l-24 24" stroke-width="5" pathLength="1"/></g>
       </svg>
       <p class="sa-label">Šaljem upit</p>
       <div class="sa-bar"><i></i></div>

@@ -1,5 +1,5 @@
 {
-  "cleanUrls": true,
+  "cleanUrls": false,
   "regions": [
     "fra1"
   ],
@@ -25,6 +25,26 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/privatnost",
+      "destination": "/privatnost.html"
+    },
+    {
+      "source": "/uslovi",
+      "destination": "/uslovi.html"
+    },
+    {
+      "source": "/kolacici",
+      "destination": "/kolacici.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/objava",
+      "destination": "/objava.html"
+    },
     {
       "source": "/blog",
       "destination": "/api/blog"
@@ -65,7 +85,7 @@
       ]
     },
     {
-      "source": "/admin",
+      "source": "/admin(\\.html)?",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -78,7 +98,7 @@
       ]
     },
     {
-      "source": "/(objava|blog-sablon)",
+      "source": "/(objava|blog-sablon)(\\.html)?",
       "headers": [
         {
           "key": "X-Robots-Tag",

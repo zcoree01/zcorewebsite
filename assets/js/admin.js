@@ -357,7 +357,7 @@
 
   function updateCounts() {
     $('#excerptCount').textContent = `${f.excerpt.value.length}/220`;
-    $('#slugHint').textContent = f.slug.value ? `www.zcore.ba/blog/${f.slug.value}` : 'Popuni se sam iz naslova.';
+    $('#slugHint').textContent = f.slug.value ? `zcore.ba/blog/${f.slug.value}` : 'Popuni se sam iz naslova.';
   }
 
   $('#postForm').addEventListener('input', (e) => {

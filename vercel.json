@@ -20,7 +20,7 @@
           "value": "zcoreba.vercel.app"
         }
       ],
-      "destination": "https://www.zcore.ba/:path*",
+      "destination": "https://zcore.ba/:path*",
       "permanent": true
     }
   ],

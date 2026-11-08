@@ -9,7 +9,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 // Glavna adresa stranice (za canonical i sitemap). Može se promijeniti
 // varijablom SITE_URL u Vercel → Settings → Environment Variables.
-const SITE_URL = (process.env.SITE_URL || 'https://www.zcore.ba').replace(/\/$/, '');
+const SITE_URL = (process.env.SITE_URL || 'https://zcore.ba').replace(/\/$/, '');
 
 async function rest(p) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${p}`, {

@@ -3,5 +3,5 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://www.zcore.ba/sitemap.xml
-Sitemap: https://www.zcore.ba/sitemap-blog.xml
+Sitemap: https://zcore.ba/sitemap.xml
+Sitemap: https://zcore.ba/sitemap-blog.xml

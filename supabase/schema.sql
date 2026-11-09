@@ -55,6 +55,7 @@ create table if not exists public.posts (
   author text not null default 'Zcore',
   published boolean not null default false,
   published_at timestamptz not null default now(),
+  pinned boolean not null default false,  -- objava na vrhu bloga (najviše jedna, vidi okidač ispod)
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -164,3 +165,16 @@ revoke all on function public.inquiries_rate_limit() from public, anon, authenti
 drop trigger if exists inquiries_rate_limit on public.inquiries;
 create trigger inquiries_rate_limit before insert on public.inquiries
   for each row execute function public.inquiries_rate_limit();
+
+-- Najviše jedna objava „na vrhu”: kad se jedna uključi, ostale se isključe.
+create or replace function public.posts_single_pinned() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if new.pinned then
+    update public.posts set pinned = false where pinned and id <> new.id;
+  end if;
+  return new;
+end $$;
+create trigger posts_single_pinned before insert or update of pinned on public.posts
+for each row when (new.pinned) execute function public.posts_single_pinned();
+create unique index posts_one_pinned on public.posts (pinned) where pinned;

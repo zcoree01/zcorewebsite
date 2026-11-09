@@ -34,7 +34,10 @@
 .post-card__meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .post-card__title { font-size: 22px; line-height: 28px; font-weight: 600; letter-spacing: -.02em; }
 .post-card__excerpt { font-size: 15px; line-height: 22px; color: var(--gray-500); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.post-card__more { margin-top: auto; padding-top: 8px; font-size: 15px; font-weight: 500; display: inline-flex; gap: 8px; }
+.post-card__foot { margin-top: auto; padding-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.post-card__more { font-size: 15px; font-weight: 500; display: inline-flex; gap: 8px; }
+.post-card__new { font-family: var(--mono); font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: var(--ink); color: var(--paper); display: inline-flex; align-items: center; gap: 6px; }
+.post-card__new::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: wipPulse 1.6s ease-in-out infinite; }
 .post-card__more .arrow { transition: transform .35s var(--ease-out); }
 .post-card:hover .post-card__more .arrow { transform: translateX(4px); }
 

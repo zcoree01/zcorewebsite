@@ -100,7 +100,7 @@
   }
 
   /* ---------- Čitanje ---------- */
-  const POST_FIELDS = 'id, slug, title, excerpt, category, author, cover_url, published_at';
+  const POST_FIELDS = 'id, slug, title, excerpt, category, author, cover_url, published_at, pinned';
 
   /* Javne stranice NE učitavaju biblioteku za bazu (110 KB): podatke dobiju
      ugrađene u stranicu (blog, objava) ili iz brzog keširanog /api/public.
@@ -145,7 +145,7 @@
       if (!c) return { posts: [], clients: [] };
       const [p, k] = await Promise.all([
         c.from('posts').select(POST_FIELDS).eq('published', true).lte('published_at', new Date().toISOString())
-          .order('published_at', { ascending: false }).limit(100),
+          .order('pinned', { ascending: false }).order('published_at', { ascending: false }).limit(100),
         c.from('clients').select('id, name, logo_url, website').eq('visible', true)
           .order('sort', { ascending: true }).order('created_at', { ascending: true }),
       ]);
@@ -156,7 +156,10 @@
 
   async function getPosts({ limit = 50, category = null, excludeSlug = null } = {}) {
     const { posts } = await getPublic();
+    // objava označena „na vrhu” uvijek prva, ostale od najnovije
     return (posts || [])
+      .slice()
+      .sort((a, b) => (b.pinned === true) - (a.pinned === true) || new Date(b.published_at) - new Date(a.published_at))
       .filter((p) => (!category || p.category === category) && (!excludeSlug || p.slug !== excludeSlug))
       .slice(0, limit);
   }
@@ -174,6 +177,13 @@
   }
 
   /* ---------- Kartice ---------- */
+  // „Novo” se prikazuje 30 dana od datuma objave, pa samo nestane
+  const NEW_DAYS = 30;
+  function isNew(p) {
+    const t = new Date(p.published_at).getTime();
+    return Number.isFinite(t) && Date.now() - t >= 0 && Date.now() - t < NEW_DAYS * 864e5;
+  }
+
   function postCard(p, { featured = false } = {}) {
     const date = formatDate(p.published_at);
     return `
@@ -183,7 +193,10 @@
           <span class="post-card__meta"><span class="label">${esc(p.category || 'Vijesti')}</span><span class="label">${esc(date)}</span></span>
           <span class="post-card__title">${esc(p.title)}</span>
           ${p.excerpt ? `<span class="post-card__excerpt">${esc(p.excerpt)}</span>` : ''}
-          <span class="post-card__more">Pročitaj <span class="arrow" aria-hidden="true">→</span></span>
+          <span class="post-card__foot">
+            <span class="post-card__more">Pročitaj <span class="arrow" aria-hidden="true">→</span></span>
+            ${isNew(p) ? '<span class="post-card__new">Novo</span>' : ''}
+          </span>
         </span>
       </a>`;
   }

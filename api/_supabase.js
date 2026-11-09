@@ -23,7 +23,7 @@ async function rest(p) {
 async function getPublicData() {
   const now = encodeURIComponent(new Date().toISOString());
   const [posts, clients] = await Promise.all([
-    rest(`posts?select=id,slug,title,excerpt,category,author,cover_url,published_at&published=eq.true&published_at=lte.${now}&order=published_at.desc&limit=100`).catch(() => []),
+    rest(`posts?select=id,slug,title,excerpt,category,author,cover_url,published_at,pinned&published=eq.true&published_at=lte.${now}&order=pinned.desc,published_at.desc&limit=100`).catch(() => []),
     rest('clients?select=id,name,logo_url,website&visible=eq.true&order=sort.asc,created_at.asc').catch(() => []),
   ]);
   return { posts, clients };

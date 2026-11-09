@@ -259,8 +259,8 @@
   async function loadPosts() {
     const list = $('#postsList');
     const { data, error } = await sb.from('posts')
-      .select('id, slug, title, excerpt, category, author, cover_url, published, published_at, updated_at')
-      .order('published_at', { ascending: false });
+      .select('id, slug, title, excerpt, category, author, cover_url, published, published_at, updated_at, pinned')
+      .order('pinned', { ascending: false }).order('published_at', { ascending: false });
     if (error) { list.innerHTML = `<div class="adm-empty">Greška: ${esc(error.message)}</div>`; return; }
     posts = data || [];
     if (!posts.length) {
@@ -273,7 +273,7 @@
         <div class="adm-item__img"><img src="${esc(C.coverSrc(p))}" alt="" loading="lazy"></div>
         <div>
           <div class="adm-item__title">${esc(p.title)}</div>
-          <div class="adm-item__meta"><span class="adm-status ${cls}">${st}</span><span>${esc(p.category || '')}</span><span>${esc(C.formatDate(p.published_at))}</span></div>
+          <div class="adm-item__meta">${p.pinned ? '<span class="adm-status adm-status--pin">Na vrhu</span>' : ''}<span class="adm-status ${cls}">${st}</span><span>${esc(p.category || '')}</span><span>${esc(C.formatDate(p.published_at))}</span></div>
         </div>
         <div class="adm-item__actions">
           <a class="adm-link" href="${C.postUrl(p.slug)}" target="_blank" rel="noopener">Pogledaj</a>
@@ -298,7 +298,7 @@
   let dirty = false;
   const f = {
     title: $('#pTitle'), excerpt: $('#pExcerpt'), content: $('#pContent'), published: $('#pPublished'),
-    date: $('#pDate'), category: $('#pCategory'), author: $('#pAuthor'), slug: $('#pSlug'),
+    date: $('#pDate'), category: $('#pCategory'), author: $('#pAuthor'), slug: $('#pSlug'), pinned: $('#pPinned'),
   };
 
   function toLocalInput(iso) {
@@ -332,6 +332,7 @@
     f.excerpt.value = d.excerpt || '';
     f.content.value = d.content || '';
     f.published.checked = !!d.published;
+    f.pinned.checked = !!d.pinned;
     f.date.value = toLocalInput(d.published_at);
     f.category.value = d.category || 'Vijesti';
     f.author.value = d.author || 'Zcore';
@@ -468,6 +469,7 @@
       category: f.category.value.trim() || 'Vijesti',
       author: f.author.value.trim() || 'Zcore',
       published: f.published.checked,
+      pinned: f.pinned.checked,
       published_at: f.date.value ? new Date(f.date.value).toISOString() : new Date().toISOString(),
       cover_url: coverUrl,
     };

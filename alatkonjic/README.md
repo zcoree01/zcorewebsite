@@ -15,7 +15,8 @@ Nova, statička web stranica za **Alat d.o.o. Konjic** (alatkonjic.com). Svi pod
 ## Tehnički detalji
 - Čisti HTML + CSS + JavaScript, bez frameworka i build koraka → vrlo brzo učitavanje.
 - Potpuno responzivno (mobitel, tablet, desktop).
-- Animacije: reveal na skrol, brojači, timeline progres, parallax, marquee, prelazi između stranica. Poštuje `prefers-reduced-motion`.
+- Animacije po uzoru na zcore.ba: loader s brojačem i skew zavjesom, kucanje naslova, riječi koje iskaču, prelaz između stranica, reveal na skrol, maske na slikama, brojači, timeline progres, beskonačna traka, svjetlo koje prati miš, tilt kartica, animacija slanja forme (koverta). Animacije rade i kad je u Windowsu uključeno "Adjust for best performance"; na slabijim uređajima gase se samo skupi efekti.
+- Fontovi (Inter, JetBrains Mono) su lokalni – bez Google Fonts zahtjeva.
 - SEO: meta opisi, Open Graph, `LocalBusiness` schema.org podaci, `sitemap.xml`, `robots.txt`.
 - Slike u WebP formatu, lazy loading.
 

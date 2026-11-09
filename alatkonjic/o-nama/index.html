@@ -20,9 +20,8 @@
   <link rel="icon" type="image/png" href="../assets/img/ak_black.png" media="(prefers-color-scheme: light)">
   <link rel="icon" type="image/png" href="../assets/img/ak_white.png" media="(prefers-color-scheme: dark)">
   <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap">
+  <link rel="preload" href="../assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/inter-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/img/history.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="../assets/css/style.css">
   <script>document.documentElement.classList.add("js")</script>
@@ -44,9 +43,19 @@
   "logo": "https://alatkonjic.com/assets/img/ak_black.png",
   "sameAs": ["https://www.instagram.com/alatkonjic/", "https://ba.linkedin.com/company/alatdookonjic"]
 }</script>
-</head><body>
+</head><body class="is-loading">
 <a class="skip-link" href="#main">Preskoči na sadržaj</a>
-<div class="page-fade" aria-hidden="true"></div>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__grid"></div>
+  <div class="loader__glow"></div>
+  <div class="loader__inner">
+    <div class="loader__mark"><img class="m1" src="../assets/img/ak_white.png" alt="" width="104" height="104"><img class="m2" src="../assets/img/ak_white.png" alt="" width="104" height="104"></div>
+    <div class="loader__word">ALAT D.O.O. KONJIC</div>
+    <div class="loader__bar"><span id="loaderBar"></span></div>
+    <div class="loader__meta"><span>UČITAVANJE</span><span id="loaderCount">000</span></div>
+  </div>
+</div>
+<div class="page-cover" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"></div>
 <header class="header">
   <div class="wrap header__in">
@@ -73,11 +82,12 @@
 <main id="main"><section class="page-hero">
   <div class="hero__media"><img src="../assets/img/history.webp" alt="Kovački nakovanj" width="1920" height="1280" fetchpriority="high"></div>
   <div class="hero__grid-lines" aria-hidden="true"></div>
+  <div class="hero__spot" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hero__content">
       <nav class="breadcrumb fade-up" aria-label="Putanja"><a href="../">Početna</a><span aria-hidden="true">/</span><span>O nama</span></nav>
       <span class="eyebrow fade-up d1">1952 – danas</span>
-      <h1 class="h1 hero__title"><span class="line"><span>Tradicija oblikovana</span></span><span class="line"><span><span class="grad-text">metalom od 1952.</span></span></span></h1>
+      <h1 class="h1 hero__title" data-hero="words" data-lines="[{&quot;text&quot;: &quot;Tradicija oblikovana&quot;, &quot;hl&quot;: false}, {&quot;text&quot;: &quot;metalom od 1952.&quot;, &quot;hl&quot;: true}]"><span class="line"><span>Tradicija oblikovana</span></span><span class="line"><span>metalom od 1952.</span></span></h1>
       <p class="lead fade-up d2">Više od sedam decenija znanja, preciznosti i pouzdanosti – iz Konjica za industriju širom regiona i EU.</p>
       <div class="btn-row fade-up d3">
           <a class="btn" href="../kontakt/">Kontaktirajte nas <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a>
@@ -151,7 +161,7 @@
 <section class="section section--light">
   <div class="wrap split">
     <div class="split__media" data-reveal="left">
-      <div class="img-frame img-frame--tall"><img src="../assets/img/team.webp" alt="Član tima Alat d.o.o. Konjic u pogonu" width="1279" height="1920" loading="lazy" decoding="async"></div>
+      <div data-reveal class="img-frame img-frame--tall"><img src="../assets/img/team.webp" alt="Član tima Alat d.o.o. Konjic u pogonu" width="1279" height="1920" loading="lazy" decoding="async"></div>
       <div class="float-card"><strong>50+</strong><span>zaposlenih stručnjaka</span></div>
     </div>
     <div class="split__text">
@@ -192,7 +202,7 @@
       <span class="eyebrow" data-reveal>Brojke</span>
       <h2 class="h2" data-reveal>Alat danas</h2>
     </div>
-    <div class="stats"><div class="stat"><div class="stat__num"><span data-count="1952">1952</span></div><div class="stat__label">Godina osnivanja</div></div><div class="stat"><div class="stat__num"><span data-count="9001">9001</span></div><div class="stat__label">ISO certifikat</div></div><div class="stat"><div class="stat__num"><span data-count="99.7">99.7</span><small>%</small></div><div class="stat__label">Isporuka na vrijeme</div></div><div class="stat"><div class="stat__num"><span data-count="70">70</span><small>%</small></div><div class="stat__label">Izvozni udio</div></div><div class="stat"><div class="stat__num"><span data-count="6">6</span></div><div class="stat__label">Izvoznih tržišta</div></div><div class="stat"><div class="stat__num"><span data-count="3000">3000</span><small>m²</small></div><div class="stat__label">Površina pogona</div></div><div class="stat"><div class="stat__num"><span data-count="20">20</span><small>+</small></div><div class="stat__label">Mašina</div></div><div class="stat"><div class="stat__num"><span data-count="50">50</span><small>+</small></div><div class="stat__label">Zaposlenih</div></div></div>
+    <div class="stats"><div class="stat"><div class="stat__num"><span data-count="1952" data-from="1900">1952</span></div><div class="stat__label">Godina osnivanja</div></div><div class="stat"><div class="stat__num"><span>9001</span></div><div class="stat__label">ISO certifikat</div></div><div class="stat"><div class="stat__num"><span data-count="99.7">99.7</span><small>%</small></div><div class="stat__label">Isporuka na vrijeme</div></div><div class="stat"><div class="stat__num"><span data-count="70">70</span><small>%</small></div><div class="stat__label">Izvozni udio</div></div><div class="stat"><div class="stat__num"><span data-count="6">6</span></div><div class="stat__label">Izvoznih tržišta</div></div><div class="stat"><div class="stat__num"><span data-count="3000">3000</span><small>m²</small></div><div class="stat__label">Površina pogona</div></div><div class="stat"><div class="stat__num"><span data-count="20">20</span><small>+</small></div><div class="stat__label">Mašina</div></div><div class="stat"><div class="stat__num"><span data-count="50">50</span><small>+</small></div><div class="stat__label">Zaposlenih</div></div></div>
   </div>
 </section>
 <section class="section section--tight">

@@ -20,9 +20,8 @@
   <link rel="icon" type="image/png" href="../assets/img/ak_black.png" media="(prefers-color-scheme: light)">
   <link rel="icon" type="image/png" href="../assets/img/ak_white.png" media="(prefers-color-scheme: dark)">
   <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap">
+  <link rel="preload" href="../assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/inter-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/css/style.css">
   <script>document.documentElement.classList.add("js")</script>
   <script src="../assets/js/main.js" defer></script>
@@ -43,9 +42,19 @@
   "logo": "https://alatkonjic.com/assets/img/ak_black.png",
   "sameAs": ["https://www.instagram.com/alatkonjic/", "https://ba.linkedin.com/company/alatdookonjic"]
 }</script>
-</head><body>
+</head><body class="is-loading">
 <a class="skip-link" href="#main">Preskoči na sadržaj</a>
-<div class="page-fade" aria-hidden="true"></div>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__grid"></div>
+  <div class="loader__glow"></div>
+  <div class="loader__inner">
+    <div class="loader__mark"><img class="m1" src="../assets/img/ak_white.png" alt="" width="104" height="104"><img class="m2" src="../assets/img/ak_white.png" alt="" width="104" height="104"></div>
+    <div class="loader__word">ALAT D.O.O. KONJIC</div>
+    <div class="loader__bar"><span id="loaderBar"></span></div>
+    <div class="loader__meta"><span>UČITAVANJE</span><span id="loaderCount">000</span></div>
+  </div>
+</div>
+<div class="page-cover" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"></div>
 <header class="header">
   <div class="wrap header__in">
@@ -73,11 +82,12 @@
 <section class="page-hero page-hero--short">
   <div class="hero__media"><img src="../assets/img/hero2.webp" alt="" width="1536" height="1024" fetchpriority="high"></div>
   <div class="hero__grid-lines" aria-hidden="true"></div>
+  <div class="hero__spot" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hero__content">
       <nav class="breadcrumb fade-up" aria-label="Putanja"><a href="../">Početna</a><span aria-hidden="true">/</span><span>Kontakt</span></nav>
       <span class="eyebrow fade-up d1">Kontaktirajte nas</span>
-      <h1 class="h1 hero__title"><span class="line"><span>Razgovarajmo o</span></span><span class="line"><span><span class="grad-text">vašem projektu</span></span></span></h1>
+      <h1 class="h1 hero__title" data-hero="words" data-lines="[{&quot;text&quot;: &quot;Razgovarajmo o&quot;, &quot;hl&quot;: false}, {&quot;text&quot;: &quot;vašem projektu&quot;, &quot;hl&quot;: true}]"><span class="line"><span>Razgovarajmo o</span></span><span class="line"><span>vašem projektu</span></span></h1>
       <p class="lead fade-up d2">Pošaljite nam upit s tehničkim crtežom (PDF) i 3D modelom (STEP). Odgovaramo u roku od jednog radnog dana.</p>
     </div>
   </div>

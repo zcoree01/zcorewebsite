@@ -64,9 +64,9 @@
 </script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20261108i">
-<link rel="preload" href="assets/css/blog.css?v=20261108i" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="assets/css/blog.css?v=20261108i"></noscript>
+<link rel="stylesheet" href="assets/css/style.css?v=20261109a">
+<link rel="preload" href="assets/css/blog.css?v=20261109a" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/css/blog.css?v=20261109a"></noscript>
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="is-loading" data-page="home">
@@ -296,27 +296,27 @@
     <div class="section-head">
       <div class="label reveal">Moduli</div>
       <h2 class="h2 reveal-mask">Uključite samo što treba.</h2>
-      <p class="lead reveal">Svaka firma bira module koje koristi i plaća. Oznake PRVO, ZATIM i KASNIJE su plan redoslijeda razvoja, a ne obećanje roka.</p>
+      <p class="lead reveal">Svaka firma bira module koje koristi i plaća. Dostupni moduli se mogu koristiti odmah, na onima u izradi upravo radimo, a ostali dolaze nakon toga.</p>
     </div>
     <div class="filters reveal" role="group" aria-label="Filtriraj module">
       <button type="button" class="filter" aria-pressed="true" data-filter="all">Svi</button>
-      <button type="button" class="filter" aria-pressed="false" data-filter="first">Prvo</button>
-      <button type="button" class="filter" aria-pressed="false" data-filter="next">Zatim</button>
-      <button type="button" class="filter" aria-pressed="false" data-filter="later">Kasnije</button>
+      <button type="button" class="filter" aria-pressed="false" data-filter="done">Dostupno</button>
+      <button type="button" class="filter" aria-pressed="false" data-filter="wip">U izradi</button>
+      <button type="button" class="filter" aria-pressed="false" data-filter="soon">Uskoro</button>
     </div>
     <div class="modules">
-      <div class="module reveal" data-phase="first" style="--d:0s"><div class="module__top"><span class="module__n">01</span><span class="badge badge--first">PRVO</span></div><h3>Zcore Core</h3><p>Firma, korisnici, uloge i dozvole.</p></div>
-      <div class="module reveal" data-phase="first" style="--d:.05s"><div class="module__top"><span class="module__n">02</span><span class="badge badge--first">PRVO</span></div><h3>Radni nalozi</h3><p>Od nacrta do isporuke, s historijom statusa.</p></div>
-      <div class="module reveal" data-phase="first" style="--d:.1s"><div class="module__top"><span class="module__n">03</span><span class="badge badge--first">PRVO</span></div><h3>Mašine i prijava proizvodnje</h3><p>Registar mašina, dobri komadi, škart i zastoji.</p></div>
-      <div class="module reveal" data-phase="first" style="--d:.15s"><div class="module__top"><span class="module__n">04</span><span class="badge badge--first">PRVO</span></div><h3>Radnici i radno vrijeme</h3><p>Dolasci, smjene, pauze i prekovremeni sati.</p></div>
-      <div class="module reveal" data-phase="next" style="--d:0s"><div class="module__top"><span class="module__n">05</span><span class="badge badge--next">ZATIM</span></div><h3>Skladište materijala</h3><p>Šipke, limovi, profili: stanje, rezervacije i kretanje.</p></div>
-      <div class="module reveal" data-phase="next" style="--d:.05s"><div class="module__top"><span class="module__n">06</span><span class="badge badge--next">ZATIM</span></div><h3>Skladište alata</h3><p>Alat, pločice i potrošni materijal.</p></div>
-      <div class="module reveal" data-phase="next" style="--d:.1s"><div class="module__top"><span class="module__n">07</span><span class="badge badge--next">ZATIM</span></div><h3>Skladište gotove robe</h3><p>Dobri komadi, lokacije i isporuke.</p></div>
-      <div class="module reveal" data-phase="next" style="--d:.15s"><div class="module__top"><span class="module__n">08</span><span class="badge badge--next">ZATIM</span></div><h3>Planiranje proizvodnje</h3><p>Raspored po mašinama i smjenama, procjena završetka.</p></div>
-      <div class="module reveal" data-phase="next" style="--d:0s"><div class="module__top"><span class="module__n">09</span><span class="badge badge--next">ZATIM</span></div><h3>Izvještaji i analitika</h3><p>Proizvodnja, zastoji, škart, kašnjenja i radni sati.</p></div>
-      <div class="module module--later reveal" data-phase="later" style="--d:.05s"><div class="module__top"><span class="module__n">10</span><span class="badge badge--later">KASNIJE</span></div><h3>Nabavka i dobavljači</h3><p>Zahtjevi, narudžbenice i očekivane isporuke.</p></div>
-      <div class="module module--later reveal" data-phase="later" style="--d:.1s"><div class="module__top"><span class="module__n">11</span><span class="badge badge--later">KASNIJE</span></div><h3>Kontrola kvaliteta</h3><p>Inspekcije, neusaglašenosti i korektivne mjere.</p></div>
-      <div class="module module--later reveal" data-phase="later" style="--d:.15s"><div class="module__top"><span class="module__n">12</span><span class="badge badge--later">KASNIJE</span></div><h3>Održavanje</h3><p>Preventivno i korektivno održavanje mašina.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:0s"><div class="module__top"><span class="module__n">01</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Zcore Core</h3><p>Firma, korisnici, uloge i dozvole.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:.05s"><div class="module__top"><span class="module__n">02</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Radni nalozi</h3><p>Od nacrta do isporuke, s historijom statusa.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:.1s"><div class="module__top"><span class="module__n">03</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Mašine i prijava proizvodnje</h3><p>Registar mašina, dobri komadi, škart i zastoji.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:.15s"><div class="module__top"><span class="module__n">04</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Radnici i radno vrijeme</h3><p>Dolasci, smjene, pauze i prekovremeni sati.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:0s"><div class="module__top"><span class="module__n">05</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Skladište materijala</h3><p>Šipke, limovi, profili: stanje, rezervacije i kretanje.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:.05s"><div class="module__top"><span class="module__n">06</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Skladište alata</h3><p>Alat, pločice i potrošni materijal.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:.1s"><div class="module__top"><span class="module__n">07</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Skladište gotove robe</h3><p>Dobri komadi, lokacije i isporuke.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:.15s"><div class="module__top"><span class="module__n">08</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Planiranje proizvodnje</h3><p>Raspored po mašinama i smjenama, procjena završetka.</p></div>
+      <div class="module reveal" data-phase="done" style="--d:0s"><div class="module__top"><span class="module__n">09</span><span class="badge badge--done">DOSTUPNO</span></div><h3>Izvještaji i analitika</h3><p>Proizvodnja, zastoji, škart, kašnjenja i radni sati.</p></div>
+      <div class="module reveal" data-phase="wip" style="--d:.05s"><div class="module__top"><span class="module__n">10</span><span class="badge badge--wip">U IZRADI</span></div><h3>Nabavka i dobavljači</h3><p>Zahtjevi, narudžbenice i očekivane isporuke.</p></div>
+      <div class="module module--soon reveal" data-phase="soon" style="--d:.1s"><div class="module__top"><span class="module__n">11</span><span class="badge badge--soon">USKORO</span></div><h3>Kontrola kvaliteta</h3><p>Inspekcije, neusaglašenosti i korektivne mjere.</p></div>
+      <div class="module module--soon reveal" data-phase="soon" style="--d:.15s"><div class="module__top"><span class="module__n">12</span><span class="badge badge--soon">USKORO</span></div><h3>Održavanje</h3><p>Preventivno i korektivno održavanje mašina.</p></div>
     </div>
   </div>
 </section>
@@ -546,9 +546,9 @@
   </div>
 </div>
 
-<script src="assets/js/config.js?v=20261108i" defer></script>
-<script src="assets/js/cms.js?v=20261108i" defer></script>
-<script src="assets/js/main.js?v=20261108i" defer></script>
+<script src="assets/js/config.js?v=20261109a" defer></script>
+<script src="assets/js/cms.js?v=20261109a" defer></script>
+<script src="assets/js/main.js?v=20261109a" defer></script>
 <script>window.addEventListener('DOMContentLoaded', () => { if (window.ZcoreCMS) window.ZcoreCMS.initHomeSections(); });</script>
 </body>
 </html>

@@ -26,6 +26,22 @@
   ],
   "rewrites": [
     {
+      "source": "/evidencija-radnog-vremena-u-proizvodnji",
+      "destination": "/evidencija-radnog-vremena-u-proizvodnji.html"
+    },
+    {
+      "source": "/pracenje-skarta",
+      "destination": "/pracenje-skarta.html"
+    },
+    {
+      "source": "/softver-za-cnc-radionice",
+      "destination": "/softver-za-cnc-radionice.html"
+    },
+    {
+      "source": "/pracenje-proizvodnje",
+      "destination": "/pracenje-proizvodnje.html"
+    },
+    {
       "source": "/privatnost",
       "destination": "/privatnost.html"
     },

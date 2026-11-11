@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20261111a">
+<link rel="stylesheet" href="assets/css/style.css?v=20261111b">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body data-page="legal">
@@ -64,15 +64,15 @@
 <tbody>
 <tr><td>Neophodni</td><td>Rad stranice, sigurnost i prijava u aplikaciju. Bez njih stranica ne radi ispravno.</td><td>Nije potrebna</td><td>[TRAJANJE]</td></tr>
 <tr><td>Funkcionalni</td><td>Pamte vaše postavke, na primjer izbor jezika. [UKLONITI AKO SE NE KORISTE]</td><td>Potrebna</td><td>[TRAJANJE]</td></tr>
-<tr><td>Analitički</td><td>Mjere posjete radi poboljšanja stranice.</td><td>Potrebna</td><td>Trenutno se ne koriste</td></tr>
+<tr><td>Analitički</td><td>Vercel Web Analytics broji posjete i pregledane stranice, bez kolačića i bez spremanja ičega u vaš preglednik. Posjetioci se ne prate između stranica drugih firmi niti duže od jednog dana.</td><td>Nije potrebna (ne koristi kolačiće)</td><td>Ne sprema se u preglednik</td></tr>
 <tr><td>Marketinški</td><td>Prilagođeno oglašavanje.</td><td>Potrebna</td><td>Trenutno se ne koriste</td></tr>
 </tbody></table></div>
-<p>Analitičke i marketinške kolačiće učitavamo tek nakon vaše saglasnosti. Ako ih uvedemo, ažurirat ćemo ovu stranicu i pokazati vam izbor prije učitavanja. [POTVRDITI PRIJE OBJAVE]</p>
+<p>Za mjerenje posjeta koristimo Vercel Web Analytics, koji ne koristi kolačiće ni slične identifikatore u pregledniku. Marketinške kolačiće ne koristimo. Ako ih uvedemo, ažurirat ćemo ovu stranicu i pokazati vam izbor prije učitavanja. [POTVRDITI PRIJE OBJAVE]</p>
 </section>
 
 <section id="s3">
 <h2>3. Usluge trećih strana</h2>
-<p>Fontove učitavamo s našeg servera, a ne s usluge Google Fonts, pa se pri učitavanju stranice vaša IP adresa ne šalje Googleu. Pružaoci usluga koje koristimo za rad stranice (hosting i baza podataka) navedeni su u <a rel="privacy-policy" href="/privatnost">Politici privatnosti</a>.</p>
+<p>Fontove učitavamo s našeg servera, a ne s usluge Google Fonts, pa se pri učitavanju stranice vaša IP adresa ne šalje Googleu. Pružaoci usluga koje koristimo za rad stranice (hosting, mjerenje posjeta i baza podataka) navedeni su u <a rel="privacy-policy" href="/privatnost">Politici privatnosti</a>.</p>
 <p>Na stranici ne ugrađujemo sadržaj društvenih mreža. Veza na naš Instagram profil @zcore.ba je obična veza: tek kad je otvorite, na Instagramu važe njegova pravila.</p>
 </section>
 
@@ -105,6 +105,10 @@
           <a href="index.html#kako">Kako radi</a><a href="index.html#moduli">Moduli</a><a href="index.html#sigurnost">Sigurnost</a><a href="/blog">Blog</a><a href="index.html#kontakt">Kontakt</a>
         </div>
         <div class="footer-col">
+          <span class="label">Rješenja</span>
+          <a href="/pracenje-proizvodnje">Praćenje proizvodnje</a><a href="/softver-za-cnc-radionice">Softver za CNC radionice</a><a href="/pracenje-skarta">Praćenje škarta</a><a href="/evidencija-radnog-vremena-u-proizvodnji">Evidencija radnog vremena</a>
+        </div>
+        <div class="footer-col">
           <span class="label">Pravno</span>
           <a rel="privacy-policy" href="privatnost.html">Politika privatnosti</a><a rel="terms-of-service" href="uslovi.html">Uslovi korištenja</a><a href="kolacici.html">Politika kolačića</a>
           <button type="button" data-cookie-settings>Postavke kolačića</button>
@@ -134,6 +138,8 @@
   </div>
 </div>
 
-<script src="assets/js/main.js?v=20261111a" defer></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script src="assets/js/main.js?v=20261111b" defer></script>
 </body>
 </html>

@@ -130,6 +130,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
    Loader
    ========================================================================== */
 .loader { display: none; }
+.skip-loader .loader { display: none !important; }
 .js .loader {
   position: fixed; inset: 0; z-index: 500; display: grid; place-items: center;
   background: var(--ink); color: var(--paper);
@@ -797,3 +798,17 @@ body.is-loading { overflow: hidden; }
   .loader, .site-header, .cookie, .ticker, .progress-line { display: none !important; }
   .js .reveal, .js .reveal-mask, .js .intro { opacity: 1 !important; transform: none !important; clip-path: none !important; }
 }
+
+/* ---------- Stranice rješenja (praćenje proizvodnje, CNC, škart, radno vrijeme) ---------- */
+.lp-hero h1 { max-width: 920px; }
+.lp-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.lp-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; }
+.lp-card { border: 1px solid var(--gray-100); border-radius: var(--radius-lg); padding: 28px; display: flex; flex-direction: column; gap: 12px; background: var(--paper); }
+.lp-card__n { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--gray-400); }
+.lp-card h3 { font-size: 22px; line-height: 28px; font-weight: 600; letter-spacing: -.02em; }
+.lp-card p { font-size: 16px; line-height: 24px; color: var(--gray-500); }
+.lp-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 12px; }
+.lp-link { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 20px 24px; border: 1px solid var(--gray-100); border-radius: var(--radius-lg); font-size: 17px; font-weight: 500; transition: border-color .25s, background-color .25s; }
+.lp-link:hover { border-color: var(--ink); }
+.lp-link .arrow { transition: transform .35s var(--ease-out); }
+.lp-link:hover .arrow { transform: translateX(4px); }

@@ -46,11 +46,20 @@ const CONFIG = {
       const loader = $('#loader');
       if (!loader) { resolve(); return; }
 
+      const today = new Date().toDateString();
+      // Ko je stranicu već vidio danas, ne gleda loader ponovo (klasu postavlja skripta u <head>)
+      if (document.documentElement.classList.contains('skip-loader')) {
+        loader.remove();
+        store.set('zcore-loader-day', today);
+        const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+        Promise.race([fontsReady, new Promise((r) => setTimeout(r, 400))]).then(() => resolve());
+        return;
+      }
+
       const bar = $('#loaderBar');
       const count = $('#loaderCount');
-      const seen = session.get('zcore-loader') === '1';
-      // Dovoljno dugo da se znak sklopi do kraja i pri osvježavanju (inače izgleda isječeno)
-      const minTime = seen ? 1100 : 1500;
+      // Dovoljno dugo da se znak sklopi do kraja (inače izgleda isječeno)
+      const minTime = 1500;
       const start = performance.now();
       // Čekamo i fontove, da se tekst ne "preskoči" u drugi font nakon loadera
       let pageLoaded = document.readyState === 'complete';
@@ -74,7 +83,7 @@ const CONFIG = {
         bar.style.transform = `scaleX(${shown})`;
         count.textContent = String(Math.round(shown * 100)).padStart(3, '0');
         if (shown < 1) { requestAnimationFrame(frame); return; }
-        session.set('zcore-loader', '1');
+        store.set('zcore-loader-day', today);
         setTimeout(() => {
           loader.classList.add('is-done');
           setTimeout(resolve, 300);

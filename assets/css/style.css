@@ -154,21 +154,30 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 @keyframes gridFade { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
 .loader__inner { position: relative; display: flex; flex-direction: column; align-items: center; gap: 28px; }
-.loader__mark { width: 92px; height: auto; overflow: visible; }
+/* Znak: tri HTML omotača; animiraju se samo transform i opacity, pa ih radi grafička kartica
+   i ne zastaju dok se stranica u pozadini slaže */
+.loader__mark { position: relative; width: 92px; aspect-ratio: 521 / 568; }
+.loader__mark .lm { position: absolute; inset: 0; display: block; will-change: transform, opacity; }
+.loader__mark svg { display: block; width: 100%; height: 100%; }
 .loader__mark path { fill: var(--paper); }
-.loader__mark .m1 { animation: markIn1 .9s var(--ease-out) .1s both; }
-.loader__mark .m2 { animation: markIn2 .9s var(--ease-out) .1s both; }
-.loader__mark .m3 { animation: markIn3 .8s var(--ease-out) .55s both; }
-@keyframes markIn1 { from { transform: translate(-60px, -60px); opacity: 0; } to { transform: none; opacity: 1; } }
-@keyframes markIn2 { from { transform: translate(60px, 60px); opacity: 0; } to { transform: none; opacity: 1; } }
-@keyframes markIn3 { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.loader__mark .m3 { clip-path: inset(0 0 0 0); }
+.loader__mark .lm1 { animation: markIn1 .9s var(--ease-out) .1s both; }
+.loader__mark .lm2 { animation: markIn2 .9s var(--ease-out) .1s both; }
+.loader__mark .lm3 { overflow: hidden; animation: wipeOut .8s var(--ease-out) .55s both; }
+.loader__mark .lm3__in { position: absolute; inset: 0; display: block; animation: wipeIn .8s var(--ease-out) .55s both; }
+@keyframes markIn1 { from { transform: translate3d(-11px, -11px, 0); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes markIn2 { from { transform: translate3d(11px, 11px, 0); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes wipeOut { from { transform: translate3d(0, -100%, 0); } to { transform: none; } }
+@keyframes wipeIn { from { transform: translate3d(0, 100%, 0); } to { transform: none; } }
 .loader__word {
   font-family: var(--mono); font-size: 13px; letter-spacing: .4em; text-indent: .4em; color: var(--gray-300);
   animation: fadeUp .8s var(--ease-out) .7s both;
 }
 .loader__bar { width: 180px; height: 2px; background: var(--gray-700); border-radius: 2px; overflow: hidden; animation: fadeUp .6s var(--ease-out) .8s both; }
-.loader__bar span { display: block; height: 100%; width: 100%; background: var(--paper); transform-origin: left; transform: scaleX(0); }
+.loader__bar span { display: block; height: 100%; width: 100%; background: var(--paper); transform-origin: left; transform: scaleX(0); will-change: transform; }
+/* Traka ide sama (grafička kartica); JS je samo dovrši kad je stranica spremna */
+.loader.is-running .loader__bar span { animation: loaderBar var(--lt, 1.5s) cubic-bezier(.33, 1, .68, 1) forwards; }
+.loader.is-full .loader__bar span { animation: none; transform: scaleX(1); transition: transform .25s var(--ease-out); }
+@keyframes loaderBar { from { transform: scaleX(0); } to { transform: scaleX(.92); } }
 .loader__meta {
   display: flex; justify-content: space-between; width: 180px; margin-top: -16px;
   font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--gray-400);
@@ -718,6 +727,7 @@ body.is-loading { overflow: hidden; }
 .js .reveal.is-in { opacity: 1; transform: none; }
 .js .reveal-mask { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 1s var(--ease-out), transform 1.1s var(--ease-out); transition-delay: var(--d, 0s); }
 .js .reveal-mask.is-in { opacity: 1; transform: none; }
+.js .reveal.is-now, .js .reveal-mask.is-now { transition: none !important; }
 
 /* ==========================================================================
    Responsive

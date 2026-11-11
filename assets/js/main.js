@@ -56,7 +56,6 @@ const CONFIG = {
         return;
       }
 
-      const bar = $('#loaderBar');
       const count = $('#loaderCount');
       // Dovoljno dugo da se znak sklopi do kraja (inače izgleda isječeno)
       const minTime = 1500;
@@ -69,29 +68,28 @@ const CONFIG = {
       // Sigurnosni izlaz ako se neki resurs ne učita
       setTimeout(() => { pageLoaded = true; fontsLoaded = true; }, 6000);
 
-      let shown = 0;
-      let last = start;
-      function frame(now) {
-        const loaded = pageLoaded && fontsLoaded;
-        const t = Math.min(1, (now - start) / minTime);
-        const eased = 1 - Math.pow(1 - t, 3);
-        const target = loaded ? eased : Math.min(eased, .9);
-        // vremenski, ne po broju sličica: isto brzo i na sporom računaru
-        const dt = Math.min(100, now - last); last = now;
-        shown += (target - shown) * Math.min(1, dt / 80);
-        if (loaded && t >= 1 && shown > .995) shown = 1;
-        bar.style.transform = `scaleX(${shown})`;
-        count.textContent = String(Math.round(shown * 100)).padStart(3, '0');
-        if (shown < 1) { requestAnimationFrame(frame); return; }
+      // Traka je CSS animacija (radi je grafička kartica, ne zastaje kad je procesor zauzet);
+      // brojač se osvježava rijetko, a JS samo čeka da prođe minimalno vrijeme i da se stranica učita.
+      loader.style.setProperty('--lt', minTime + 'ms');
+      loader.classList.add('is-running');
+      const tick = setInterval(() => {
+        const t = Math.min(1, (performance.now() - start) / minTime);
+        count.textContent = String(Math.round((1 - Math.pow(1 - t, 3)) * 92)).padStart(3, '0');
+      }, 90);
+      function check() {
+        if (!(pageLoaded && fontsLoaded) || performance.now() - start < minTime) { setTimeout(check, 50); return; }
+        clearInterval(tick);
+        loader.classList.add('is-full');
+        count.textContent = '100';
         store.set('zcore-loader-day', today);
         setTimeout(() => {
           loader.classList.add('is-done');
           setTimeout(resolve, 300);
           loader.addEventListener('animationend', (e) => { if (e.target === loader) loader.remove(); });
           setTimeout(() => { if (loader.isConnected) loader.remove(); }, 1600);
-        }, 150);
+        }, 300);
       }
-      requestAnimationFrame(frame);
+      check();
     });
   }
 
@@ -224,7 +222,8 @@ const CONFIG = {
   async function runHero() {
     if (!stage) return;
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
-    if (reduceMotion) { heroFinal(); return; }
+    // Ponovna posjeta istog dana: odmah završni prikaz (bez kucanja i „Šef zove”)
+    if (reduceMotion || document.documentElement.classList.contains('skip-loader')) { heroFinal(); return; }
 
     reelEl.innerHTML = '';
 
@@ -550,10 +549,18 @@ const CONFIG = {
       if (!targets.has(t)) targets.set(t, []);
       targets.get(t).push(e);
     });
+    // Brzina skrolanja: kad se sekcije proleti brzo, elementi se pojave odmah, bez animacije
+    // (inače desetine animacija krenu odjednom i slabiji računar/telefon zastaje)
+    let vy = 0, lastY = window.scrollY, lastT = performance.now();
+    window.addEventListener('scroll', () => {
+      const now = performance.now(), y = window.scrollY;
+      vy = Math.abs(y - lastY) / Math.max(1, now - lastT); lastY = y; lastT = now;
+    }, { passive: true });
     const io = new IntersectionObserver((entries) => {
+      const fast = vy > 2.2 && performance.now() - lastT < 120;
       entries.forEach((en) => {
         if (en.isIntersecting) {
-          (targets.get(en.target) || []).forEach((e) => e.classList.add('is-in'));
+          (targets.get(en.target) || []).forEach((e) => { if (fast) e.classList.add('is-now'); e.classList.add('is-in'); });
           io.unobserve(en.target);
         }
       });

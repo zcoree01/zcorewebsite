@@ -668,8 +668,12 @@ const CONFIG = {
       $$('[data-billing]').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.billing === b.dataset.billing)));
       $$('[data-pricing], .pricing-note, .plan-ent').forEach((el) => el.classList.toggle('is-yearly', yearly));
     }));
+    initBuilder();
     const msg = $('#f-poruka');
     if (!msg) return;
+    // Konfiguracija iz kalkulatora (/cijene) stiže kao tekst u adresi
+    const cfg = new URLSearchParams(location.search).get('konfiguracija');
+    if (cfg && cfg.length < 1000 && !msg.value.trim()) msg.value = cfg;
     const setPlan = (plan) => {
       if (!plan || !/^[A-Za-z]{2,20}$/.test(plan)) return;
       if (!msg.value.trim() || /^Zanima nas paket \w+\.$/.test(msg.value.trim())) msg.value = `Zanima nas paket ${plan}.`;
@@ -679,6 +683,73 @@ const CONFIG = {
       const a = e.target.closest('[data-plan]');
       if (a) setPlan(a.dataset.plan);
     });
+  }
+
+  /* Kalkulator „Složite svoj paket”: moduli + korisnici + prostor = cijena.
+     Podaci (cijene, opisi) dolaze iz #builder-data, isti izvor kao HTML. */
+  function initBuilder() {
+    const root = $('[data-builder]');
+    const dataEl = $('#builder-data');
+    if (!root || !dataEl) return;
+    let D;
+    try { D = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    const byId = Object.fromEntries(D.modules.map((m) => [m.id, m]));
+    const users = $('#bUsers');
+    const storage = $('#bStorage');
+    const fmt = (n) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const usersPrice = (n) => {
+      let total = 0, prev = 5;
+      D.tiers.forEach(([cap, p]) => { if (n > prev) total += (Math.min(n, cap) - prev) * p; prev = cap; });
+      return total;
+    };
+    const storagePrice = (gb) => Math.round(Math.max(0, gb - 5) * D.gb);
+    const selected = () => $$('input[type=checkbox]', root).filter((i) => i.checked).map((i) => i.value);
+
+    // Početno: sadržaj paketa Start
+    $$('input[type=checkbox]', root).forEach((i) => { if (!i.disabled) i.checked = byId[i.value].pkg === 'start'; });
+
+    const pkgName = { start: 'Start', pro: 'Pro', business: 'Business' };
+    function show(id) {
+      const m = byId[id]; if (!m) return;
+      $('[data-bd-label]', root).textContent = m.req ? 'Uvijek uključeno' : `Modul · u paketu ${pkgName[m.pkg]}${m.pkg !== 'business' ? ' i većim' : ''}`;
+      $('[data-bd-name]', root).textContent = m.name;
+      $('[data-bd-short]', root).textContent = m.short;
+      $('[data-bd-feats]', root).innerHTML = m.feats.map((f) => `<li>${f.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</li>`).join('');
+      $('[data-bd-price]', root).textContent = m.req ? `${m.price} KM / mjesečno, osnova sistema`
+        : `+${m.price} KM / mjesečno${m.st === 'wip' ? ' · u izradi' : m.st === 'soon' ? ' · uskoro' : ''}`;
+      $$('.bm', root).forEach((r) => r.classList.toggle('is-shown', r.dataset.mod === id));
+    }
+
+    function update() {
+      const ids = selected();
+      const n = +users.value, gb = +storage.value;
+      const total = ids.reduce((s, id) => s + byId[id].price, 0) + usersPrice(n) + storagePrice(gb);
+      $('[data-b-users]', root).textContent = n;
+      $('[data-b-total]', root).textContent = fmt(total);
+      $('[data-b-year]', root).textContent = fmt(total * 10);
+      users.style.setProperty('--fill', `${((n - 5) / 145) * 100}%`);
+      $$('.bm', root).forEach((r) => r.classList.toggle('is-on', $('input', r).checked));
+      // Da li je izbor tačno jedan od paketa?
+      const hint = $('[data-b-hint]', root);
+      const match = D.packages.find((p) => {
+        const pids = D.modules.filter((m) => p.mods.includes(m.pkg)).map((m) => m.id);
+        return pids.length === ids.length && pids.every((id) => ids.includes(id)) && n === p.users && gb === p.gb;
+      });
+      hint.textContent = match ? `Ovo je tačno paket ${match.id}.` : '';
+      const mods = ids.map((id) => byId[id].name).join(', ');
+      const text = `Zanima nas paket po mjeri: ${mods}. Korisnika: ${n}. Prostor: ${gb} GB. Cijena iz kalkulatora: ${fmt(total)} KM mjesečno.`;
+      $('[data-b-cta]', root).href = `/?konfiguracija=${encodeURIComponent(text)}#kontakt`;
+    }
+
+    root.addEventListener('change', update);
+    users.addEventListener('input', update);
+    $$('.bm', root).forEach((r) => {
+      r.addEventListener('mouseenter', () => show(r.dataset.mod));
+      r.addEventListener('focusin', () => show(r.dataset.mod));
+      $('input', r).addEventListener('change', () => show(r.dataset.mod));
+    });
+    show('core');
+    update();
   }
 
   function initContact() {

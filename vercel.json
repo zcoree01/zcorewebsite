@@ -26,6 +26,10 @@
   ],
   "rewrites": [
     {
+      "source": "/cijene",
+      "destination": "/cijene.html"
+    },
+    {
       "source": "/evidencija-radnog-vremena-u-proizvodnji",
       "destination": "/evidencija-radnog-vremena-u-proizvodnji.html"
     },

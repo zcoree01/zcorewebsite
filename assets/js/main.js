@@ -652,6 +652,28 @@ const CONFIG = {
   /* ======================================================================
      Kontakt podaci i obrazac
      ====================================================================== */
+  /* ======================================================================
+     Cijene: mjesečno / godišnje, i izabrani paket u poruci obrasca
+     ====================================================================== */
+  function initPricing() {
+    $$('[data-billing]').forEach((b) => b.addEventListener('click', () => {
+      const yearly = b.dataset.billing === 'y';
+      $$('[data-billing]').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.billing === b.dataset.billing)));
+      $$('[data-pricing], .pricing-note, .plan-ent').forEach((el) => el.classList.toggle('is-yearly', yearly));
+    }));
+    const msg = $('#f-poruka');
+    if (!msg) return;
+    const setPlan = (plan) => {
+      if (!plan || !/^[A-Za-z]{2,20}$/.test(plan)) return;
+      if (!msg.value.trim() || /^Zanima nas paket \w+\.$/.test(msg.value.trim())) msg.value = `Zanima nas paket ${plan}.`;
+    };
+    setPlan(new URLSearchParams(location.search).get('paket'));
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('[data-plan]');
+      if (a) setPlan(a.dataset.plan);
+    });
+  }
+
   function initContact() {
     $$('[data-contact-email]').forEach((a) => {
       if (CONFIG.contactEmail) {
@@ -900,6 +922,7 @@ const CONFIG = {
   initPhone();
   initFilters();
   initContact();
+  initPricing();
   initToc();
   initSpotlight();
   initSmoothScroll();

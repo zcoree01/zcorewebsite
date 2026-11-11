@@ -4,7 +4,7 @@
 // pa nasumičan poziv ne može slati poruke po želji.
 // Objavljeno kao Supabase Edge Function "notify-inquiry" (verify_jwt: false).
 // Tajna SMTP_PASS (lozinka za kontakt@zcore.ba) se upisuje u Supabase: Edge Functions → Secrets.
-// Neobavezno: SMTP_HOST (zadano mail.zcore.ba), SMTP_PORT (465), SMTP_USER, NOTIFY_TO.
+// Neobavezno: SMTP_HOST (zadano mail.zcore.ba; treba DNS zapis A mail -> Globalhost server), SMTP_PORT (465), SMTP_USER, NOTIFY_TO.
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 

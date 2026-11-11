@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://zcore.ba/</loc><lastmod>2026-11-04</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://zcore.ba/cijene</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://zcore.ba/pracenje-proizvodnje</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://zcore.ba/softver-za-cnc-radionice</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://zcore.ba/pracenje-skarta</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>

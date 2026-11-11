@@ -381,11 +381,15 @@ body.is-loading { overflow: hidden; }
 }
 .is-in .bar > span, .bar.is-in > span { transform: scaleX(1); }
 .status { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 20px; color: var(--gray-500); }
-/* Pregled se "učitava": statusi se pojave tek kad se brojevi napune */
-.js .dash .status { clip-path: inset(0 100% 0 0); transition: clip-path .6s var(--ease-out); }
-.js .dash.is-loaded .status { clip-path: inset(-4px -4px -4px -4px); }
-.js .dash.is-loaded .order:nth-of-type(3) .status { transition-delay: .12s; }
-.js .dash.is-loaded .order:nth-of-type(4) .status { transition-delay: .24s; }
+/* Pregled se "učitava": kartica se pojavi zajedno sa statusom (U toku, Zastoj, Čeka materijal),
+   a tek onda se puni traka napretka */
+.js .dash .status { opacity: 0; transform: translate3d(-6px, 0, 0); transition: opacity .45s var(--ease-out), transform .45s var(--ease-out); }
+.js .dash.is-in .status { opacity: 1; transform: none; transition-delay: .25s; }
+.js .dash.is-in .order:nth-of-type(3) .status { transition-delay: .35s; }
+.js .dash.is-in .order:nth-of-type(4) .status { transition-delay: .45s; }
+.js .dash.is-in .bar > span { transition-delay: .6s; }
+.js .dash.is-in .order:nth-of-type(3) .bar > span { transition-delay: .7s; }
+.js .dash.is-in .order:nth-of-type(4) .bar > span { transition-delay: .8s; }
 .js .dash .order { clip-path: inset(0 0 100% 0 round 16px); transform: translate3d(0, 14px, 0); transition: clip-path .7s var(--ease-out), transform .7s var(--ease-out), box-shadow .4s; }
 .js .dash.is-in .order { clip-path: inset(-30px -30px -40px -30px round 16px); transform: none; }
 .js .dash.is-in .order:nth-of-type(3) { transition-delay: .1s; }

@@ -26,6 +26,10 @@
   ],
   "rewrites": [
     {
+      "source": "/planiranje-proizvodnje",
+      "destination": "/planiranje-proizvodnje.html"
+    },
+    {
       "source": "/cijene",
       "destination": "/cijene.html"
     },

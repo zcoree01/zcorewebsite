@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20261111f">
+<link rel="stylesheet" href="assets/css/style.css?v=20261111g">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body data-page="legal">
@@ -24,6 +24,10 @@
     <nav class="nav" id="nav" aria-label="Glavna navigacija">
       <a class="nav__link" href="/#kako">Kako radi</a>
       <a class="nav__link" href="/#moduli">Moduli</a>
+      <div class="nav__group">
+        <button type="button" class="nav__link nav__drop" aria-expanded="false" aria-controls="navSol">Rješenja<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav__menu" id="navSol"><a href="/pracenje-proizvodnje"><b>Praćenje proizvodnje</b><span>Status naloga i mašina uživo</span></a><a href="/planiranje-proizvodnje"><b>Planiranje proizvodnje</b><span>Raspored po mašinama i rokovi</span></a><a href="/pracenje-skarta"><b>Praćenje škarta</b><span>Dobar komad i škart odvojeno</span></a><a href="/evidencija-radnog-vremena-u-proizvodnji"><b>Evidencija radnog vremena</b><span>Smjene, pauze i prekovremeni</span></a><a href="/softver-za-cnc-radionice"><b>Softver za CNC radionice</b><span>Sve za radionicu na jednom mjestu</span></a><a class="nav__all" href="/#moduli">Svi moduli <span aria-hidden="true">→</span></a></div>
+      </div>
       <a class="nav__link" href="/#uloge">Za koga</a>
       <a class="nav__link" href="/#sigurnost">Sigurnost</a>
       <a class="nav__link" href="/cijene">Cijene</a>
@@ -186,7 +190,7 @@
         </div>
         <div class="footer-col">
           <span class="label">Rješenja</span>
-          <a href="/pracenje-proizvodnje">Praćenje proizvodnje</a><a href="/softver-za-cnc-radionice">Softver za CNC radionice</a><a href="/pracenje-skarta">Praćenje škarta</a><a href="/evidencija-radnog-vremena-u-proizvodnji">Evidencija radnog vremena</a>
+          <a href="/pracenje-proizvodnje">Praćenje proizvodnje</a><a href="/planiranje-proizvodnje">Planiranje proizvodnje</a><a href="/pracenje-skarta">Praćenje škarta</a><a href="/evidencija-radnog-vremena-u-proizvodnji">Evidencija radnog vremena</a><a href="/softver-za-cnc-radionice">Softver za CNC radionice</a>
         </div>
         <div class="footer-col">
           <span class="label">Pravno</span>
@@ -220,6 +224,6 @@
 
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script src="assets/js/main.js?v=20261111f" defer></script>
+<script src="assets/js/main.js?v=20261111g" defer></script>
 </body>
 </html>

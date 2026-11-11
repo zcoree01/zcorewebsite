@@ -17,8 +17,8 @@
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/style.css?v=20261111f">
-<link rel="stylesheet" href="/assets/css/blog.css?v=20261111f">
+<link rel="stylesheet" href="/assets/css/style.css?v=20261111g">
+<link rel="stylesheet" href="/assets/css/blog.css?v=20261111g">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Zcore", "item": "https://zcore.ba/"}, {"@type": "ListItem", "position": 2, "name": "Cijene", "item": "https://zcore.ba/cijene"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Mogu li složiti svoj paket?", "acceptedAnswer": {"@type": "Answer", "text": "Možete. U kalkulatoru na ovoj stranici birate module, broj aktivnih korisnika i prostor, a cijena se računa odmah. Isti sadržaj kao u paketu košta isto kao paket, pa manje modula znači manju cijenu."}}, {"@type": "Question", "name": "Šta je aktivni korisnik?", "acceptedAnswer": {"@type": "Answer", "text": "Aktivni korisnik je svaki zaposleni s vlastitim nalogom. Arhivirani radnici se ne računaju."}}, {"@type": "Question", "name": "Koliko traje ugovor?", "acceptedAnswer": {"@type": "Answer", "text": "Ugovor se sklapa na minimalno 12 mjeseci. Plaćate mjesečno ili godišnje; uz godišnje plaćanje dobijate 2 mjeseca gratis."}}, {"@type": "Question", "name": "Šta uključuje uvođenje?", "acceptedAnswer": {"@type": "Answer", "text": "Podešavanje sistema, unos mašina i radnika i obuku u vašoj firmi. Kod većih paketa i uvoz podataka iz Excela, podešavanje smjena i prilagođavanje procesa. Uvođenje se plaća jednom."}}, {"@type": "Question", "name": "Gdje se čuvaju naši podaci?", "acceptedAnswer": {"@type": "Answer", "text": "Na sigurnim serverima u EU, uz dnevne automatske kopije. Podaci pripadaju vama i na zahtjev dobijate kompletan izvoz."}}, {"@type": "Question", "name": "Da li su cijene s PDV-om?", "acceptedAnswer": {"@type": "Answer", "text": "Ne. Sve cijene su izražene u KM, bez PDV-a. Putni troškovi za rad na terenu obračunavaju se posebno."}}]}]</script>
 </head>
@@ -34,6 +34,10 @@
     <nav class="nav" id="nav" aria-label="Glavna navigacija">
       <a class="nav__link" href="/#kako">Kako radi</a>
       <a class="nav__link" href="/#moduli">Moduli</a>
+      <div class="nav__group">
+        <button type="button" class="nav__link nav__drop" aria-expanded="false" aria-controls="navSol">Rješenja<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav__menu" id="navSol"><a href="/pracenje-proizvodnje"><b>Praćenje proizvodnje</b><span>Status naloga i mašina uživo</span></a><a href="/planiranje-proizvodnje"><b>Planiranje proizvodnje</b><span>Raspored po mašinama i rokovi</span></a><a href="/pracenje-skarta"><b>Praćenje škarta</b><span>Dobar komad i škart odvojeno</span></a><a href="/evidencija-radnog-vremena-u-proizvodnji"><b>Evidencija radnog vremena</b><span>Smjene, pauze i prekovremeni</span></a><a href="/softver-za-cnc-radionice"><b>Softver za CNC radionice</b><span>Sve za radionicu na jednom mjestu</span></a><a class="nav__all" href="/#moduli">Svi moduli <span aria-hidden="true">→</span></a></div>
+      </div>
       <a class="nav__link" href="/#uloge">Za koga</a>
       <a class="nav__link" href="/#sigurnost">Sigurnost</a>
       <a class="nav__link is-active" href="/cijene" aria-current="page">Cijene</a>
@@ -107,7 +111,7 @@
 <section class="section alt" id="kalkulator">
   <div class="container">
     <div class="section-head"><div class="label reveal">Po mjeri</div><h2 class="h2 reveal-mask">Složite svoj paket.</h2>
-      <p class="lead reveal">Izaberite samo module koji vam trebaju, broj korisnika i prostor. Isti sadržaj kao u paketu košta isto kao paket, a manje modula znači manju cijenu.</p></div>
+      <p class="lead reveal">Izaberite samo module koji vam trebaju, broj korisnika i prostor. Isti sadržaj kao u paketu košta isto kao paket, a manje modula znači manju cijenu. Moduli u izradi i oni koji dolaze uskoro se mogu izabrati kad budu dostupni.</p></div>
     <div class="builder" data-builder>
       <div class="builder__mods" role="group" aria-label="Moduli">
         <label class="bm bm--req" data-mod="core">
@@ -160,21 +164,21 @@
           <span class="bm__box" aria-hidden="true"></span>
           <span class="bm__main"><span class="bm__name">Izvještaji i kontrolna tabla </span><span class="bm__short">Proizvodnja, zastoji, škart, kašnjenja i radni sati.</span></span>
           <span class="bm__price">+10 KM</span>
-        </label><label class="bm" data-mod="nabavka">
-          <input type="checkbox" value="nabavka">
+        </label><label class="bm bm--off" data-mod="nabavka" title="Još nije dostupno za izbor">
+          <input type="checkbox" value="nabavka" disabled>
           <span class="bm__box" aria-hidden="true"></span>
           <span class="bm__main"><span class="bm__name">Nabavka i dobavljači <span class="plan__tag plan__tag--wip">U izradi</span></span><span class="bm__short">Zahtjevi, narudžbenice i očekivane isporuke.</span></span>
-          <span class="bm__price">+35 KM</span>
-        </label><label class="bm" data-mod="kvalitet">
-          <input type="checkbox" value="kvalitet">
+          <span class="bm__price">nije dostupno</span>
+        </label><label class="bm bm--off" data-mod="kvalitet" title="Još nije dostupno za izbor">
+          <input type="checkbox" value="kvalitet" disabled>
           <span class="bm__box" aria-hidden="true"></span>
           <span class="bm__main"><span class="bm__name">Kontrola kvaliteta <span class="plan__tag plan__tag--soon">Uskoro</span></span><span class="bm__short">Inspekcije, neusaglašenosti i korektivne mjere.</span></span>
-          <span class="bm__price">+30 KM</span>
-        </label><label class="bm" data-mod="odrzavanje">
-          <input type="checkbox" value="odrzavanje">
+          <span class="bm__price">nije dostupno</span>
+        </label><label class="bm bm--off" data-mod="odrzavanje" title="Još nije dostupno za izbor">
+          <input type="checkbox" value="odrzavanje" disabled>
           <span class="bm__box" aria-hidden="true"></span>
           <span class="bm__main"><span class="bm__name">Održavanje mašina <span class="plan__tag plan__tag--soon">Uskoro</span></span><span class="bm__short">Preventivno i korektivno održavanje mašina.</span></span>
-          <span class="bm__price">+25 KM</span>
+          <span class="bm__price">nije dostupno</span>
         </label><label class="bm" data-mod="trosak">
           <input type="checkbox" value="trosak">
           <span class="bm__box" aria-hidden="true"></span>
@@ -210,6 +214,7 @@
             <div class="bs__price"><b data-b-total>149</b> KM <small>/ mjesečno</small></div>
             <p class="bs__year">ili <span data-b-year>1.490</span> KM godišnje, 2 mjeseca gratis</p>
             <p class="bs__hint" data-b-hint></p>
+            <div class="bs__setup"><span>Postavka i uvođenje <small>jednokratno, procjena</small></span><b><span data-b-setup>900</span> KM</b></div>
           </div>
           <a class="btn btn--primary bs__btn" href="/#kontakt" data-b-cta>Zatraži ponudu za ovaj paket <span class="arrow" aria-hidden="true">→</span></a>
           <p class="bs__note">Cijene bez PDV-a. Uvođenje i obuka se plaćaju jednom.</p>
@@ -217,7 +222,7 @@
       </aside>
     </div>
   </div>
-  <script type="application/json" id="builder-data">{"core": 29, "tiers": [[15, 3], [50, 2], [150, 1]], "gb": 0.4, "storage": [5, 25, 50, 100, 200], "modules": [{"id": "core", "name": "Zcore Core", "price": 29, "short": "Firma, korisnici, uloge i dozvole.", "feats": ["Korisnici i uloge: radnik, šef, skladištar, uprava", "Dozvole po ulozi: svako vidi ono što mu treba", "Trag promjena: ko, šta i kada", "Uključuje 5 korisnika i 5 GB prostora"], "pkg": "start", "st": "", "req": true}, {"id": "nalozi", "name": "Radni nalozi i operacije", "price": 35, "short": "Od nacrta do isporuke, s historijom statusa.", "feats": ["Dio, količina, rok, crteži i uputstva", "Operacije po nalogu", "Historija svake promjene statusa", "Dokumenti i crteži uz nalog"], "pkg": "start", "st": "", "req": false}, {"id": "masine", "name": "Mašine i prijava proizvodnje", "price": 35, "short": "Registar mašina, dobri komadi, škart i zastoji.", "feats": ["Registar mašina", "Prijava s telefona: + Dobar komad, + Škart", "Zastoji s razlogom i promjena alata", "Dnevni izvještaj proizvodnje"], "pkg": "start", "st": "", "req": false}, {"id": "radnici", "name": "Radnici i radno vrijeme", "price": 20, "short": "Dolasci, smjene, pauze i prekovremeni sati.", "feats": ["Evidencija radnika", "Smjene od 8 i 12 sati, noćne preko ponoći", "Pauze i prekovremeni sati", "Sati radnika odvojeno od rada mašine"], "pkg": "start", "st": "", "req": false}, {"id": "sk-mat", "name": "Skladište materijala", "price": 12, "short": "Šipke, limovi, profili: stanje, rezervacije i kretanje.", "feats": ["Stanje po materijalu i dimenziji", "Rezervacija materijala za nalog", "Svako kretanje s razlogom i referencom", "Upozorenje za nisku zalihu"], "pkg": "pro", "st": "", "req": false}, {"id": "sk-alat", "name": "Skladište alata", "price": 10, "short": "Alat, pločice i potrošni materijal.", "feats": ["Alat, pločice i potrošni materijal", "Izdavanje i povrat", "Stanje koje se vidi prije nego što zatreba"], "pkg": "pro", "st": "", "req": false}, {"id": "sk-roba", "name": "Skladište gotove robe", "price": 10, "short": "Dobri komadi, lokacije i isporuke.", "feats": ["U skladište ulaze samo dobri komadi", "Lokacije robe", "Isporuke kupcu"], "pkg": "pro", "st": "", "req": false}, {"id": "kupci", "name": "Kupci i proizvodi", "price": 10, "short": "Katalog proizvoda i kupaca, povezan s nalozima.", "feats": ["Katalog proizvoda s crtežima", "Kupci i njihove narudžbe", "Nalog se otvara iz narudžbe kupca"], "pkg": "pro", "st": "", "req": false}, {"id": "plan", "name": "Planiranje proizvodnje", "price": 20, "short": "Raspored po mašinama i smjenama, procjena završetka.", "feats": ["Raspored po mašinama i smjenama", "Procjena završetka iz stvarnog učinka", "Upozorenja za rokove"], "pkg": "pro", "st": "", "req": false}, {"id": "izv", "name": "Izvještaji i kontrolna tabla", "price": 10, "short": "Proizvodnja, zastoji, škart, kašnjenja i radni sati.", "feats": ["Kontrolna tabla za upravu", "Škart i zastoji kroz vrijeme", "Kašnjenja i iskorištenost mašina", "Radni sati i učinak smjena"], "pkg": "pro", "st": "", "req": false}, {"id": "nabavka", "name": "Nabavka i dobavljači", "price": 35, "short": "Zahtjevi, narudžbenice i očekivane isporuke.", "feats": ["Zahtjevi za nabavku iz skladišta i naloga", "Narudžbenice dobavljačima", "Očekivane isporuke"], "pkg": "business", "st": "wip", "req": false}, {"id": "kvalitet", "name": "Kontrola kvaliteta", "price": 30, "short": "Inspekcije, neusaglašenosti i korektivne mjere.", "feats": ["Inspekcije po operaciji", "Neusaglašenosti", "Korektivne mjere"], "pkg": "business", "st": "soon", "req": false}, {"id": "odrzavanje", "name": "Održavanje mašina", "price": 25, "short": "Preventivno i korektivno održavanje mašina.", "feats": ["Preventivno održavanje po planu", "Korektivno održavanje nakon kvara", "Povezano sa zastojima koji se već prijavljuju"], "pkg": "business", "st": "soon", "req": false}, {"id": "trosak", "name": "Kalkulacija troška i napredni izvještaji", "price": 20, "short": "Trošak po proizvodu i izvoz podataka.", "feats": ["Trošak po proizvodu: materijal, rad, mašina", "Napredni izvještaji", "Izvoz podataka"], "pkg": "business", "st": "", "req": false}, {"id": "podrska", "name": "Prioritetna podrška", "price": 10, "short": "Brži odgovor kad zatreba.", "feats": ["Prednost u redu za podršku", "Pomoć pri podešavanju i pitanjima"], "pkg": "business", "st": "", "req": false}], "packages": [{"id": "Start", "price": 149, "users": 15, "gb": 5, "mods": ["start"]}, {"id": "Pro", "price": 299, "users": 50, "gb": 25, "mods": ["start", "pro"]}, {"id": "Business", "price": 549, "users": 150, "gb": 100, "mods": ["start", "pro", "business"]}]}</script>
+  <script type="application/json" id="builder-data">{"core": 29, "tiers": [[15, 3], [50, 2], [150, 1]], "gb": 0.4, "storage": [5, 25, 50, 100, 200], "setupBase": 500, "setupUsers": [[50, 10], [150, 5]], "modules": [{"id": "core", "name": "Zcore Core", "price": 29, "setup": 0, "short": "Firma, korisnici, uloge i dozvole.", "feats": ["Korisnici i uloge: radnik, šef, skladištar, uprava", "Dozvole po ulozi: svako vidi ono što mu treba", "Trag promjena: ko, šta i kada", "Uključuje 5 korisnika i 5 GB prostora"], "pkg": "start", "st": "", "req": true}, {"id": "nalozi", "name": "Radni nalozi i operacije", "price": 35, "setup": 100, "short": "Od nacrta do isporuke, s historijom statusa.", "feats": ["Dio, količina, rok, crteži i uputstva", "Operacije po nalogu", "Historija svake promjene statusa", "Dokumenti i crteži uz nalog"], "pkg": "start", "st": "", "req": false}, {"id": "masine", "name": "Mašine i prijava proizvodnje", "price": 35, "setup": 100, "short": "Registar mašina, dobri komadi, škart i zastoji.", "feats": ["Registar mašina", "Prijava s telefona: + Dobar komad, + Škart", "Zastoji s razlogom i promjena alata", "Dnevni izvještaj proizvodnje"], "pkg": "start", "st": "", "req": false}, {"id": "radnici", "name": "Radnici i radno vrijeme", "price": 20, "setup": 100, "short": "Dolasci, smjene, pauze i prekovremeni sati.", "feats": ["Evidencija radnika", "Smjene od 8 i 12 sati, noćne preko ponoći", "Pauze i prekovremeni sati", "Sati radnika odvojeno od rada mašine"], "pkg": "start", "st": "", "req": false}, {"id": "sk-mat", "name": "Skladište materijala", "price": 12, "setup": 250, "short": "Šipke, limovi, profili: stanje, rezervacije i kretanje.", "feats": ["Stanje po materijalu i dimenziji", "Rezervacija materijala za nalog", "Svako kretanje s razlogom i referencom", "Upozorenje za nisku zalihu"], "pkg": "pro", "st": "", "req": false}, {"id": "sk-alat", "name": "Skladište alata", "price": 10, "setup": 100, "short": "Alat, pločice i potrošni materijal.", "feats": ["Alat, pločice i potrošni materijal", "Izdavanje i povrat", "Stanje koje se vidi prije nego što zatreba"], "pkg": "pro", "st": "", "req": false}, {"id": "sk-roba", "name": "Skladište gotove robe", "price": 10, "setup": 100, "short": "Dobri komadi, lokacije i isporuke.", "feats": ["U skladište ulaze samo dobri komadi", "Lokacije robe", "Isporuke kupcu"], "pkg": "pro", "st": "", "req": false}, {"id": "kupci", "name": "Kupci i proizvodi", "price": 10, "setup": 100, "short": "Katalog proizvoda i kupaca, povezan s nalozima.", "feats": ["Katalog proizvoda s crtežima", "Kupci i njihove narudžbe", "Nalog se otvara iz narudžbe kupca"], "pkg": "pro", "st": "", "req": false}, {"id": "plan", "name": "Planiranje proizvodnje", "price": 20, "setup": 100, "short": "Raspored po mašinama i smjenama, procjena završetka.", "feats": ["Raspored po mašinama i smjenama", "Procjena završetka iz stvarnog učinka", "Upozorenja za rokove"], "pkg": "pro", "st": "", "req": false}, {"id": "izv", "name": "Izvještaji i kontrolna tabla", "price": 10, "setup": 100, "short": "Proizvodnja, zastoji, škart, kašnjenja i radni sati.", "feats": ["Kontrolna tabla za upravu", "Škart i zastoji kroz vrijeme", "Kašnjenja i iskorištenost mašina", "Radni sati i učinak smjena"], "pkg": "pro", "st": "", "req": false}, {"id": "nabavka", "name": "Nabavka i dobavljači", "price": 35, "setup": 300, "short": "Zahtjevi, narudžbenice i očekivane isporuke.", "feats": ["Zahtjevi za nabavku iz skladišta i naloga", "Narudžbenice dobavljačima", "Očekivane isporuke"], "pkg": "business", "st": "wip", "req": false}, {"id": "kvalitet", "name": "Kontrola kvaliteta", "price": 30, "setup": 250, "short": "Inspekcije, neusaglašenosti i korektivne mjere.", "feats": ["Inspekcije po operaciji", "Neusaglašenosti", "Korektivne mjere"], "pkg": "business", "st": "soon", "req": false}, {"id": "odrzavanje", "name": "Održavanje mašina", "price": 25, "setup": 200, "short": "Preventivno i korektivno održavanje mašina.", "feats": ["Preventivno održavanje po planu", "Korektivno održavanje nakon kvara", "Povezano sa zastojima koji se već prijavljuju"], "pkg": "business", "st": "soon", "req": false}, {"id": "trosak", "name": "Kalkulacija troška i napredni izvještaji", "price": 20, "setup": 200, "short": "Trošak po proizvodu i izvoz podataka.", "feats": ["Trošak po proizvodu: materijal, rad, mašina", "Napredni izvještaji", "Izvoz podataka"], "pkg": "business", "st": "", "req": false}, {"id": "podrska", "name": "Prioritetna podrška", "price": 10, "setup": 50, "short": "Brži odgovor kad zatreba.", "feats": ["Prednost u redu za podršku", "Pomoć pri podešavanju i pitanjima"], "pkg": "business", "st": "", "req": false}], "packages": [{"id": "Start", "price": 149, "users": 15, "gb": 5, "mods": ["start"]}, {"id": "Pro", "price": 299, "users": 50, "gb": 25, "mods": ["start", "pro"]}, {"id": "Business", "price": 549, "users": 150, "gb": 100, "mods": ["start", "pro", "business"]}]}</script>
 </section>
 
 <section class="section">
@@ -274,7 +279,7 @@
         </div>
         <div class="footer-col">
           <span class="label">Rješenja</span>
-          <a href="/pracenje-proizvodnje">Praćenje proizvodnje</a><a href="/softver-za-cnc-radionice">Softver za CNC radionice</a><a href="/pracenje-skarta">Praćenje škarta</a><a href="/evidencija-radnog-vremena-u-proizvodnji">Evidencija radnog vremena</a>
+          <a href="/pracenje-proizvodnje">Praćenje proizvodnje</a><a href="/planiranje-proizvodnje">Planiranje proizvodnje</a><a href="/pracenje-skarta">Praćenje škarta</a><a href="/evidencija-radnog-vremena-u-proizvodnji">Evidencija radnog vremena</a><a href="/softver-za-cnc-radionice">Softver za CNC radionice</a>
         </div>
         <div class="footer-col">
           <span class="label">Pravno</span>
@@ -308,6 +313,6 @@
 
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script src="/assets/js/main.js?v=20261111f" defer></script>
+<script src="/assets/js/main.js?v=20261111g" defer></script>
 </body>
 </html>

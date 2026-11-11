@@ -17,8 +17,8 @@
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/style.css?v=20261111f">
-<link rel="stylesheet" href="/assets/css/blog.css?v=20261111f">
+<link rel="stylesheet" href="/assets/css/style.css?v=20261111g">
+<link rel="stylesheet" href="/assets/css/blog.css?v=20261111g">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Zcore", "item": "https://zcore.ba/"}, {"@type": "ListItem", "position": 2, "name": "Praćenje proizvodnje", "item": "https://zcore.ba/pracenje-proizvodnje"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Šta je praćenje proizvodnje?", "acceptedAnswer": {"@type": "Answer", "text": "Praćenje proizvodnje je uvid u to šta se u pogonu dešava sada: koji nalog je na kojoj mašini, koliko je dobrih komada i škarta, gdje su zastoji i da li će nalog biti gotov na vrijeme. U Zcore-u te podatke unose radnici na mjestu rada, pa ih šef i uprava vide odmah, bez obilaska pogona i telefonskih poziva."}}, {"@type": "Question", "name": "Da li radnici trebaju računar?", "acceptedAnswer": {"@type": "Answer", "text": "Ne. Prijava proizvodnje je pravljena za telefon ili tablet pored mašine: veliki tasteri, kratki koraci i malo teksta. Šef proizvodnje i uprava rade na računaru."}}, {"@type": "Question", "name": "Koliko brzo se vidi promjena?", "acceptedAnswer": {"@type": "Answer", "text": "Čim radnik upiše komad, škart ili zastoj, promjena je vidljiva u pregledu naloga i mašine."}}, {"@type": "Question", "name": "Možemo li krenuti s jednom mašinom ili smjenom?", "acceptedAnswer": {"@type": "Answer", "text": "Možete, i to preporučujemo. Krenite s radnim nalozima i prijavom proizvodnje na jednoj mašini ili u jednoj smjeni, pa proširite kad to proradi."}}]}]</script>
 </head>
@@ -34,6 +34,10 @@
     <nav class="nav" id="nav" aria-label="Glavna navigacija">
       <a class="nav__link" href="/#kako">Kako radi</a>
       <a class="nav__link" href="/#moduli">Moduli</a>
+      <div class="nav__group">
+        <button type="button" class="nav__link nav__drop is-active" aria-expanded="false" aria-controls="navSol">Rješenja<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav__menu" id="navSol"><a href="/pracenje-proizvodnje" aria-current="page" class="is-current"><b>Praćenje proizvodnje</b><span>Status naloga i mašina uživo</span></a><a href="/planiranje-proizvodnje"><b>Planiranje proizvodnje</b><span>Raspored po mašinama i rokovi</span></a><a href="/pracenje-skarta"><b>Praćenje škarta</b><span>Dobar komad i škart odvojeno</span></a><a href="/evidencija-radnog-vremena-u-proizvodnji"><b>Evidencija radnog vremena</b><span>Smjene, pauze i prekovremeni</span></a><a href="/softver-za-cnc-radionice"><b>Softver za CNC radionice</b><span>Sve za radionicu na jednom mjestu</span></a><a class="nav__all" href="/#moduli">Svi moduli <span aria-hidden="true">→</span></a></div>
+      </div>
       <a class="nav__link" href="/#uloge">Za koga</a>
       <a class="nav__link" href="/#sigurnost">Sigurnost</a>
       <a class="nav__link" href="/cijene">Cijene</a>
@@ -87,7 +91,7 @@
 <section class="section">
   <div class="container">
     <div class="section-head"><div class="label reveal">Pročitajte još</div><h2 class="h2 reveal-mask">Više o temi.</h2></div>
-    <div class="lp-links"><a class="lp-link reveal" href="/blog/vodjenje-proizvodnje-excel-papir-ili-softver"><span class="label">Blog</span><span>Vođenje proizvodnje: Excel, papir ili softver?</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/blog/rok-isporuke-iz-stvarnog-ucinka"><span class="label">Blog</span><span>Rok isporuke iz stvarnog učinka, a ne od oka</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/softver-za-cnc-radionice"><span class="label">Rješenja</span><span>Softver za CNC radionice</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/pracenje-skarta"><span class="label">Rješenja</span><span>Praćenje škarta</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/evidencija-radnog-vremena-u-proizvodnji"><span class="label">Rješenja</span><span>Evidencija radnog vremena</span><span class="arrow" aria-hidden="true">→</span></a></div>
+    <div class="lp-links"><a class="lp-link reveal" href="/blog/vodjenje-proizvodnje-excel-papir-ili-softver"><span class="label">Blog</span><span>Vođenje proizvodnje: Excel, papir ili softver?</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/blog/rok-isporuke-iz-stvarnog-ucinka"><span class="label">Blog</span><span>Rok isporuke iz stvarnog učinka, a ne od oka</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/planiranje-proizvodnje"><span class="label">Rješenja</span><span>Planiranje proizvodnje</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/softver-za-cnc-radionice"><span class="label">Rješenja</span><span>Softver za CNC radionice</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/pracenje-skarta"><span class="label">Rješenja</span><span>Praćenje škarta</span><span class="arrow" aria-hidden="true">→</span></a><a class="lp-link reveal" href="/evidencija-radnog-vremena-u-proizvodnji"><span class="label">Rješenja</span><span>Evidencija radnog vremena</span><span class="arrow" aria-hidden="true">→</span></a></div>
   </div>
 </section>
 
@@ -118,7 +122,7 @@
         </div>
         <div class="footer-col">
           <span class="label">Rješenja</span>
-          <a href="/pracenje-proizvodnje">Praćenje proizvodnje</a><a href="/softver-za-cnc-radionice">Softver za CNC radionice</a><a href="/pracenje-skarta">Praćenje škarta</a><a href="/evidencija-radnog-vremena-u-proizvodnji">Evidencija radnog vremena</a>
+          <a href="/pracenje-proizvodnje">Praćenje proizvodnje</a><a href="/planiranje-proizvodnje">Planiranje proizvodnje</a><a href="/pracenje-skarta">Praćenje škarta</a><a href="/evidencija-radnog-vremena-u-proizvodnji">Evidencija radnog vremena</a><a href="/softver-za-cnc-radionice">Softver za CNC radionice</a>
         </div>
         <div class="footer-col">
           <span class="label">Pravno</span>
@@ -152,6 +156,6 @@
 
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script src="/assets/js/main.js?v=20261111f" defer></script>
+<script src="/assets/js/main.js?v=20261111g" defer></script>
 </body>
 </html>

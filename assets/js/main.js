@@ -519,8 +519,17 @@ const CONFIG = {
       btn.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
       $$('a', nav).forEach((a) => a.addEventListener('click', () => setMenu(false)));
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
-      window.matchMedia('(min-width: 881px)').addEventListener('change', (m) => { if (m.matches) setMenu(false); });
+      window.matchMedia('(min-width: 1081px)').addEventListener('change', (m) => { if (m.matches) setMenu(false); });
     }
+    // Padajući meni „Rješenja”: na računaru se otvara mišem ili klikom, na telefonu kao harmonika
+    $$('.nav__group').forEach((g) => {
+      const b = $('.nav__drop', g);
+      const set = (open) => { g.classList.toggle('is-open', open); b.setAttribute('aria-expanded', String(open)); };
+      b.addEventListener('click', (e) => { e.stopPropagation(); set(!g.classList.contains('is-open')); });
+      g.addEventListener('mouseleave', () => { if (window.matchMedia('(min-width: 1081px)').matches) set(false); });
+      document.addEventListener('click', (e) => { if (!g.contains(e.target) && window.matchMedia('(min-width: 1081px)').matches) set(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    });
 
     // Aktivni link u navigaciji
     const links = $$('.nav__link[href^="#"]');
@@ -703,10 +712,15 @@ const CONFIG = {
       return total;
     };
     const storagePrice = (gb) => Math.round(Math.max(0, gb - 5) * D.gb);
+    const setupPrice = (ids, n) => {
+      let total = D.setupBase, prev = 5;
+      D.setupUsers.forEach(([cap, p]) => { if (n > prev) total += (Math.min(n, cap) - prev) * p; prev = cap; });
+      return total + ids.reduce((s, id) => s + (byId[id].setup || 0), 0);
+    };
     const selected = () => $$('input[type=checkbox]', root).filter((i) => i.checked).map((i) => i.value);
 
     // Početno: sadržaj paketa Start
-    $$('input[type=checkbox]', root).forEach((i) => { if (!i.disabled) i.checked = byId[i.value].pkg === 'start'; });
+    $$('input[type=checkbox]', root).forEach((i) => { if (!i.disabled) i.checked = byId[i.value].pkg === 'start'; else if (!byId[i.value].req) i.checked = false; });
 
     const pkgName = { start: 'Start', pro: 'Pro', business: 'Business' };
     function show(id) {
@@ -716,7 +730,9 @@ const CONFIG = {
       $('[data-bd-short]', root).textContent = m.short;
       $('[data-bd-feats]', root).innerHTML = m.feats.map((f) => `<li>${f.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</li>`).join('');
       $('[data-bd-price]', root).textContent = m.req ? `${m.price} KM / mjesečno, osnova sistema`
-        : `+${m.price} KM / mjesečno${m.st === 'wip' ? ' · u izradi' : m.st === 'soon' ? ' · uskoro' : ''}`;
+        : m.st === 'wip' ? `U izradi · ${m.price} KM / mjesečno kad bude dostupan`
+        : m.st === 'soon' ? `Uskoro · ${m.price} KM / mjesečno kad bude dostupan`
+        : `+${m.price} KM / mjesečno · uvođenje +${m.setup} KM`;
       $$('.bm', root).forEach((r) => r.classList.toggle('is-shown', r.dataset.mod === id));
     }
 
@@ -727,6 +743,8 @@ const CONFIG = {
       $('[data-b-users]', root).textContent = n;
       $('[data-b-total]', root).textContent = fmt(total);
       $('[data-b-year]', root).textContent = fmt(total * 10);
+      const setup = setupPrice(ids, n);
+      $('[data-b-setup]', root).textContent = fmt(setup);
       users.style.setProperty('--fill', `${((n - 5) / 145) * 100}%`);
       $$('.bm', root).forEach((r) => r.classList.toggle('is-on', $('input', r).checked));
       // Da li je izbor tačno jedan od paketa?
@@ -737,7 +755,7 @@ const CONFIG = {
       });
       hint.textContent = match ? `Ovo je tačno paket ${match.id}.` : '';
       const mods = ids.map((id) => byId[id].name).join(', ');
-      const text = `Zanima nas paket po mjeri: ${mods}. Korisnika: ${n}. Prostor: ${gb} GB. Cijena iz kalkulatora: ${fmt(total)} KM mjesečno.`;
+      const text = `Zanima nas paket po mjeri: ${mods}. Korisnika: ${n}. Prostor: ${gb} GB. Cijena iz kalkulatora: ${fmt(total)} KM mjesečno, uvođenje oko ${fmt(setup)} KM jednokratno.`;
       $('[data-b-cta]', root).href = `/?konfiguracija=${encodeURIComponent(text)}#kontakt`;
     }
 

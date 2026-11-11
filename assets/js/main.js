@@ -466,17 +466,31 @@ const CONFIG = {
     const nav = $('#nav');
     if (!header) return;
 
+    // Sakrij/prikaži po smjeru i pređenoj udaljenosti, ne po brzini:
+    // sporo skrolanje ili usporavanje više ne pali/gasi traku.
+    const HIDE_AFTER = 60;   // px skrolanja dolje prije sakrivanja
+    const SHOW_AFTER = 40;   // px skrolanja gore prije prikazivanja
     let lastY = window.scrollY;
+    let anchorY = lastY;     // gdje je počeo trenutni smjer
+    let dir = 0;             // 1 dolje, -1 gore
     let ticking = false;
     function onScroll() {
-      const y = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const raw = window.scrollY;
+      const y = Math.min(Math.max(raw, 0), Math.max(max, 0)); // bez iOS „gumenog” odskoka
       header.classList.toggle('is-scrolled', y > 8);
       const menuOpen = document.body.classList.contains('menu-open');
-      if (!menuOpen) header.classList.toggle('is-hidden', y > 480 && y > lastY + 2);
-      if (y < lastY - 2) header.classList.remove('is-hidden');
+      const d = y - lastY;
+      if (d !== 0) {
+        const nd = d > 0 ? 1 : -1;
+        if (nd !== dir) { dir = nd; anchorY = lastY; }
+        const travelled = Math.abs(y - anchorY);
+        if (y <= 120) header.classList.remove('is-hidden');
+        else if (dir > 0 && travelled > HIDE_AFTER && y > 480 && !menuOpen) header.classList.add('is-hidden');
+        else if (dir < 0 && travelled > SHOW_AFTER) header.classList.remove('is-hidden');
+      }
       lastY = y;
       if (line) {
-        const max = document.documentElement.scrollHeight - window.innerHeight;
         line.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
       }
       ticking = false;
